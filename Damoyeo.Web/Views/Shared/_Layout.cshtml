@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 내 ASP.NET 애플리케이션</title>
+    @RenderSection("style", required: false)
+</head>
+<body>
+    레이아웃 시작
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - 내 ASP.NET 애플리케이션</p>
+        </footer>
+    </div>
+
+    
+    @RenderSection("scripts", required: false)
+</body>
+</html>

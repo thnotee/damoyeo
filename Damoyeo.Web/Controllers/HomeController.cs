@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using Damoyeo.Data.DataAccess;
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,8 +12,18 @@ namespace Damoyeo.Web.Controllers
 {
     public class HomeController : Controller
     {
+
+        private readonly ILogger _logger;
+        public HomeController(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         public ActionResult Index()
         {
+            var dd = _logger.Test("dd");
+
+
             /*
             using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DamoyeoConnectionString"].ConnectionString)) 
             {
@@ -26,6 +37,7 @@ NAME= '이태환'
                 return View();
             }
             */
+            ViewData["test"] = dd;
             return View();
         }
 

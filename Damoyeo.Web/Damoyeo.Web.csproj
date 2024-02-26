@@ -183,6 +183,20 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Damoyeo.Common\Damoyeo.Common.csproj">
+      <Project>{9f9ceb9f-4c51-40a8-be50-85792e5d6e6f}</Project>
+      <Name>Damoyeo.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Damoyeo.Data\Damoyeo.Data.csproj">
+      <Project>{33b661d9-459a-4a2b-b09c-b564184796b7}</Project>
+      <Name>Damoyeo.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Damoyeo.Model\Damoyeo.Model.csproj">
+      <Project>{a321c1f6-7cc5-47b3-9196-9f1c4d8a01df}</Project>
+      <Name>Damoyeo.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

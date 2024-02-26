@@ -40,6 +40,12 @@ namespace Damoyeo.Web
             //작업필터에대한 속성주입을 활성화합니다.
             builder.RegisterFilterProvider();
 
+            builder.RegisterAssemblyTypes(Assembly.Load("Damoyeo.Data"))
+                .Where(t=>t.Namespace.Contains("DataAccess"))
+                .As(t=>t.GetInterfaces().FirstOrDefault(i=>i.Name == "I" + t.Name));
+
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

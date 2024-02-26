@@ -13,7 +13,7 @@ namespace Damoyeo.Web.Controllers
     {
         public ActionResult Index()
         {
-            
+            /*
             using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DamoyeoConnectionString"].ConnectionString)) 
             {
                 var sql = @"
@@ -25,7 +25,7 @@ NAME= '이태환'
                 ViewData["test"] = result;
                 return View();
             }
-            
+            */
             return View();
         }
 

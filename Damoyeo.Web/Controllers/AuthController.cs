@@ -1,4 +1,7 @@
 ﻿using Damoyeo.Data.DataAccess;
+using Damoyeo.Data.Repository;
+using Damoyeo.Data.Repository.IRepository;
+using Damoyeo.Model.Model;
 using Dapper;
 using System;
 using System.Collections.Generic;
@@ -12,45 +15,37 @@ using System.Web.Mvc;
 
 namespace Damoyeo.Web.Controllers
 {
-    public class HomeController : Controller
+    public class AuthController : Controller
     {
 
- 
+        
+        private readonly IUnitOfWork _unitOfWork;
+        public AuthController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         public ActionResult Index()
         {
-
-      
-
-            /*
-
-            CookieSerializer cookieSerializer = new CookieSerializer();
-            User user = new User { Email = "user@example.com", Nickname = "example" };
-            // User 객체를 쿠키에 직렬화하여 저장
-            cookieSerializer.SerializeToCookie(user, "UserCookie");
-            // 쿠키에서 User 객체를 역직렬화하여 반환
-            User deserializedUser = (User)cookieSerializer.DeserializeFromCookie("UserCookie");
-            */
-            /*
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DamoyeoConnectionString"].ConnectionString)) 
-            {
-                var sql = @"
-SELECT NAME FROM Test
-WHERE 
-NAME= '이태환'
-";
-                var result = conn.QueryFirstOrDefault<string>(sql);
-                ViewData["test"] = result;
-                return View();
-            }
-            */
-            
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Signup()
         {
-            ViewBag.Message = "Your application description page.";
-
+            //unitOfWork
+            
+            var user = new DamoyeoUser
+            {
+                Email = "test@example.com",
+                Password = "password123",
+                ProfileImage = "profileImage.jpg",
+                Slf_Intro = "안녕하세요, 저는 테스트 유저입니다.",
+                Nickname = "TestUser",
+                Use_Tf = "1",
+                Reg_Date = DateTime.Now
+            };
+            _unitOfWork.Users.AddAsync(user);
+            //_unitOfWork.Commit
             return View();
         }
 
@@ -62,16 +57,8 @@ NAME= '이태환'
         }
     }
 
-    public class User
-    {
 
-        public string id { get; set; }
-
-        public string email { get; set; }
-
-    }
-
-
+    /*
     public class CookieSerializer
     {
         // 객체를 쿠키에 직렬화하여 저장
@@ -97,7 +84,7 @@ NAME= '이태환'
             return binaryFormatter.Deserialize(memoryStream);
         }
     }
-
+    */
 
 
 }

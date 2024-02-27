@@ -1,5 +1,6 @@
 using Autofac;
 using Autofac.Integration.Mvc;
+using Damoyeo.Data.Repository.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Damoyeo.Data.Repository;
+using System.Configuration;
 
 namespace Damoyeo.Web
 {
@@ -40,10 +43,22 @@ namespace Damoyeo.Web
             //작업필터에대한 속성주입을 활성화합니다.
             builder.RegisterFilterProvider();
 
+            // connectionString을 Autofac에 등록합니다.
+            /**/
+            var connectionString = ConfigurationManager.ConnectionStrings["DamoyeoConnectionString"].ConnectionString;
+            builder.Register(c => connectionString)
+                .As<string>()
+                .SingleInstance();
+
+            builder.RegisterType<UnitOfWork>()
+                .As<IUnitOfWork>()
+                .InstancePerLifetimeScope(); 
+            
+            /*
             builder.RegisterAssemblyTypes(Assembly.Load("Damoyeo.Data"))
                 .Where(t=>t.Namespace.Contains("DataAccess"))
                 .As(t=>t.GetInterfaces().FirstOrDefault(i=>i.Name == "I" + t.Name));
-
+            */
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             AreaRegistration.RegisterAllAreas();

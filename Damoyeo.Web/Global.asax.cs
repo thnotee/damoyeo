@@ -1,16 +1,16 @@
 using Autofac;
 using Autofac.Integration.Mvc;
-using Damoyeo.Data.Repository.IRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
-using Damoyeo.Data.Repository;
+using Damoyeo.DataAccess.Repository.IRepository;
+using Damoyeo.DataAccess.Repository;
 using System.Configuration;
+using System.Data.SqlClient;
+using System.Data;
+using Damoyeo.Util.Manager;
+using System.Web;
+using System;
+
 
 namespace Damoyeo.Web
 {
@@ -43,17 +43,13 @@ namespace Damoyeo.Web
             //작업필터에대한 속성주입을 활성화합니다.
             builder.RegisterFilterProvider();
 
-            // connectionString을 Autofac에 등록합니다.
-            /**/
-            var connectionString = ConfigurationManager.ConnectionStrings["DamoyeoConnectionString"].ConnectionString;
-            builder.Register(c => connectionString)
-                .As<string>()
-                .SingleInstance();
+            builder.Register(c => new SqlConnection(ConfigurationManager.ConnectionStrings["DamoyeoConnectionString"].ConnectionString))
+            .As<IDbConnection>()
+            .InstancePerLifetimeScope();
 
-            builder.RegisterType<UnitOfWork>()
-                .As<IUnitOfWork>()
-                .InstancePerLifetimeScope(); 
-            
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
+
+
             /*
             builder.RegisterAssemblyTypes(Assembly.Load("Damoyeo.Data"))
                 .Where(t=>t.Namespace.Contains("DataAccess"))
@@ -64,6 +60,43 @@ namespace Damoyeo.Web
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+        }
+
+        protected void Application_Error()
+        {
+            /*
+            Exception exception = Server.GetLastError();
+            HttpException httpException = exception as HttpException;
+            // 오류 상태 코드를 가져옵니다.
+            int statusCode = (httpException != null) ? httpException.GetHttpCode() : 500;
+
+            //404를 제외한 상태코드에 로그를 남깁니다.
+            if (statusCode != 404)
+            {
+                string errorMessage = $@"RawUrl[ {Request.RawUrl} ]
+                                     UrlReferrer[ {Request.UrlReferrer} ]
+                                     USER IP[ {Request.UserHostAddress} ]";
+                Log.Logger.Error(errorMessage);
+                if (httpException != null)
+                {
+                    Log.Logger.Error(httpException.Message);
+                    Log.Logger.Error(httpException.StackTrace);
+                }
+                else
+                {
+                    Log.Logger.Error(exception.Message);
+                    Log.Logger.Error(exception.StackTrace);
+                }
+
+            }
+            */
+#if DEBUG
+
+#else
+            Response.Clear();
+            Server.ClearError();
+            HttpContext.Current.Server.TransferRequest($"/fileimages/Error/index.asp?code={statusCode}");
+#endif
         }
     }
 }

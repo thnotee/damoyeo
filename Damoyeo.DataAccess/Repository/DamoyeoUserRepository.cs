@@ -1,18 +1,18 @@
-﻿using Damoyeo.Data.Repository.IRepository;
-using Damoyeo.Model.Model;
-using Damoyeo.Model.Model.Pager;
+﻿using Damoyeo.DataAccess.Repository.IRepository;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Data;
-using System.Linq.Expressions;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
+using Damoyeo.Model.Model;
+using Damoyeo.Model.Model.Pager;
+using static Dapper.SqlMapper;
 
-namespace Damoyeo.Data.DataAccess
+namespace Damoyeo.DataAccess.Repository
 {
-    public class DamoyeoUserRepository : IRepository<DamoyeoUser>
+    public class DamoyeoUserRepository : IDamoyeoUserRepository
     {
         private readonly IDbTransaction _transaction;
         private readonly IDbConnection _connection;
@@ -21,6 +21,19 @@ namespace Damoyeo.Data.DataAccess
             _transaction = transaction;
             _connection = transaction.Connection;
         }
+
+        public async Task<DamoyeoUser> GetAsync(DamoyeoUser entity)
+        {
+            var sql = @"
+SELECT * FROM Damoyeo_User
+  where 
+  use_tf = '1'
+";
+            //and email = @Email
+            //new { Email = entity.Email }
+            return await _connection.QueryFirstOrDefaultAsync<DamoyeoUser>(sql, transaction: _transaction);
+        }
+
         public async Task AddAsync(DamoyeoUser entity)
         {
             var sql = @"
@@ -30,11 +43,7 @@ VALUES (@Email, @Password, @ProfileImage, @Slf_Intro, @Nickname, @Use_Tf, @Reg_D
             await _connection.ExecuteAsync(sql, entity, transaction: _transaction);
         }
 
-        public async Task<DamoyeoUser> GetAsync(string id)
-        {
-            var sql = "SELECT * FROM Users";
-            return await _connection.QueryFirstOrDefaultAsync<DamoyeoUser>(sql, transaction: _transaction);
-        }
+   
 
         public Task<PagedList<DamoyeoUser>> GetPagedListAsync<U>(int page, int pageSize)
         {

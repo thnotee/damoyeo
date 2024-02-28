@@ -1,7 +1,7 @@
-﻿using Damoyeo.Data.DataAccess;
-using Damoyeo.Data.Repository;
-using Damoyeo.Data.Repository.IRepository;
+﻿using Damoyeo.DataAccess.Repository.IRepository;
 using Damoyeo.Model.Model;
+using Damoyeo.Util;
+using Damoyeo.Util.Manager;
 using Dapper;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,9 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace Damoyeo.Web.Controllers
@@ -30,7 +32,7 @@ namespace Damoyeo.Web.Controllers
             return View();
         }
 
-        public ActionResult Signup()
+        public async Task<ActionResult> Signup()
         {
             //unitOfWork
             
@@ -44,47 +46,61 @@ namespace Damoyeo.Web.Controllers
                 Use_Tf = "1",
                 Reg_Date = DateTime.Now
             };
-            _unitOfWork.Users.AddAsync(user);
-            //_unitOfWork.Commit
+
+            user.Password = StringUtil.GetSHA256(user.Password);
+            await _unitOfWork.Users.AddAsync(user);
+            _unitOfWork.Commit();
             return View();
         }
 
-        public ActionResult Contact()
+        public async Task<ActionResult> Login(string email, string password)
         {
-            ViewBag.Message = "Your contact page.";
+
+            password = "password123";
+
+            var user = new DamoyeoUser();
+            user.Email = "test@example.com";
+
+            var userObj = await _unitOfWork.Users.GetAsync(user);
+           
+            if (userObj != null)
+            {
+                if (userObj.Password == StringUtil.GetSHA256(password)) 
+                {
+                    // 쿠키 생성
+                    HttpCookie userCookie = new HttpCookie("UserCookie");
+                    // 값 추가
+                    userCookie.Values["user_id"] = userObj.UserId.ToString();
+                    userCookie.Values["email"] = userObj.Email;
+                    userCookie.Values["nickname"] = userObj.Nickname;
+                    userCookie.Values["profile_image"] = userObj.ProfileImage;
+                    userCookie.Values["slf_Intro"] = userObj.Slf_Intro;
+                    // 쿠키 만료 시간 설정
+                    userCookie.Expires = DateTime.Now.AddDays(7); // 예를 들어, 7일 후에 만료되도록 설정
+
+                    // 쿠키 추가
+                    Response.Cookies.Add(userCookie);
+
+                }
+            }
+            
+            return View();
+        }
+
+        public ActionResult Logout()
+        {
+            if (Request.Cookies["UserCookie"] != null)
+            {
+                HttpCookie userCookie = Request.Cookies["UserCookie"];
+                userCookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(userCookie);
+            }
 
             return View();
         }
     }
 
 
-    /*
-    public class CookieSerializer
-    {
-        // 객체를 쿠키에 직렬화하여 저장
-        public void SerializeToCookie(object obj, string key)
-        {
-            HttpCookie encodedCookie = new HttpCookie(key);
-            MemoryStream memoryStream = new MemoryStream();
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-
-            binaryFormatter.Serialize(memoryStream, obj);
-            byte[] byteArr = memoryStream.ToArray();
-            encodedCookie.Value = Convert.ToBase64String(byteArr);
-            HttpContext.Current.Response.Cookies.Add(encodedCookie);
-        }
-
-        // 쿠키에서 객체를 역직렬화하여 반환
-        public object DeserializeFromCookie(string key)
-        {
-            HttpCookie encodedCookie = HttpContext.Current.Request.Cookies[key];
-            MemoryStream memoryStream = new MemoryStream(Convert.FromBase64String(encodedCookie.Value));
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-
-            return binaryFormatter.Deserialize(memoryStream);
-        }
-    }
-    */
-
+ 
 
 }

@@ -1,0 +1,14 @@
+footer {
+  background-color: #222;
+}
+footer .inner {
+  justify-content: space-between;
+  padding: 60px 0;
+  text-align: center;
+  justify-content: center;
+}
+footer .inner p {
+  font-size: 15px;
+  margin-top: 10px;
+  color: #b8b8b8;
+}

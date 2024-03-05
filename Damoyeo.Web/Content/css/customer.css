@@ -1,0 +1,113 @@
+/* 공지사항 */
+.customer_wrap .cu_tap {
+  text-align: center;
+}
+.customer_wrap .cu_tap .tabmenu {
+  display: flex;
+  background-color: #f6f6f6;
+  justify-content: center;
+  width: 300px;
+  margin: 0 auto;
+  margin-bottom: 80px;
+  border-radius: 10px;
+}
+.customer_wrap .cu_tap .tabmenu li {
+  border: 3px solid #f6f6f6;
+  color: #878b91;
+  cursor: pointer;
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  font-family: "Pretendard-SemiBold";
+}
+.customer_wrap .cu_tap .tabmenu li.on {
+  background-color: #fff;
+  border: 3px solid #f6f6f6;
+  color: #181818;
+}
+.customer_wrap .cu_tap .tab_content {
+  width: 100%;
+  display: none;
+}
+.customer_wrap .cu_tap .tab_content.on {
+  display: inline-block;
+}
+.customer_wrap .notice_wrap ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 40px;
+}
+.customer_wrap .notice_wrap ul li a {
+  border-radius: 15px;
+  padding: 30px;
+  text-align: left;
+  border: 1px solid #ededed;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+.customer_wrap .notice_wrap ul li a:hover {
+  box-shadow: 0 15px 15px #f2f2f2;
+  transition: 0.3s;
+}
+.customer_wrap .notice_wrap ul li a:hover .notice_mark {
+  background-color: #0064ff;
+  color: #fff;
+  transition: 0.3s;
+}
+.customer_wrap .notice_wrap ul li .notice_mark {
+  font-size: 14px;
+  border: 1px solid #0064ff;
+  color: #0064ff;
+  padding: 4px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.customer_wrap .notice_wrap ul li p.notice_tit {
+  font-size: 20px;
+  font-family: "Pretendard-SemiBold";
+  line-height: 22px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  margin-bottom: 20px;
+}
+.customer_wrap .notice_wrap ul li p.notice_date {
+  font-size: 14px;
+  color: #888;
+}
+.customer_wrap .notice_wrap ul li a img {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+}
+
+/* 이벤트 */
+.customer_wrap .event_wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 40px;
+}
+.customer_wrap .event_wrap .ev_box a {
+  display: inline-block;
+  width: 100%;
+}
+.customer_wrap .event_wrap .ev_box a img {
+  border-radius: 15px;
+  display: block;
+  margin-bottom: 20px;
+}
+.customer_wrap .event_wrap .ev_box a .ev_tit {
+  font-size: 24px;
+  font-family: "Pretendard-SemiBold";
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.customer_wrap .event_wrap .ev_box a .ev_date {
+  color: #888;
+}

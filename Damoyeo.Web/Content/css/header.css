@@ -1,0 +1,65 @@
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  z-index: 100;
+  border-bottom: 1px solid #ededed;
+  background-color: #fff;
+}
+header .inner {
+  display: flex;
+  height: 80px;
+  align-items: center;
+  justify-content: space-between;
+}
+header .logo {
+  display: inline-block;
+  flex-basis: 160px;
+  flex-shrink: 0;
+}
+header nav ul {
+  display: flex;
+}
+header nav ul li a {
+  display: inline-block;
+  text-align: center;
+  font-size: 17px;
+  height: 80px;
+  line-height: 80px;
+  padding: 0 25px;
+}
+header nav ul li a:hover {
+  color: #0064ff;
+}
+header .user_wrap {
+  flex-basis: 160px;
+  flex-shrink: 0;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+header .user_wrap .mypage {
+  display: inline-block;
+  position: relative;
+}
+header .user_wrap .mypage img {
+  width: 20px;
+  vertical-align: bottom;
+}
+
+header .user_wrap .login {
+  background-color: #e9f2fc;
+  border-radius: 5px;
+  padding: 12px 22px;
+  font-size: 14px;
+  margin-left: 25px;
+  color: #0064ff;
+}
+
+@media screen and (max-width: 1200px) {
+}
+@media screen and (max-width: 787px) {
+}

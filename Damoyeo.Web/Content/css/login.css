@@ -1,0 +1,63 @@
+.login_wrap .inner {
+  text-align: center;
+}
+.login_wrap .login_box {
+  background-color: #fff;
+  display: inline-block;
+  border-radius: 50px;
+  width: 380px;
+}
+.login_wrap .login_box .l_input_wrap {
+  margin-bottom: 15px;
+}
+.login_wrap .login_box .l_input_wrap span {
+  color: #181818;
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  font-family: "Pretendard-SemiBold";
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.login_wrap .login_box .l_input_wrap input {
+  background-color: #fff;
+  border: 1px solid #ededed;
+  width: 100%;
+}
+.login_wrap .login_box .id_pw_find {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 30px;
+}
+.login_wrap .login_box .id_pw_find a {
+  font-size: 14px;
+  color: #888;
+  font-family: "Pretendard-Light";
+}
+.login_wrap .login_box .id_pw_find a:last-of-type::before {
+  content: "";
+  background-color: #e4e4e4;
+  width: 1px;
+  height: 10px;
+  display: inline-block;
+  margin: 0 10px;
+}
+.login_wrap .login_box .login_btn {
+  background-color: #0064ff;
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+  color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+.login_wrap .login_box .mem_join span {
+  font-family: "Pretendard-SemiBold";
+  font-size: 14px;
+}
+.login_wrap .login_box .mem_join a {
+  text-decoration: underline;
+  color: #0064ff;
+  font-size: 14px;
+}

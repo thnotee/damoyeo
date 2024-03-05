@@ -19,6 +19,6 @@ namespace Damoyeo.Model.Model
         public string meetup_image { get; set; }
         public string meetup_description { get; set; }
         public int category_id { get; set; }
-        public Category Category { get; set; }
+        //public Category Category { get; set; }
     }
 }

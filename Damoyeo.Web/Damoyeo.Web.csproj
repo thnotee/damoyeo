@@ -192,6 +192,7 @@
     <Content Include="Content\images\top_btn.svg" />
     <Content Include="Content\images\user.svg" />
     <Content Include="Content\js\common.js" />
+    <Content Include="Content\upload\profile_image\qwe7wer%40gmail_54890a16-ba31-44bc-ae11-9755f3cb3910.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -245,6 +246,7 @@
     <None Include="packages.config" />
     <Content Include="Views\Auth\Signup.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
+    <Content Include="Views\Shared\_Partial\_SweetAlert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Damoyeo.DataAccess\Damoyeo.DataAccess.csproj">

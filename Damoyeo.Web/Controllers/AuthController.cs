@@ -32,27 +32,55 @@ namespace Damoyeo.Web.Controllers
             return View();
         }
 
+        
         public async Task<ActionResult> Signup()
         {
-            //unitOfWork
+         
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> Signup(DamoyeoUser user, HttpPostedFileBase profile_image)
+        {
+         
             
-            var user = new DamoyeoUser
+            if (profile_image != null && profile_image.ContentLength > 0)
             {
-                email = "test@example.com",
-                password = "password123",
-                profile_image = "profileImage.jpg",
-                slf_Intro = "안녕하세요, 저는 테스트 유저입니다.",
-                nickname = "TestUser",
-                use_tf = "1",
-                reg_date = DateTime.Now
-            };
+                // 파일 이름에 GUID를 추가하여 중복을 방지합니다.
+                var fileName = Path.GetFileNameWithoutExtension(user.email)
+                               + "_"
+                               + Guid.NewGuid().ToString()
+                               + Path.GetExtension(profile_image.FileName);
 
+                // 파일을 저장할 경로를 지정합니다.
+                var path = Path.Combine(Server.MapPath("~/Content/upload/profile_image"), fileName);
+
+                // 해당 경로에 폴더가 없으면 폴더를 생성합니다.
+                var directory = Path.GetDirectoryName(path);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                // 파일을 지정한 경로에 저장합니다.
+                profile_image.SaveAs(path);
+                user.profile_image = Url.Content("~/Content/upload/profile_image" + fileName);
+            }
+
+            
+            user.reg_date = DateTime.Now;
+            user.use_tf = "1";
             user.password = StringUtil.GetSHA256(user.password);
             await _unitOfWork.Users.AddAsync(user);
             _unitOfWork.Commit();
             return View();
         }
 
+
+        public ActionResult Login() 
+        {
+            return View();
+        }
+        [HttpPost]
         public async Task<ActionResult> Login(string email, string password)
         {
 

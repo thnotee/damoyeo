@@ -1,3 +1,20 @@
+/**
+ * 텍스트 표출 및 focus 준다
+ * @param {any} text
+ * @param {any} obj
+ */
+function alertFocus(text, obj) {
+
+    Swal.fire({
+        title: text,
+        didClose: () => {
+            obj.focus();
+        }
+    });
+}
+
+
+
 //하트 클릭시 버튼 색 변함
 $(document).ready(function () {
   $(".heart_click").click(function () {

@@ -3,5 +3,37 @@
     ViewBag.Title = "Login";
 }
 
-<h2>Login</h2>
+@section style{
+    <link rel="stylesheet" href="~/Content/css/login.css" />
+}
 
+<div class="section_wrap login_wrap">
+    <div class="inner sub_inner">
+        <div class="login_box">
+            <h3 class="section_title">로그인</h3>
+            <div class="l_input_wrap">
+                <span>아이디</span>
+                <input type="text"
+                       name="mem_id"
+                       id="mem_id"
+                       placeholder="아이디를 입력해주세요." />
+            </div>
+            <div class="l_input_wrap">
+                <span>비밀번호</span>
+                <input type="password"
+                       name="mem_pw"
+                       id="mem_pw"
+                       placeholder="비밀번호를 입력해주세요." />
+            </div>
+            <div class="id_pw_find">
+                <a href="">아이디 찾기</a>
+                <a href="">비밀번호 찾기</a>
+            </div>
+            <span class="login_btn">로그인</span>
+            <div class="mem_join">
+                <span>우리의 소소한 즐거움,</span>
+                <a href="/auth/signup">다모여 가입하기</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -38,16 +38,16 @@ namespace Damoyeo.Web.Controllers
             
             var user = new DamoyeoUser
             {
-                Email = "test@example.com",
-                Password = "password123",
-                ProfileImage = "profileImage.jpg",
-                Slf_Intro = "안녕하세요, 저는 테스트 유저입니다.",
-                Nickname = "TestUser",
-                Use_Tf = "1",
-                Reg_Date = DateTime.Now
+                email = "test@example.com",
+                password = "password123",
+                profile_image = "profileImage.jpg",
+                slf_Intro = "안녕하세요, 저는 테스트 유저입니다.",
+                nickname = "TestUser",
+                use_tf = "1",
+                reg_date = DateTime.Now
             };
 
-            user.Password = StringUtil.GetSHA256(user.Password);
+            user.password = StringUtil.GetSHA256(user.password);
             await _unitOfWork.Users.AddAsync(user);
             _unitOfWork.Commit();
             return View();
@@ -59,22 +59,22 @@ namespace Damoyeo.Web.Controllers
             password = "password123";
 
             var user = new DamoyeoUser();
-            user.Email = "test@example.com";
+            user.email = "test@example.com";
 
             var userObj = await _unitOfWork.Users.GetAsync(user);
            
             if (userObj != null)
             {
-                if (userObj.Password == StringUtil.GetSHA256(password)) 
+                if (userObj.password == StringUtil.GetSHA256(password)) 
                 {
                     // 쿠키 생성
                     HttpCookie userCookie = new HttpCookie("UserCookie");
                     // 값 추가
-                    userCookie.Values["user_id"] = userObj.UserId.ToString();
-                    userCookie.Values["email"] = userObj.Email;
-                    userCookie.Values["nickname"] = userObj.Nickname;
-                    userCookie.Values["profile_image"] = userObj.ProfileImage;
-                    userCookie.Values["slf_Intro"] = userObj.Slf_Intro;
+                    userCookie.Values["user_id"] = userObj.user_id.ToString();
+                    userCookie.Values["email"] = userObj.email;
+                    userCookie.Values["nickname"] = userObj.nickname;
+                    userCookie.Values["profile_image"] = userObj.profile_image;
+                    userCookie.Values["slf_Intro"] = userObj.slf_Intro;
                     // 쿠키 만료 시간 설정
                     userCookie.Expires = DateTime.Now.AddDays(7); // 예를 들어, 7일 후에 만료되도록 설정
 

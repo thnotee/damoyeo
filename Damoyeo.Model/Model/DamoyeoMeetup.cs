@@ -8,6 +8,14 @@ namespace Damoyeo.Model.Model
 {
     public class DamoyeoMeetup
     {
+        /// <summary>
+        /// row_num
+        /// </summary>
+        public int row_num { get; set; }
+        /// <summary>
+        /// 토탈카운트
+        /// </summary>
+        public int total_count { get; set; }
         public int meetup_id { get; set; }
         public string meetup_name { get; set; }
         public int meetup_master_id { get; set; }

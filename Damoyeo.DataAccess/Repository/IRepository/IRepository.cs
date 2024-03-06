@@ -11,8 +11,8 @@ namespace Damoyeo.DataAccess.Repository.IRepository
     {
         Task AddAsync(T entity);
         Task<T> GetAsync(T entity);
-        Task<PagedList<T>> GetPagedListAsync<U>(int page, int pageSize);
-        Task UpdateAsync(T user);
-        Task Remove(int id);
+        Task<PagedList<T>> GetPagedListAsync(int page, int pageSize);
+        Task UpdateAsync(T entity);
+        Task RemoveAsync(int id);
     }
 }

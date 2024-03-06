@@ -43,6 +43,9 @@
   <ItemGroup>
     <Compile Include="Model\AuthMdoel.cs" />
     <Compile Include="Model\DamoyeoCategory.cs" />
+    <Compile Include="Model\DamoyeoNotice.cs" />
+    <Compile Include="Model\DamoyeoCommunity.cs" />
+    <Compile Include="Model\DamoyeoCommunityComment.cs" />
     <Compile Include="Model\DamoyeoMeetup.cs" />
     <Compile Include="Model\DamoyeoUser.cs" />
     <Compile Include="Model\Pager\PagedList.cs" />

@@ -45,7 +45,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\DamoyeoCommunityCommentRepository.cs" />
+    <Compile Include="Repository\DamoyeoNoticeRepository.cs" />
+    <Compile Include="Repository\DamoyeoCommunityRepository.cs" />
     <Compile Include="Repository\DamoyeoUserRepository.cs" />
+    <Compile Include="Repository\IRepository\IDamoyeoNoticeRepository.cs" />
+    <Compile Include="Repository\IRepository\IDamoyeoCommunityCommentRepository.cs" />
+    <Compile Include="Repository\IRepository\IDamoyeoCommunityRepository.cs" />
     <Compile Include="Repository\IRepository\IDamoyeoUserRepository.cs" />
     <Compile Include="Repository\IRepository\IRepository.cs" />
     <Compile Include="Repository\IRepository\IUnitOfWork.cs" />

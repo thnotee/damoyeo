@@ -15,17 +15,28 @@ namespace Damoyeo.DataAccess.Repository
     {
         private IDbConnection _connection;
         private IDbTransaction _transaction;
-        
+
+        public IDamoyeoUserRepository Users { get; private set; }
+
+        public IDamoyeoCommunityRepository Community { get; private set; }
+
+        public IDamoyeoCommunityCommentRepository CommunityComment { get; private set; }
+
+        public IDamoyeoNoticeRepository Notice { get; private set; }
 
         public UnitOfWork(IDbConnection connection)
         {
             _connection = connection;
             _connection.Open();
             _transaction = _connection.BeginTransaction();
-             Users = new DamoyeoUserRepository(_transaction); 
+            Users = new DamoyeoUserRepository(_transaction);
+            Community = new DamoyeoCommunityRepository(_transaction);
+            CommunityComment = new DamoyeoCommunityCommentRepository(_transaction);
+            Notice = new DamoyeoNoticeRepository(_transaction);
+
         }
 
-        public IDamoyeoUserRepository Users { get; private set; }
+   
 
         public void Commit()
         {

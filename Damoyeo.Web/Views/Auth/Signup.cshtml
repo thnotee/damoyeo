@@ -35,7 +35,7 @@
             </div>
             <div class="mb-5">
                 <label for="nickname"
-                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">닉네임을 입력해주세요.</label>
+                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">닉네임을 입력해주세요 (중복확인 버튼필요)</label>
                 <input type="text"
                        id="nickname"
                        name="nickname"
@@ -74,6 +74,8 @@
 
 @section scripts{
     <script>
+        
+
         $(document).ready(function () {
             //선택이미지 프리뷰
             $("#profile_image").on("change", function () {
@@ -111,6 +113,6 @@
                 $("#myform").submit();
             });
         });
-      
+
     </script>
 }

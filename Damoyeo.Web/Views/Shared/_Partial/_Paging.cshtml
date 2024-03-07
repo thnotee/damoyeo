@@ -1,0 +1,51 @@
+﻿@using Damoyeo.Model.Model.Pager
+@model  PagerOptions
+
+<div class="page_btn">
+    <ul>
+
+        <li>
+            @if (Model.IsFirstPage)
+            {
+                <a href="javascript:void()">
+                    <img src="~/Content/images/page_left.svg" alt="이전" />
+                </a>
+            }
+            else
+            {
+
+                <a href="@Model.Path?@Model.PageVariableName=@(Model.PageNumber - 1)&@Model.AddQueryString">
+                    <img src="~/Content/images/page_left.svg" alt="이전" />
+                </a>
+            }
+
+        </li>
+        <li class="num">
+            @for (var i = Model.StartNavi; i <= Model.EndNavi; i++)
+            {
+                if (Model.PageNumber == i)
+                {
+                    <a href='' class='page_no'>@i</a>
+                }
+                else
+                {
+                    <a href='@Model.Path?@Model.PageVariableName=@i&@Model.AddQueryString'>@i</a>
+                }
+            }
+        </li>
+        <li>
+            @if (Model.IsLastPage)
+            {
+                <a href="javascript:void()">
+                    <img src="~/Content/images/page_right.svg" alt="이전" />
+                </a>
+            }
+            else
+            {
+                <a href="@Model.Path?@Model.PageVariableName=@(Model.PageNumber + 1)&@Model.AddQueryString">
+                    <img src="~/Content/images/page_right.svg" alt="이전" />
+                </a>
+            }
+        </li>
+    </ul>
+</div>

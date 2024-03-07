@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Damoyeo.Model.Model;
 using Damoyeo.Model.Model.Pager;
+using System.Data.Common;
 
 namespace Damoyeo.DataAccess.Repository
 {
@@ -44,20 +45,53 @@ VALUES (@user_id, @title, @content, '1', @post_date);
 
 
 
-        public async Task<PagedList<DamoyeoCommunity>> GetPagedListAsync(int page, int pageSize)
+        public async Task<PagedList<DamoyeoCommunity>> GetPagedListAsync(int page, int pageSize, string searchString = "")
         {
             int startRange = ((page - 1) * pageSize) + 1;
             int endRange = startRange + pageSize - 1;
 
-            var sql = @"
+
+            var searchSql = "";
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchSql = $" AND title like '%'+@searchString+'%' ";
+            }
+
+            var sql = $@"
 SELECT * FROM (
-	SELECT ROW_NUMBER() over(order by board_id) as row_num, COUNT(*) over() total_count, board_id, user_id, title,content, use_tf, post_date FROM Damoyeo_Community
-) A
+	SELECT 
+		ROW_NUMBER() over(order by A.board_id) as row_num
+		, COUNT(A.board_id) over() total_count
+		, A.board_id
+		, A.user_id
+		, A.title
+		, A.content
+		, A.post_date 
+        , (SELECT COUNT(*) as count FROM Damoyeo_Community_Comment WHERE  board_id = A.board_id) as comment_count
+		, B.nickname
+		FROM Damoyeo_Community A INNER JOIN Damoyeo_User B ON A.user_id = B.user_id
+		WHERE 
+		A.use_tf = 1
+        {searchSql}
+) Z
 WHERE 
-A.use_tf = '1'
-and A.row_num BETWEEN 1 AND 10
+Z.row_num BETWEEN @startRange AND @endRange;
 ";
-            var items = await _connection.QueryAsync<DamoyeoCommunity>(sql, new { startRange, endRange }, transaction: _transaction);
+
+
+            var items = await _connection.QueryAsync<DamoyeoCommunity, DamoyeoUser, DamoyeoCommunity>(
+               sql,
+               (community, user) =>
+               {
+                   community.User = user;
+                   return community;
+               },
+               new { startRange = startRange, endRange = endRange, searchString = searchString },
+               transaction: _transaction,
+               splitOn: "nickname"
+           );
+
+
             if (items.Any())
             {
                 return new PagedList<DamoyeoCommunity>(items, items.FirstOrDefault().total_count, page, pageSize);

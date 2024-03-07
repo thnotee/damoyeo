@@ -46,12 +46,19 @@ VALUES
 
 
 
-        public async Task<PagedList<DamoyeoCommunityComment>> GetPagedListAsync(int page, int pageSize)
+        public async Task<PagedList<DamoyeoCommunityComment>> GetPagedListAsync(int page, int pageSize, string searchString = "")
         {
             int startRange = ((page - 1) * pageSize) + 1;
             int endRange = startRange + pageSize - 1;
 
-            var sql = @"
+            
+
+            var searchSql = "";
+            if (!string.IsNullOrEmpty(searchString)) {
+                searchSql = $" AND title like '%'{searchSql}'%' ";
+            }
+
+            var sql = $@"
 WITH CommentTree AS (
     SELECT 
         comment_id, 

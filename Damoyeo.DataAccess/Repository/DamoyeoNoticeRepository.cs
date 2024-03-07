@@ -46,7 +46,7 @@ VALUES
 
 
 
-        public async Task<PagedList<DamoyeoNotice>> GetPagedListAsync(int page, int pageSize)
+        public async Task<PagedList<DamoyeoNotice>> GetPagedListAsync(int page, int pageSize, string searchString = "")
         {
             int startRange = ((page - 1) * pageSize) + 1;
             int endRange = startRange + pageSize - 1;

@@ -1,39 +1,68 @@
 ﻿
 @{
     ViewBag.Title = "Login";
+    var returnUrl = ViewData["returnUrl"] as string;
 }
 
 @section style{
     <link rel="stylesheet" href="~/Content/css/login.css" />
 }
 
-<div class="section_wrap login_wrap">
-    <div class="inner sub_inner">
-        <div class="login_box">
-            <h3 class="section_title">로그인</h3>
-            <div class="l_input_wrap">
-                <span>아이디</span>
-                <input type="text"
-                       name="mem_id"
-                       id="mem_id"
-                       placeholder="아이디를 입력해주세요." />
-            </div>
-            <div class="l_input_wrap">
-                <span>비밀번호</span>
-                <input type="password"
-                       name="mem_pw"
-                       id="mem_pw"
-                       placeholder="비밀번호를 입력해주세요." />
-            </div>
-            <div class="id_pw_find">
-                <a href="">아이디 찾기</a>
-                <a href="">비밀번호 찾기</a>
-            </div>
-            <span class="login_btn">로그인</span>
-            <div class="mem_join">
-                <span>우리의 소소한 즐거움,</span>
-                <a href="/auth/signup">다모여 가입하기</a>
+<form id="myform" action="/auth/login" method="post">
+    <input type="hidden" value="@returnUrl">
+    <div class="section_wrap login_wrap">
+
+        <div class="inner sub_inner">
+            <div class="login_box">
+                <h3 class="section_title">로그인</h3>
+                <div class="l_input_wrap">
+                    <span>아이디</span>
+                    <input type="email"
+                           name="email"
+                           id="email"
+                           placeholder="아이디를 입력해주세요." />
+                </div>
+                <div class="l_input_wrap">
+                    <span>비밀번호</span>
+                    <input type="password"
+                           name="password"
+                           id="password"
+                           placeholder="비밀번호를 입력해주세요." />
+                </div>
+                <div class="id_pw_find">
+                    <a href="">아이디 찾기</a>
+                    <a href="">비밀번호 찾기</a>
+                </div>
+                <span class="login_btn" onclick="login()">로그인</span>
+                <div class="mem_join">
+                    <span>우리의 소소한 즐거움,</span>
+                    <a href="/auth/signup">다모여 가입하기</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
+
+<a href="https://kauth.kakao.com/oauth/authorize?client_id=6fdb7adf5e19747b49b3d6585e26de48&redirect_uri=https://localhost:44369/Auth/CallBack&response_type=code" target="_blank">
+    카카오톡으로 로그인
+</a>
+@section scripts{
+    @Html.Partial("~/Views/Shared/_Partial/_SweetAlert.cshtml")
+
+    <script>
+        function login() {
+            if ($("#email").val() == "") {
+                alertFocus("이메일을 입력해주세요", $('#email'));
+                return false;
+            }
+
+            if ($("#password").val() == "") {
+                alertFocus("비밀번호를 입력해주세요", $('#password'));
+                return false;
+            }
+            $("#myform").submit();
+        }
+    </script>
+
+
+}

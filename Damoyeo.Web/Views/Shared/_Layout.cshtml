@@ -45,7 +45,7 @@
                         <a href="">모임개설하기</a>
                     </li>
                     <li>
-                        <a href="">커뮤니티</a>
+                        <a href="/Community/Index">커뮤니티</a>
                     </li>
                     <li>
                         <a href="">고객지원</a>
@@ -56,7 +56,15 @@
                 <a href="" class="mypage">
                     <img src="~/Content/images/user.svg" alt="" />
                 </a>
-                <a href="" class="login">로그인</a>
+                @if (Damoyeo.Util.Manager.UserManager.IsLogin())
+                {
+                    <a href="/auth/logout" class="login">로그아웃</a>
+                }
+                else
+                {
+                    <a href="/auth/login" class="login">로그인</a>
+                }
+
             </div>
         </div>
     </header>

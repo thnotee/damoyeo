@@ -1,0 +1,52 @@
+.community_box {
+  width: 800px;
+  margin: 0 auto;
+}
+.community_box ul li:first-of-type {
+  border-top: 1px solid #ededed;
+}
+.community_box ul li {
+  border-bottom: 1px solid #ededed;
+  border-right: none;
+  border-left: none;
+  padding: 20px;
+}
+.community_box .com_tit {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+}
+.community_box .com_tit a {
+  font-size: 20px;
+  font-family: "Pretendard-SemiBold";
+  display: inline-block;
+}
+.community_box .com_tit a:hover {
+  color: #0064ff;
+}
+.community_box .com_tit .com_id {
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: inline-block;
+  width: 100%;
+}
+.community_box .com_tit img {
+  width: 12px;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+.community_box .com_info {
+  display: flex;
+  justify-content: flex-end;
+}
+.community_box .com_info p {
+  margin-left: 15px;
+}
+.community_box .com_info img {
+  width: 20px;
+  vertical-align: middle;
+}
+.community_box .com_info span {
+  display: inline-block;
+  font-size: 14px;
+}

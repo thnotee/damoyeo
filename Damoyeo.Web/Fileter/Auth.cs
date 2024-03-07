@@ -12,12 +12,13 @@ namespace Damoyeo.Web.Fileter
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             
-            HttpCookie authCookie = HttpContext.Current.Request.Cookies["AuthCookie"];
+            HttpCookie authCookie = HttpContext.Current.Request.Cookies["UserCookie"];
             // 로그인 여부 확인
             if (authCookie == null)
             {
                 // 로그인되지 않은 경우, 로그인 페이지로 리다이렉션
-                filterContext.Result = new RedirectResult("~/Account/Login");
+                string returnUrl = HttpUtility.UrlEncode(filterContext.HttpContext.Request.RawUrl);
+                filterContext.Result = new RedirectResult("~/Auth/Login?returnUrl=" + returnUrl);
             }
 
             base.OnActionExecuting(filterContext);

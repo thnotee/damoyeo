@@ -28,7 +28,7 @@ namespace Damoyeo.DataAccess.Repository
 SELECT * FROM Damoyeo_User
   where 
   use_tf = '1'
-  and email = email;
+  and email = @email;
 ";
             return await _connection.QueryFirstOrDefaultAsync<DamoyeoUser>(sql, entity, transaction: _transaction);
         }
@@ -44,19 +44,31 @@ VALUES (@email, @password, @profile_image, @slf_Intro, @nickname, @use_tf, @reg_
 
    
 
-        public async Task<PagedList<DamoyeoUser>> GetPagedListAsync(int page, int pageSize)
+        public async Task<PagedList<DamoyeoUser>> GetPagedListAsync(int page, int pageSize, string searchString = "")
         {
             int startRange = ((page - 1) * pageSize) + 1;
             int endRange = startRange + pageSize - 1;
 
             var sql = @"
 SELECT * FROM (
-	SELECT ROW_NUMBER() over(order by board_id) as row_num, COUNT(*) over() total_count, board_id, user_id, title,content, use_tf, post_date FROM Damoyeo_User
-) A
+	SELECT 
+		ROW_NUMBER() over(order by A.board_id) as row_num
+		, COUNT(A.board_id) over() total_count
+		, A.board_id
+		, A.user_id
+		, A.title
+		, A.content
+		, A.post_date 
+		, B.nickname
+		FROM Damoyeo_Community A INNER JOIN Damoyeo_User B ON A.user_id = B.user_id
+		WHERE 
+		A.use_tf = 1
+) Z
 WHERE 
-A.use_tf = '1'
-and A.row_num BETWEEN @startRange AND @endRange;
+Z.row_num BETWEEN @startRange AND @endRange;
 ";
+
+
 
             var items = await _connection.QueryAsync<DamoyeoUser>(sql, new { startRange, endRange }, transaction: _transaction);
             if (items.Any())

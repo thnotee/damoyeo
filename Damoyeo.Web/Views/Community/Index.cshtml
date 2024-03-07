@@ -1,0 +1,84 @@
+﻿@using Damoyeo.Model.Model;
+@using Damoyeo.Model.Model.Pager;
+@model  PagedList<DamoyeoCommunity>
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@section style{
+    <link rel="stylesheet" href="~/Content/css/community.css" />
+}
+
+<div class="section_wrap community_wrap">
+    <div class="inner sub_inner">
+        <h3 class="section_title">커뮤니티</h3>
+        <form action="/Community/Index" id="myform">
+            <div class="search_wrap">
+                <input type="search"
+                       name="searchString"
+                       id="searchString"
+                       placeholder="검색어를 입력해주세요." />
+                <span class="search_img" onclick="search();">
+                    <img src="~/Content/images/search.svg" alt="" />
+                </span>
+            </div>
+
+        </form>
+
+
+        <div class="community_box">
+            <div class="common_btn">
+                <a href="/Community/Write">작성하기</a>
+            </div>
+            <ul>
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <li>
+                            <div class="com_tit">
+                                <p class="com_id">
+                                    @item.User.nickname
+                                    <img src="~/Content/images/mark.png" alt="" />
+                                </p>
+                                <a href="">@item.title</a>
+                            </div>
+                            <div class="com_info">
+                                <p>
+                                    <img src="~/Content/images/community/eye.svg" alt="" /> <span>@item.view_count</span>
+                                </p>
+                                <p>
+                                    <img src="~/Content/images/community/comment.svg" alt="" />
+                                    <span>@item.comment_count</span>
+                                </p>
+                            </div>
+                        </li>
+                    }
+
+                }
+
+            </ul>
+        </div>
+        @if (Model.Any())
+        {
+            @Html.Partial("~/Views/Shared/_Partial/_Paging.cshtml", Model.pagerOptions);
+        }
+
+    </div>
+</div>
+
+
+
+
+@section scripts{
+    @Html.Partial("~/Views/Shared/_Partial/_SweetAlert.cshtml")
+    <script>
+
+        function search() {
+            $("#myform").submit();
+        }
+        
+     
+    </script>
+}

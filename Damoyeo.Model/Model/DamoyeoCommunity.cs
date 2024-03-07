@@ -39,9 +39,26 @@ namespace Damoyeo.Model.Model
         ///          0 : 삭제
         /// </summary>
         public string use_tf { get; set; }
+
+        /// <summary>
+        /// 조회수
+        /// </summary>
+        public int view_count { get; set; }
         /// <summary>
         /// 작성일
         /// </summary>
         public DateTime post_date { get; set; }
+            
+        /// <summary>
+        /// 댓글수
+        /// </summary>
+        public int comment_count { get; set; }
+
+        /// <summary>
+        /// User
+        /// </summary>
+        public DamoyeoUser User { get; set; }
+
+
     }
 }

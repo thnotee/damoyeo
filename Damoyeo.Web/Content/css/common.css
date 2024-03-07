@@ -154,19 +154,19 @@ table {
 
 select {
   border: 1px solid #ebebeb;
-  background-color: #f7f7f7;
   padding: 0px 15px;
   display: inline-block;
   width: 150px;
   height: 40px;
-  color: #818181;
   outline: none;
-  border-radius: 5px;
+  border-radius: 4px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: #fff url(/Content/images/arrow.svg) no-repeat 90% 50%;
-  background-size: 10px;
+  background: #fff url(file:///C:/Users/2305201/Desktop/공부/images/select_arrow.svg) no-repeat 95% 50%;
+  background-size: 20px;
+  font-size: 14px;
+  color: #737373;
 }
 input {
   appearance: none;
@@ -178,9 +178,6 @@ input {
   font-size: 16px;
   border: 1px solid #f8f9fb;
   background-color: #f8f9fb;
-}
-input:focus {
-  border: 1px solid #0065ec;
 }
 input::-ms-clear,
 input::-ms-reveal {
@@ -204,10 +201,6 @@ textarea {
   outline: none;
   font-size: 16px;
 }
-textarea:focus {
-  border: 1px solid #0065ec;
-}
-
 /* 스크롤바 커스텀 */
 ::-webkit-scrollbar {
   width: 10px;
@@ -277,7 +270,7 @@ textarea:focus {
 .page_btn ul li a {
   width: 35px;
   height: 35px;
-  background-color: #f2f2f2;
+  background-color: #f6f6f6;
   margin: 0 3px;
   display: flex;
   align-items: center;
@@ -306,6 +299,7 @@ textarea:focus {
   margin: 0 auto;
   position: relative;
   box-shadow: 0 10px 20px #f2f2f2;
+  margin-bottom: 80px;
 }
 .search_wrap input {
   width: 100%;
@@ -326,6 +320,19 @@ textarea:focus {
 .search_wrap .search_img img {
   width: 25px;
   display: block;
+}
+
+/* 공통버튼 */
+.common_btn {text-align: right;margin-bottom: 20px;}
+.common_btn a {
+  background-color: #0064ff;
+  border-radius: 5px;
+  padding: 12px 22px;
+  font-size: 14px;
+  margin-left: 25px;
+  color: #fff;
+  display: inline-block;
+  font-family: "Pretendard-Medium";
 }
 @media screen and (max-width: 1200px) {
 }

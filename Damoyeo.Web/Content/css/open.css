@@ -1,0 +1,187 @@
+.open_wrap input {
+  padding: 0 15px;
+  height: 40px;
+  font-size: 14px;
+  background-color: #fff;
+  border: 1px solid #ebebeb;
+  color: #737373;
+}
+.open_wrap .open_tit {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-family: "Pretendard-SemiBold";
+}
+.open_wrap .open_tit span {
+  font-size: 14px;
+  color: #d83d3d;
+}
+
+.open_wrap .img_up_btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  background-color: #e9f2fc;
+  color: #fff;
+  text-align: center;
+  border-radius: 50%;
+}
+.open_wrap .img_up_btn img {
+  vertical-align: middle;
+}
+
+.open_wrap .open_top .right {
+  width: calc(100% - 250px);
+  text-align: left;
+  padding-left: 80px;
+}
+
+.open_wrap .open_info li {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px dashed #ededed;
+  padding: 15px 0;
+}
+.open_wrap .open_info li:last-of-type {
+  border: none;
+  padding-bottom: 0;
+}
+.open_wrap .open_info li .open_stit {
+  width: 150px;
+  font-family: "Pretendard-Medium";
+}
+.open_wrap .open_info li .open_txt {
+  width: calc(100% - 150px);
+}
+.open_wrap .open_box {
+  box-shadow: 0 5px 15px #f2f2f2;
+  padding: 60px;
+  border-radius: 5px;
+  border: 1px solid #f5f5f5;
+}
+.open_wrap .open_box > div {
+  border-bottom: 1px solid #ededed;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  text-align: left;
+}
+.open_wrap .open_top {
+  display: flex;
+}
+.open_wrap .open_top .left {
+  position: relative;
+}
+.open_wrap .open_top .left .img_box_main {
+  width: 250px;
+  height: 250px;
+  border: 1px solid #ededed;
+}
+.open_wrap .open_top .left .img_main_btn {
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+}
+.open_wrap .open_top .left .img_main_btn img {
+  width: 30px;
+  margin-bottom: 6px;
+}
+
+.open_wrap .open_top .o_box1 .open_txt {
+  display: flex;
+}
+.open_wrap .open_top .o_box1 .open_txt select {
+  width: 150px;
+  margin-right: 5px;
+}
+.open_wrap .open_top .o_box1 .open_txt input {
+  width: calc(100% - 155px);
+}
+.open_wrap .open_top .o_box2 .open_txt {
+  display: flex;
+  flex-wrap: wrap;
+}
+.open_wrap .open_top .o_box2 .open_txt > div {
+  width: calc(50% - 2.5px);
+  margin-right: 5px;
+}
+.open_wrap .open_top .o_box2 .open_txt > div:nth-of-type(2) {
+  margin-right: 0;
+}
+.open_wrap .open_top .o_box2 .open_txt > div.inquiry_email {
+  width: 100%;
+  margin-right: 0;
+  margin-top: 5px;
+}
+.open_wrap .open_top .o_box2 .open_txt > div.inquiry_email input {
+  width: calc(100% - 205px);
+}
+.open_wrap .open_top .o_box2 .open_txt > div.inquiry_email select {
+  width: 200px;
+}
+.open_wrap .open_top .o_box2 .inquiry_call {
+  position: relative;
+}
+.open_wrap .open_top .o_box2 .inquiry_call span {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #777;
+  display: inline-block;
+  width: 68px;
+  background-color: #f5f5f5;
+  padding: 5px;
+  border-radius: 3px;
+  text-align: center;
+}
+.open_wrap .open_top .o_box2 .inquiry_call input {
+  padding: 0 15px 0 86px;
+  width: 100%;
+}
+.open_wrap .open_top .o_box2 .call_notice {
+  font-size: 12px;
+  margin-top: 10px;
+  color: #888;
+}
+.open_wrap .open_top .o_box3 input {
+  width: 100%;
+}
+.open_wrap .od_con {
+  display: flex;
+}
+.open_wrap .od_con .dimg_up {
+  width: 250px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+}
+.open_wrap .od_con .dimg_up .dimg_box {
+  border: 1px solid #ededed;
+  width: 122px;
+  height: 122px;
+  position: relative;
+}
+.open_wrap .od_con .dimg_up .dimg_box .dimg_up_btn {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+}
+.open_wrap .od_con .dimg_up .dimg_box .dimg_up_btn img {
+  margin-bottom: 3px;
+}
+.open_wrap .od_con .dtxt_box {
+  width: calc(100% - 250px);
+  padding-left: 80px;
+}
+.open_wrap .od_con textarea {
+  width: 100%;
+  font-size: 14px;
+  background-color: #fff;
+  border: 1px solid #ebebeb;
+  height: calc(100% - 40px);
+}
+.open_wrap .open_date .open_txt {position: relative;}
+.open_wrap .open_date .open_txt img {position: absolute;top: 50%;left: 12px;transform: translateY(-50%);width: 22px;}
+.open_wrap .open_date .open_txt input {width: 100%;padding: 0 15px 0 45px;}

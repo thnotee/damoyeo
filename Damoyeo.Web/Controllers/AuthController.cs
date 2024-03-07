@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
@@ -37,7 +38,7 @@ namespace Damoyeo.Web.Controllers
         }
 
 
-        public async Task<ActionResult> Signup()
+        public ActionResult Signup()
         {
 
             return View();
@@ -81,7 +82,7 @@ namespace Damoyeo.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
+        [HttpGet]
         public ActionResult Login(string returnUrl = "/Home/index")
         {
             ViewData["returnUrl"] = returnUrl;
@@ -162,31 +163,36 @@ namespace Damoyeo.Web.Controllers
         /// <returns></returns>
         private async Task<TokenResponse> GetAccessTokenAsync(string code)
         {
-            using (var httpClient = new HttpClient())
-            {
-                // POST 요청에 필요한 데이터 구성
-                var formData = new List<KeyValuePair<string, string>>
-                {
-                    new KeyValuePair<string, string>("grant_type", "authorization_code"),
-                    new KeyValuePair<string, string>("code", code),
-                    new KeyValuePair<string, string>("client_id", "6fdb7adf5e19747b49b3d6585e26de48" ),
-                    new KeyValuePair<string, string>("client_secret","9PffJuoMw4pDVgioLhovRe2WYohYnGfA"),
-                    new KeyValuePair<string, string>("redirect_uri", "https://localhost:44369/auth/callback")
-                };
 
-                //https://kauth.kakao.com/oauth/token
-                // HTTP POST 요청 보내기
-                var response = await httpClient.PostAsync("https://kauth.kakao.com/oauth/token", new FormUrlEncodedContent(formData));
+   
 
-                // 응답 확인
-                response.EnsureSuccessStatusCode();
+                  using (var httpClient = new HttpClient())
+                  {
+                      // POST 요청에 필요한 데이터 구성
+                      var formData = new List<KeyValuePair<string, string>>
+                      {
+                          new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                          new KeyValuePair<string, string>("client_id", "6fdb7adf5e19747b49b3d6585e26de48" ),
+                          new KeyValuePair<string, string>("redirect_uri", "https://localhost:44369/Auth/CallBack"),
+                          new KeyValuePair<string, string>("code", code),
+                          new KeyValuePair<string, string>("client_secret","62INf9ybK77JZ4NcwV3IMyaLFsOwR7S7")
 
-                // 응답 데이터를 TokenResponse 클래스로 변환
-                var responseBody = await response.Content.ReadAsStringAsync();
-                var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(responseBody);
+                      };
 
-                return tokenResponse;
-            }
+                      //https://kauth.kakao.com/oauth/token
+                      // HTTP POST 요청 보내기
+                      var response = await httpClient.PostAsync("https://kauth.kakao.com/oauth/token", new FormUrlEncodedContent(formData));
+
+                      // 응답 확인
+                      response.EnsureSuccessStatusCode();
+
+                      // 응답 데이터를 TokenResponse 클래스로 변환
+                      var responseBody = await response.Content.ReadAsStringAsync();
+                      var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(responseBody);
+
+                      return tokenResponse;
+                  }
+            
         }
 
         public class TokenResponse
@@ -196,7 +202,7 @@ namespace Damoyeo.Web.Controllers
             public string refresh_token { get; set; }
             public string scope { get; set; }
             public string token_type { get; set; }
-            public string id_token { get; set; }
+            public string id_token { get; set; } //디코딩해제
             
         }
 

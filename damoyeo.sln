@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Damoyeo.Util", "Damoyeo.Uti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Damoyeo.Model", "Damoyeo.Model\Damoyeo.Model.csproj", "{07A5AA94-B671-4EA3-9387-9DE9B0991A4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Damoyeo.Admin", "Damoyeo.Admin\Damoyeo.Admin.csproj", "{EC6196CB-86A5-43FE-A050-2D7FD912229C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{07A5AA94-B671-4EA3-9387-9DE9B0991A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07A5AA94-B671-4EA3-9387-9DE9B0991A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07A5AA94-B671-4EA3-9387-9DE9B0991A4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC6196CB-86A5-43FE-A050-2D7FD912229C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC6196CB-86A5-43FE-A050-2D7FD912229C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC6196CB-86A5-43FE-A050-2D7FD912229C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC6196CB-86A5-43FE-A050-2D7FD912229C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{4334F4DF-15CC-4342-B333-263DFDD0524B} = {9AF40602-3D03-4CF4-A641-B1C64F576B82}
 		{77CDF756-E510-4908-9F90-EE8347BDA0C5} = {CC3117E8-8FE0-48E9-9FF5-C0717648A761}
 		{07A5AA94-B671-4EA3-9387-9DE9B0991A4E} = {A4D718F4-B7D0-4CA2-9642-7AF43A83C994}
+		{EC6196CB-86A5-43FE-A050-2D7FD912229C} = {449B145B-0FE6-4719-BF94-399F71729C6A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {422A4CFB-C976-4DB2-827B-07A9858E87F5}

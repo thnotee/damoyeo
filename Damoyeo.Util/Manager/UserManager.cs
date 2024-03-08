@@ -38,7 +38,8 @@ namespace Damoyeo.Util.Manager
             authModel.Email = authCookie.Values["email"];
             authModel.Nickname = authCookie.Values["nickname"];
             authModel.ProfileImage = authCookie.Values["profile_image"];
-            authModel.Slf_Intro = authCookie.Values["slf_Intro"];
+            authModel.SlfIntro = authCookie.Values["slf_Intro"];
+            authModel.SignupType = authCookie.Values["signup_type"];
             return authModel;
 
         }

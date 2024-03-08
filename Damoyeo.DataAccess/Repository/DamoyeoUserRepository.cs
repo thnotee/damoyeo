@@ -36,8 +36,8 @@ SELECT * FROM Damoyeo_User
         public async Task AddAsync(DamoyeoUser entity)
         {
             var sql = @"
-INSERT INTO Damoyeo_User (email, password, profile_image, slf_Intro, nickname, use_tf, reg_date)
-VALUES (@email, @password, @profile_image, @slf_Intro, @nickname, @use_tf, @reg_date);
+INSERT INTO Damoyeo_User (email, password, profile_image, slf_Intro, nickname, use_tf, signup_type, reg_date)
+VALUES (@email, @password, @profile_image, @slf_Intro, @nickname, @use_tf, @signup_type, @reg_date);
 ";
             await _connection.ExecuteAsync(sql, entity, transaction: _transaction);
         }

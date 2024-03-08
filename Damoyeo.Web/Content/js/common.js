@@ -3,6 +3,18 @@
  * @param {any} text
  * @param {any} obj
  */
+function alertBox(text) {
+
+    Swal.fire({
+        title: text
+    });
+}
+
+/**
+ * 텍스트 표출 및 focus 준다
+ * @param {any} text
+ * @param {any} obj
+ */
 function alertFocus(text, obj) {
 
     Swal.fire({

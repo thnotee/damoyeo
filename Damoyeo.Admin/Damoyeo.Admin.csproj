@@ -7,17 +7,17 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D10D03DD-3046-4F7F-820A-EC8CAEC27D73}</ProjectGuid>
+    <ProjectGuid>{EC6196CB-86A5-43FE-A050-2D7FD912229C}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Damoyeo.Web</RootNamespace>
-    <AssemblyName>Damoyeo.Web</AssemblyName>
+    <RootNamespace>Damoyeo.Admin</RootNamespace>
+    <AssemblyName>Damoyeo.Admin</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44369</IISExpressSSLPort>
+    <IISExpressSSLPort>44361</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -50,25 +50,10 @@
     <Reference Include="Autofac.Integration.Mvc, Version=6.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.Mvc5.6.1.0\lib\net472\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.2.1.28\lib\net461\Dapper.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=7.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.7.4.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=7.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.7.4.0\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.Logging, Version=7.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Logging.7.4.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.Tokens, Version=7.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.7.4.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -78,11 +63,8 @@
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=7.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.7.4.0\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -91,17 +73,8 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="System.Text.Encodings.Web, Version=4.0.5.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encodings.Web.4.7.2\lib\net461\System.Text.Encodings.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Json, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Json.4.7.2\lib\net461\System.Text.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -109,6 +82,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -133,9 +109,6 @@
     <Reference Include="System.Web.Mvc, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.9\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Optimization">
-      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -169,50 +142,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\AuthController.cs" />
-    <Compile Include="Controllers\CommunityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\UploadController.cs" />
-    <Compile Include="Fileter\Auth.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\css\common.css" />
-    <Content Include="Content\css\community.css" />
-    <Content Include="Content\css\customer.css" />
-    <Content Include="Content\css\font.css" />
-    <Content Include="Content\css\footer.css" />
-    <Content Include="Content\css\header.css" />
-    <Content Include="Content\css\index.css" />
-    <Content Include="Content\css\login.css" />
-    <Content Include="Content\images\customer\ev_banner.jpg" />
-    <Content Include="Content\images\favicon.ico" />
-    <Content Include="Content\images\heart.svg" />
-    <Content Include="Content\images\heart_on.svg" />
-    <Content Include="Content\images\logo.png" />
-    <Content Include="Content\images\logo_g.png" />
-    <Content Include="Content\images\main\banner1.png" />
-    <Content Include="Content\images\main\banner2.png" />
-    <Content Include="Content\images\main\event_banner.png" />
-    <Content Include="Content\images\main\notice_icon.svg" />
-    <Content Include="Content\images\main\test_img1.png" />
-    <Content Include="Content\images\main\test_img2.png" />
-    <Content Include="Content\images\main\test_img3.png" />
-    <Content Include="Content\images\mark.png" />
-    <Content Include="Content\images\marker.svg" />
-    <Content Include="Content\images\more_btn.svg" />
-    <Content Include="Content\images\page_end.svg" />
-    <Content Include="Content\images\page_left.svg" />
-    <Content Include="Content\images\page_right.svg" />
-    <Content Include="Content\images\page_start.svg" />
-    <Content Include="Content\images\search.svg" />
-    <Content Include="Content\images\top_btn.svg" />
-    <Content Include="Content\images\user.svg" />
-    <Content Include="Content\js\common.js" />
-    <Content Include="Content\upload\profile_image\qwe7wer%40gmail_54890a16-ba31-44bc-ae11-9755f3cb3910.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -234,44 +170,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Upload\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\font\Pretendard-Black.ttf" />
-    <Content Include="Content\font\Pretendard-Black.woff" />
-    <Content Include="Content\font\Pretendard-Black.woff2" />
-    <Content Include="Content\font\Pretendard-Bold.ttf" />
-    <Content Include="Content\font\Pretendard-Bold.woff" />
-    <Content Include="Content\font\Pretendard-Bold.woff2" />
-    <Content Include="Content\font\Pretendard-ExtraBold.ttf" />
-    <Content Include="Content\font\Pretendard-ExtraBold.woff" />
-    <Content Include="Content\font\Pretendard-ExtraBold.woff2" />
-    <Content Include="Content\font\Pretendard-ExtraLight.ttf" />
-    <Content Include="Content\font\Pretendard-ExtraLight.woff" />
-    <Content Include="Content\font\Pretendard-ExtraLight.woff2" />
-    <Content Include="Content\font\Pretendard-Light.ttf" />
-    <Content Include="Content\font\Pretendard-Light.woff" />
-    <Content Include="Content\font\Pretendard-Light.woff2" />
-    <Content Include="Content\font\Pretendard-Medium.ttf" />
-    <Content Include="Content\font\Pretendard-Medium.woff" />
-    <Content Include="Content\font\Pretendard-Medium.woff2" />
-    <Content Include="Content\font\Pretendard-Regular.ttf" />
-    <Content Include="Content\font\Pretendard-Regular.woff" />
-    <Content Include="Content\font\Pretendard-Regular.woff2" />
-    <Content Include="Content\font\Pretendard-SemiBold.ttf" />
-    <Content Include="Content\font\Pretendard-SemiBold.woff" />
-    <Content Include="Content\font\Pretendard-SemiBold.woff2" />
-    <Content Include="Content\font\Pretendard-Thin.ttf" />
-    <Content Include="Content\font\Pretendard-Thin.woff" />
-    <Content Include="Content\font\Pretendard-Thin.woff2" />
     <None Include="packages.config" />
-    <Content Include="Views\Auth\Signup.cshtml" />
-    <Content Include="Views\Auth\Login.cshtml" />
-    <Content Include="Views\Shared\_Partial\_SweetAlert.cshtml" />
-    <Content Include="Views\Community\Index.cshtml" />
-    <Content Include="Views\Community\Write.cshtml" />
-    <Content Include="Views\Shared\_Partial\_Paging.cshtml" />
-    <Content Include="Views\Auth\CallBack.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Damoyeo.DataAccess\Damoyeo.DataAccess.csproj">
@@ -303,9 +204,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>53246</DevelopmentServerPort>
+          <DevelopmentServerPort>51100</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44369/</IISUrl>
+          <IISUrl>https://localhost:44361/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

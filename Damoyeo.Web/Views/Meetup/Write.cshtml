@@ -1,0 +1,487 @@
+﻿
+@{
+    ViewBag.Title = "Write";
+}
+
+@section style
+{
+    <link rel="stylesheet" href="~/Content/css/open.css" />
+    <link rel="stylesheet" href="~/Content/css/daterangepicker.css" />
+}
+<div class="section_wrap open_wrap">
+    <div class="inner sub_inner">
+        <h3 class="section_title">모임개설하기</h3>
+
+        <div class="open_box">
+            <div class="open_top">
+                <div class="left">
+                    <p class="open_tit">대표 이미지 업로드</p>
+                    <div class="ib_main_img">
+                        <div class="img_box_main img_common_box"></div>
+                        <span class="img_main_btn img_up_btn" id="m_img_up">
+                            <label for="file_upload">
+                                <img src="/Content/images/upload.svg" alt="" class="up_img">
+                                <input type="file" id="file_upload" style="display: none;">
+                            </label>
+                        </span>
+                    </div>
+                </div>
+                <div class="right">
+                    <p class="open_tit">기본정보 <span>(필수)</span></p>
+                    <ul class="open_info">
+                        <li class="o_box1">
+                            <span class="open_stit">카테고리 / 모임명</span>
+                            <div class="open_txt">
+                                <select name="" id="">
+                                    <option value="">카테고리선택</option>
+                                </select>
+                                <input type="text" placeholder="모임명을 입력해주세요." />
+                            </div>
+                        </li>
+                        <li class="o_box2">
+                            <span class="open_stit">문의 연락처</span>
+                            <div class="open_txt">
+                                <div class="inquiry_call">
+                                    <span>담당자명</span>
+                                    <input type="text" />
+                                </div>
+                                <div class="inquiry_call">
+                                    <span>전화번호</span>
+                                    <input type="text" />
+                                </div>
+                                <div class="inquiry_call inquiry_email">
+                                    <span>이메일</span>
+                                    <input type="text" id="txtEmail" value="" />
+                                    <p class="email_at">@@</p>
+                                    <input type="text" id="selectEmail2" value="">
+                                    <select id="selectEmail">
+                                        <option value="1" selected="">직접입력</option>
+                                        <option value="naver.com">naver.com</option>
+                                        <option value="hanmail.net">hanmail.net</option>
+                                        <option value="gmail.com">gmail.com</option>
+                                    </select>
+                                </div>
+                                <p class="open_notice">＊ 모임 종료 전까지 연락처가 노출되며, 임의로 입력한 경우 개인정보 도용으로 처벌받을 수 있습니다.</p>
+                            </div>
+                        </li>
+                        <li class="o_box3">
+                            <span class="open_stit">모임소개</span>
+                            <div class="open_txt">
+                                <input id="introInput" type="text" placeholder="소모임을 간단히 한줄로 소개해주세요. (100자 이내)" />
+                                <div class="text_check">
+                                    <span id="charCount">0</span> / 100
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="open_detail">
+                <div class="od_con">
+                    <div>
+                        <p class="open_tit">상세 이미지 업로드</p>
+                        <div class="dimg_up">
+                            <div class="dimg_box">
+                                <div class="img_box_sub img_common_box"></div>
+                                <label for="d_file_upload1" class="dimg_up_btn img_up_btn" id="d_img_up1">
+                                    <img src="/Content/images/upload.svg" alt="">
+                                    <input type="file" id="d_file_upload1" style="display: none;">
+                                </label>
+                            </div>
+                            <div class="dimg_box">
+                                <div class="img_box_sub img_common_box"></div>
+                                <label for="d_file_upload2" class="dimg_up_btn img_up_btn" id="d_img_up2">
+                                    <img src="/Content/images/upload.svg" alt="">
+                                    <input type="file" id="d_file_upload2" style="display: none;">
+                                </label>
+                            </div>
+                            <div class="dimg_box">
+                                <div class="img_box_sub img_common_box"></div>
+                                <label for="d_file_upload3" class="dimg_up_btn img_up_btn" id="d_img_up3">
+                                    <img src="/Content/images/upload.svg" alt="">
+                                    <input type="file" id="d_file_upload3" style="display: none;">
+                                </label>
+                            </div>
+                            <div class="dimg_box">
+                                <div class="img_box_sub img_common_box"></div>
+                                <label for="d_file_upload4" class="dimg_up_btn img_up_btn" id="d_img_up4">
+                                    <img src="/Content/images/upload.svg" alt="">
+                                    <input type="file" id="d_file_upload4" style="display: none;">
+                                </label>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="dtxt_box">
+                        <p class="open_tit">상세정보 <span>(필수)</span></p>
+                        <textarea name=""
+                                  id=""
+                                  cols="30"
+                                  rows="10"
+                                  placeholder="내용을 입력해주세요."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="open_date">
+                <p class="open_tit">그룹정보 <span>(필수)</span></p>
+
+                <div class="open_info_con">
+                    <ul class="open_info">
+                        <li>
+                            <span class="open_stit">모임기간</span>
+                            <div class="open_txt">
+                                <img src="/Content/images/calendar.svg" alt="">
+                                <input type="text" name="dates" class="form-control">
+                            </div>
+                        </li>
+                        <li>
+                            <span class="open_stit">신청기간</span>
+                            <div class="open_txt">
+                                <img src="/Content/images/calendar.svg" alt="">
+                                <input type="text" name="dates" class="form-control">
+                            </div>
+                            <p class="open_notice open_npadding">＊ 참여 신청 및 취소는 신청기간에만 가능합니다.</p>
+                        </li>
+                    </ul>
+                    <ul class="open_info">
+                        <li>
+                            <span class="open_stit">모집 정원 입력</span>
+                            <input type="text" id="memberInput" placeholder="모임의 정원을 입력해주세요.">
+                        </li>
+                        <li>
+                            <p class="open_stit over_stit">
+                                정원초과 모집
+                                <span class="explain_mark">
+                                    ?
+                                    <i class="explain_txt">
+                                        정원이 초과된 경우에도 추가 신청을 받을지 여부를 선택할 수 있습니다.
+                                    </i>
+                                </span>
+                            </p>
+                            <div>
+                                <label for="agree1" class="radio_box">
+                                    <input type="radio" id="agree1" name="agree" checked="checked">허용
+                                </label>
+                                <label for="agree2" class="radio_box">
+                                    <input type="radio" id="agree2" name="agree">허용안함
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="open_map">
+                    <ul class="open_info">
+                        <li>
+                            <span class="open_stit">주소</span>
+                            <div class="map_right">
+                                <div class="map_search">
+                                    <input type="text" name="addr_name" value="" id="addr_name" placeholder="건물, 지번 또는 도로명 검색">
+                                    <span class="addr_btn">검색</span>
+                                </div>
+                                <div>
+                                    <input type="text" name="addr_detail" id="addr_detail" placeholder="상세 주소를 입력해주세요." value="">
+                                </div>
+                                <div id="map" class="map_section"></div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="open_info">
+                        <li>
+                            <span class="open_stit">모임 노출 설정</span>
+                            <div class="expose_wrap">
+                                <div>
+                                    <label for="expose1" class="radio_box">
+                                        <input type="radio" id="expose1" name="expose" checked="checked">노출
+                                    </label>
+                                    <label for="expose2" class="radio_box">
+                                        <input type="radio" id="expose2" name="expose">미노출
+                                    </label>
+                                </div>
+                                <div class="ex_px_wrap">
+                                    <label for="ex_pw" class="check_box">
+                                        <input type="checkbox" id="ex_pw" name="ex_pw">비밀번호 설정
+                                    </label>
+                                    <input type="text" name="" id="url_pw" class="url_pw" placeholder="사용할 비밀번호 네자리를 입력해주세요.">
+                                </div>
+                                <p class="open_notice">＊ 모임 미노출 시, URL로만 접근 가능합니다.</p>
+                                <p class="open_notice">＊ 비밀번호 사용 시 비밀번호를 입력해야만 접근이 가능합니다.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="open_stit">청소년 접근제한</span>
+                            <div>
+                                <label for="age_check" class="check_box">
+                                    <input type="checkbox" id="age_check" name="age_check">만 19세 미만 접근제한
+                                </label>
+                                <p class="open_notice">＊ 설정 시 반드시 성인인증을 해야 모임 페이지에 접근이 가능합니다.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="intro_wrap">
+                <p class="open_tit">모임 알리기</p>
+
+                <ul class="open_info interest_wrap">
+                    <li>
+                        <span class="open_stit">모임 카테고리</span>
+                        <div class="open_txt">
+                            <div class="inter_box">
+                                <div class="inter_check">
+                                    <label for="interest1" class="check_box">
+                                        <input type="checkbox" id="interest1" name="interest">교육/어학
+                                    </label>
+                                    <label for="interest2" class="check_box">
+                                        <input type="checkbox" id="interest2" name="interest">취업/자격증
+                                    </label>
+                                    <label for="interest3" class="check_box">
+                                        <input type="checkbox" id="interest3" name="interest">여행
+                                    </label>
+                                    <label for="interest4" class="check_box">
+                                        <input type="checkbox" id="interest4" name="interest">스포츠/운동
+                                    </label>
+                                    <label for="interest5" class="check_box">
+                                        <input type="checkbox" id="interest5" name="interest">요리/음식
+                                    </label>
+                                    <label for="interest6" class="check_box">
+                                        <input type="checkbox" id="interest6" name="interest">문화/예술
+                                    </label>
+                                    <label for="interest7" class="check_box">
+                                        <input type="checkbox" id="interest7" name="interest">영화/음악
+                                    </label>
+                                    <label for="interest8" class="check_box">
+                                        <input type="checkbox" id="interest8" name="interest">기타
+                                    </label>
+                                </div>
+                                <p class="open_notice">＊ 선택한 항목에 해당하는 사용자들에게 모임이 추천됩니다. (다중 선택 가능)</p>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <span class="open_stit">모임 태그</span>
+                        <div class="open_txt">
+                            <div class="tag_wrap">
+                                <input type="text" id="input_tag" placeholder="태그를 입력해주세요.">
+                            </div>
+                            <p class="open_notice">＊ 태그를 엔터로 구분하여 입력해주세요.</p>
+                            <p class="open_notice">＊ 모임태그 입력 시 태그별 모아보기가 가능하고 검색 결과에도 반영됩니다.</p>
+                        </div>
+                    </li>
+
+                    <li>
+                        <span class="open_stit">출석체크 설정</span>
+                        <div class="open_txt">
+                            <input type="text" id="attend" placeholder="출석 확인용 비밀번호를 입력해주세요.">
+                            <p class="open_notice">＊ 출석 확인용 번호는 신청자의 출석 확인을 위한 비밀번호입니다.</p>
+                        </div>
+                    </li>
+                </ul>
+
+
+
+            </div>
+
+            <span class="maker_btn big_btn">모임 개설하기</span>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2c03537489f069ffcb99fac73dd5028f"></script>
+    <script>
+
+        //사진 업로드
+        $(document).ready(function () {
+            $('.img_up_btn input[type=file]').change(function (event) {
+                var file = event.target.files[0];
+                var reader = new FileReader();
+                var inputElement = this; // 현재 input[type=file] 요소를 저장합니다.
+
+                reader.onload = function (event) {
+                    var imgBoxMain = $(inputElement).closest('.img_up_btn').siblings('.img_common_box');
+
+                    var img = $('<img>');
+                    img.attr('src', event.target.result);
+                    imgBoxMain.empty(); // 기존 이미지를 지우고
+                    imgBoxMain.append(img); // 새 이미지를 추가합니다.
+
+                    var newHtml = `
+                                                  <div class="after_btn">
+                                                      <label> 사진 변경
+                                                          <input type="file" class="file_upload_new" style="display: none;">
+                                                      </label>
+                                                      <span class="delete_photo">사진 삭제</span>
+                                                  </div>
+                                              `;
+
+                    $(inputElement).closest('.img_up_btn').hide().after(newHtml);
+
+                    // 새로운 사진 변경 버튼에 대한 이벤트 핸들러를 추가
+                    $('.file_upload_new').change(function (event) {
+                        var newFile = event.target.files[0];
+                        var newReader = new FileReader();
+                        var newInputElement = this; // 새로운 input[type=file] 요소를 저장합니다.
+
+                        newReader.onload = function (event) {
+                            var newImgBoxMain = $(newInputElement).closest('.after_btn').prevAll('.img_common_box').first();
+                            var newImg = $('<img>');
+                            newImg.attr('src', event.target.result);
+                            newImgBoxMain.empty();
+                            newImgBoxMain.append(newImg);
+                        };
+
+                        newReader.readAsDataURL(newFile);
+                    });
+
+                    // 사진 삭제 버튼에 대한 이벤트 핸들러를 추가
+                    $('.delete_photo').click(function () {
+                        var deleteBtn = this;
+                        var imgBoxMainToDelete = $(deleteBtn).closest('.after_btn').prevAll('.img_common_box').first();
+                        imgBoxMainToDelete.empty();
+                        $(deleteBtn).closest('.after_btn').prev('.img_up_btn').show();
+                        $(deleteBtn).parent('.after_btn').remove();
+                    });
+                };
+
+                reader.readAsDataURL(file);
+            });
+        });
+
+        //이메일 선택
+        $(function () {
+            $('#selectEmail').change(function () {
+                $("#selectEmail option:selected").each(function () {
+
+                    if ($(this).val() == '1') {
+                        $("#selectEmail2").val('');
+                        $("#selectEmail2").attr("disabled", false);
+                    } else {
+                        $("#selectEmail2").val($(this).text());
+                        $("#selectEmail2").attr("disabled", true);
+                    }
+                });
+            });
+        });
+
+        //글자수 제한
+        $(document).ready(function () {
+            var maxLength = 100;
+            var $introInput = $('#introInput');
+            var $charCount = $('#charCount');
+
+            $introInput.on('input', function () {
+                var textLength = $introInput.val().length;
+                $charCount.text(textLength);
+
+                if (textLength > maxLength) {
+                    $introInput.val($introInput.val().substring(0, maxLength));
+                    alert('최대 ' + maxLength + '자까지 입력 가능합니다.');
+                    $charCount.text(maxLength);
+                }
+            });
+        });
+
+        //달력
+        $('input[name="dates"]').daterangepicker({
+            locale: {
+                format: "YYYY / MM / DD",
+                separator: " ~ ",
+                daysOfWeek: ["일", "월", "화", "수", "목", "금", "토"],
+                monthNames: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+                applyLabel: "확인",
+                cancelLabel: "취소",
+            }
+        });
+
+        //멤버 입력란 숫자만
+        $(document).ready(function () {
+            $('#memberInput').on('input', function () {
+                var inputValue = $(this).val();
+                if (!/^\d*$/.test(inputValue)) {
+                    alert("숫자만 입력 가능합니다.");
+                    $(this).val(inputValue.replace(/\D/g, ''));
+                }
+            });
+        });
+
+        //미노출 선택시 비밀번호 입력창
+        $(document).ready(function () {
+            $('.ex_px_wrap').hide();
+
+            $('input[type="radio"][name="expose"]').click(function () {
+                $('.ex_px_wrap').toggle($('#expose2').prop('checked'));
+                $('#url_pw').val('');
+            });
+        });
+
+        //해시태그 입력
+        $(document).ready(function () {
+            $('#input_tag').keypress(function (e) {
+                if (e.which == 13) {
+                    e.preventDefault();
+                    var text = $(this).val().trim();
+                    if (text !== "") {
+                        addHashTag(text);
+                        $(this).val('');
+                    }
+                }
+            });
+
+            $(document).on('click', '.tag_del', function () {
+                $(this).closest(".hash_tag").remove();
+            });
+
+            function addHashTag(text) {
+                var tag = $('<span class="hash_tag"></span>');
+                tag.text('#' + text);
+                var icon = $('<img src="/Content/images/close.svg" class="tag_del" alt="">');
+                icon.appendTo(tag);
+                tag.insertBefore('#input_tag');
+            }
+        });
+
+
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            mapOption = {
+                center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                level: 3 // 지도의 확대 레벨
+            };
+
+        // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+
+
+        // 다각형을 구성하는 좌표 배열입니다. 이 좌표들을 이어서 다각형을 표시합니다
+        var polygonPath = [
+            new kakao.maps.LatLng(33.45133510810506, 126.57159381623066),
+            new kakao.maps.LatLng(33.44955812811862, 126.5713551811832),
+            new kakao.maps.LatLng(33.449986291544086, 126.57263296172184),
+            new kakao.maps.LatLng(33.450682513554554, 126.57321034054742),
+            new kakao.maps.LatLng(33.451346760004206, 126.57235740081413)
+        ];
+
+        // 지도에 표시할 다각형을 생성합니다
+        var polygon = new kakao.maps.Polygon({
+            path: polygonPath, // 그려질 다각형의 좌표 배열입니다
+            strokeWeight: 3, // 선의 두께입니다
+            strokeColor: '#39DE2A', // 선의 색깔입니다
+            strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+            strokeStyle: 'longdash', // 선의 스타일입니다
+            fillColor: '#A2FF99', // 채우기 색깔입니다
+            fillOpacity: 0.7 // 채우기 불투명도 입니다
+        });
+
+        // 지도에 다각형을 표시합니다
+        polygon.setMap(map);
+    </script>
+}

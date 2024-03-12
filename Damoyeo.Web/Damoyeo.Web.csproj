@@ -172,6 +172,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CommunityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MeetupController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Fileter\Auth.cs" />
     <Compile Include="Global.asax.cs">
@@ -183,11 +184,13 @@
     <Content Include="Content\css\common.css" />
     <Content Include="Content\css\community.css" />
     <Content Include="Content\css\customer.css" />
+    <Content Include="Content\css\daterangepicker.css" />
     <Content Include="Content\css\font.css" />
     <Content Include="Content\css\footer.css" />
     <Content Include="Content\css\header.css" />
     <Content Include="Content\css\index.css" />
     <Content Include="Content\css\login.css" />
+    <Content Include="Content\css\open.css" />
     <Content Include="Content\images\customer\ev_banner.jpg" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\heart.svg" />
@@ -272,6 +275,8 @@
     <Content Include="Views\Community\Write.cshtml" />
     <Content Include="Views\Shared\_Partial\_Paging.cshtml" />
     <Content Include="Views\Auth\CallBack.cshtml" />
+    <Content Include="Views\Meetup\Index.cshtml" />
+    <Content Include="Views\Meetup\Write.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Damoyeo.DataAccess\Damoyeo.DataAccess.csproj">

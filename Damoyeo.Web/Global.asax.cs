@@ -58,7 +58,7 @@ namespace Damoyeo.Web
 
         protected void Application_Error()
         {
-            /*
+            
             Exception exception = Server.GetLastError();
             HttpException httpException = exception as HttpException;
             // 오류 상태 코드를 가져옵니다.
@@ -70,6 +70,8 @@ namespace Damoyeo.Web
                 string errorMessage = $@"RawUrl[ {Request.RawUrl} ]
                                      UrlReferrer[ {Request.UrlReferrer} ]
                                      USER IP[ {Request.UserHostAddress} ]";
+                
+                /*
                 Log.Logger.Error(errorMessage);
                 if (httpException != null)
                 {
@@ -81,9 +83,9 @@ namespace Damoyeo.Web
                     Log.Logger.Error(exception.Message);
                     Log.Logger.Error(exception.StackTrace);
                 }
-
+                */
             }
-            */
+            
 #if DEBUG
 
 #else

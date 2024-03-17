@@ -26,80 +26,7 @@
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 40px;
 }
-.contents_wrap .meet_box {
-  border: 1px solid #ededed;
-  border-radius: 15px;
-  overflow: hidden;
-}
-.contents_wrap .meet_box:hover {
-  box-shadow: 0 15px 15px #f2f2f2;
-  transition: 0.3s;
-}
-.contents_wrap .meet_box a {
-  display: block;
-  width: 100%;
-}
-.contents_wrap .meet_box a > img {
-  display: block;
-  width: 100%;
-  border-radius: 15px 15px 0 0;
-}
-.contents_wrap .meet_box a span {
-  display: inline-block;
-}
-.contents_wrap .meet_box .new_text_wrap {
-  text-align: left;
-  padding-right: 30px;
-  width: calc(100% - 40px);
-}
-.contents_wrap .meet_box .meet_flex {
-  padding: 30px 30px 40px 30px;
-  display: flex;
-  align-items: flex-end;
-  background-color: #fff;
-}
-.contents_wrap .meet_box .m_mark {
-  background-color: #efefef;
-  border-radius: 5px;
-  font-size: 13px;
-  padding: 6px 10px;
-  margin-bottom: 10px;
-  color: #666;
-}
-.contents_wrap .meet_box .m_mark img {
-  width: 14px;
-  vertical-align: text-bottom;
-}
-.contents_wrap .meet_box .m_tit {
-  font-family: "Pretendard-SemiBold";
-  font-size: 20px;
-  line-height: 24px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  margin-bottom: 10px;
-}
-.contents_wrap .meet_box .m_txt {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  color: #888;
-  font-size: 15px;
-}
-.contents_wrap .meet_box .heart_click {
-  border-radius: 50%;
-  border: 1px solid #ededed;
-  width: 39px;
-  height: 39px;
-  display: inline-block;
-  line-height: 46px;
-  cursor: pointer;
-  text-align: center;
-}
+
 
 .ev_con_wrap {
   margin-bottom: 100px;
@@ -127,18 +54,11 @@
   border: 2px solid #666;
 }
 
-.po_con_wrap .pop_wrap {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-gap: 20px;
-}
-.po_con_wrap .pop_wrap .meet_box .meet_flex {
-  padding: 20px 20px 30px 20px;
-}
 .po_con_wrap {
   background-color: #fafafa;
   padding-bottom: 100px;
 }
+
 
 .co_con_wrap .cobox_wrap {
   display: grid;

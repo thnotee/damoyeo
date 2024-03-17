@@ -24,6 +24,8 @@ namespace Damoyeo.DataAccess.Repository
 
         public IDamoyeoNoticeRepository Notice { get; private set; }
 
+        public IDamoyeoCategoryRepository Category { get; private set; }
+
         public UnitOfWork(IDbConnection connection)
         {
             _connection = connection;
@@ -33,6 +35,7 @@ namespace Damoyeo.DataAccess.Repository
             Community = new DamoyeoCommunityRepository(_transaction);
             CommunityComment = new DamoyeoCommunityCommentRepository(_transaction);
             Notice = new DamoyeoNoticeRepository(_transaction);
+            Category = new DamoyeoCategoryRepository(_transaction);
 
         }
 

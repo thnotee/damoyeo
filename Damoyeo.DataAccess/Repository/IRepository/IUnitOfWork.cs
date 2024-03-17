@@ -16,6 +16,8 @@ namespace Damoyeo.DataAccess.Repository.IRepository
 
         IDamoyeoNoticeRepository Notice { get; }
 
+        IDamoyeoCategoryRepository Category { get; }
+
         void Commit();
     }
 }

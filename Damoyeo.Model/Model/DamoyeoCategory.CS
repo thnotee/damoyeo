@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Damoyeo.Model.Model
 {
-    internal class DamoyeoCategory
+    public class DamoyeoCategory
     {
+        public int total_count { get; set; }
         public int category_id { get; set; }
         public string category_name { get; set; }
     }

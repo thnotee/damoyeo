@@ -190,6 +190,7 @@
     <Content Include="Content\css\header.css" />
     <Content Include="Content\css\index.css" />
     <Content Include="Content\css\login.css" />
+    <Content Include="Content\css\meeting.css" />
     <Content Include="Content\css\open.css" />
     <Content Include="Content\images\customer\ev_banner.jpg" />
     <Content Include="Content\images\favicon.ico" />
@@ -215,6 +216,9 @@
     <Content Include="Content\images\top_btn.svg" />
     <Content Include="Content\images\user.svg" />
     <Content Include="Content\js\common.js" />
+    <Content Include="Content\js\jquery-ui.js" />
+    <Content Include="Content\upload\board-202403\cc7f7afb-42ca-42aa-99ac-e98f9d8f7572mceclip0.jpg" />
+    <Content Include="Content\upload\profile_image\3379114834_af658c29-2c6b-43cc-a216-fac1f7c986db.jpg" />
     <Content Include="Content\upload\profile_image\qwe7wer%40gmail_54890a16-ba31-44bc-ae11-9755f3cb3910.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

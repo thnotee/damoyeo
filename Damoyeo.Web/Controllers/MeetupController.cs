@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Damoyeo.DataAccess.Repository.IRepository;
+using Damoyeo.Model.Model;
+using Damoyeo.Model.Model.Pager;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +14,37 @@ namespace Damoyeo.Web.Controllers
 {
     public class MeetupController : Controller
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public MeetupController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         // GET: Meetup
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Write()
+        public async Task<ActionResult> Write()
         {
+           PagedList<DamoyeoCategory> categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
+
+            ViewData["categoryList"]  = categoryList;
+
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Write(DamoyeoMeetup meetup, HttpPostedFileBase main_image, IEnumerable<HttpPostedFileBase> files)
+        {
+            PagedList<DamoyeoCategory> categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
+
+            ViewData["categoryList"] = categoryList;
+
+            
             return View();
         }
 

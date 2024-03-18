@@ -26,6 +26,10 @@ namespace Damoyeo.DataAccess.Repository
 
         public IDamoyeoCategoryRepository Category { get; private set; }
 
+        public IDamoyeoMeetupRepository Meetup { get; private set; }
+
+        public IDamoyeoImageRepository Image { get; private set; }
+
         public UnitOfWork(IDbConnection connection)
         {
             _connection = connection;
@@ -36,6 +40,8 @@ namespace Damoyeo.DataAccess.Repository
             CommunityComment = new DamoyeoCommunityCommentRepository(_transaction);
             Notice = new DamoyeoNoticeRepository(_transaction);
             Category = new DamoyeoCategoryRepository(_transaction);
+            Meetup = new DamoyeoMeetupRepository(_transaction);
+            Image = new DamoyeoImageRepository(_transaction);
 
         }
 

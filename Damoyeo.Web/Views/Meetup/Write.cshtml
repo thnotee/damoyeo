@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/Content/css/daterangepicker.css" />
 }
 
-<form method="post" action="" enctype="multipart/form-data">
+<form method="post" action="/Meetup/Write" enctype="multipart/form-data" id="myform">
     <div class="section_wrap open_wrap">
         <div class="inner sub_inner">
             <h3 class="section_title">모임개설하기</h3>
@@ -34,7 +34,7 @@
                             <li class="o_box1">
                                 <span class="open_stit">카테고리 / 모임명</span>
                                 <div class="open_txt">
-                                    <select name="" id="">
+                                    <select name="category_id" id="category_id">
                                         <option value="0">카테고리선택</option>
 
                                         @foreach (var item in categoryList)
@@ -77,7 +77,7 @@
                             <li class="o_box3">
                                 <span class="open_stit">모임소개</span>
                                 <div class="open_txt">
-                                    <input id="introInput" type="text" name="meeting_intro" placeholder="소모임을 간단히 한줄로 소개해주세요. (100자 이내)" />
+                                    <input id="meeting_intro" type="text" name="meeting_intro" placeholder="소모임을 간단히 한줄로 소개해주세요. (100자 이내)" />
                                     <div class="text_check">
                                         <span id="charCount">0</span> / 100
                                     </div>
@@ -127,8 +127,8 @@
 
                         <div class="dtxt_box">
                             <p class="open_tit">상세정보 <span>(필수)</span></p>
-                            <textarea name=""
-                                      id=""
+                            <textarea name="meetup_description"
+                                      id="meetup_description"
                                       cols="30"
                                       rows="10"
                                       placeholder="내용을 입력해주세요."></textarea>
@@ -171,14 +171,14 @@
                                     </span>
                                 </span>
                                 <div class="open_txt">
-                                    <input type="text" id="openInput" placeholder="카카오 오픈 채팅 주소를 입력해주세요.">
+                                    <input type="text" id="kakao_openchat_link" name="kakao_openchat_link" placeholder="카카오 오픈 채팅 주소를 입력해주세요.">
                                 </div>
                             </li>
                         </ul>
                         <ul class="open_info">
                             <li>
                                 <span class="open_stit">모집 정원 입력</span>
-                                <input type="text" id="memberInput" placeholder="모임의 정원을 입력해주세요.">
+                                <input type="text" id="max_user_count" name="max_user_count" placeholder="모임의 정원을 입력해주세요.">
                             </li>
                             <li>
                                 <p class="open_stit over_stit">
@@ -237,7 +237,7 @@
                                         <span class="addr_btn" onclick="openDaumPostcode()">검색</span>
                                     </div>
                                     <div>
-                                        <input type="text" name="post_datail" id="addr_detail" placeholder="상세 주소를 입력해주세요." value="">
+                                        <input type="text" name="post_detail" id="addr_detail" placeholder="상세 주소를 입력해주세요." value="">
                                     </div>
                                     <div class="map_section" id="map"></div>
                                 </div>
@@ -312,6 +312,7 @@
     <script>
         //사진 업로드
         $(document).ready(function () {
+
             $('.img_up_btn input[type=file]').change(function (event) {
                 var file = event.target.files[0];
                 var reader = new FileReader();
@@ -466,7 +467,7 @@
         var container = document.getElementById('map');
         var options = {
             center: new kakao.maps.LatLng(37.59347385552367, 127.15240704096172),
-            level: 8
+            level: 3,
         };
 
         var map = new kakao.maps.Map(container, options);
@@ -475,9 +476,9 @@
         $("#maker_btn").on("click", function () {
 
 
-
+            /*
             //이메일 셋팅
-            var email = $("#txtEmail").val() + "@" + $("#selectEmail2").val();
+            var email = $("#txtEmail").val() + "@@" + $("#selectEmail2").val();
             $("#email").val(email);
 
             //날짜 셋팅
@@ -491,6 +492,68 @@
             var applicationDateArr = applicationDate.split('~');
             $("#application_sdate").val(applicationDateArr[0].trim());
             $("#application_edate").val(applicationDateArr[1].trim());
+
+
+            //검사
+
+            if ($("#category_id").val() == 0) {
+                alertFocus("카테고리를 선택해주세요.", $('#category_id'));
+                return false;
+            }
+
+            if ($("#meetup_name").val() == 0) {
+                alertFocus("모임명을 입력해주세요.", $('#meetup_name'));
+                return false;
+            }
+
+            if ($("#person_name").val() == 0) {
+                alertFocus("담당자명을 입력해주세요.", $('#person_name'));
+                return false;
+            }
+
+            if ($("#phone_number").val() == 0) {
+                alertFocus("전화번호를 입력해주세요.", $('#phone_number'));
+                return false;
+            }
+
+            if ($("#email").val() == "") {
+                alertFocus("이메일을 입력해주세요", $('#txtEmail'));
+                return false;
+            }
+
+
+            if ($("#meeting_intro").val() == "") {
+                alertFocus("모임소개를 입력해주세요.", $('#meeting_intro'));
+                return false;
+            }
+
+
+
+            if ($("#meetup_description").val() == "") {
+                alertFocus("상세소개글을 입력해주세요.", $('#meetup_description'));
+                return false;
+            }
+
+            if ($("#max_user_count").val() == "") {
+                alertFocus("모집 정원을 입력해주세요.", $('#max_user_count'));
+                return false;
+            }
+
+            if ($("#post_name").val() == "") {
+                alertFocus("주소를 입력해주세요.", $('#post_name'));
+                return false;
+            }
+
+
+            if ($("#post_detail").val() == "") {
+                alertFocus("상세주소를 입력해주세요.", $('#post_detail'));
+                return false;
+            }
+            */
+            $("#myform").submit();
+            
+            
+            
         });
     </script>
 

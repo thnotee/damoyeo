@@ -48,6 +48,7 @@
     <Compile Include="Model\DamoyeoCommunityComment.cs" />
     <Compile Include="Model\DamoyeoMeetup.cs" />
     <Compile Include="Model\DamoyeoUser.cs" />
+    <Compile Include="Model\DamoyeoImage.cs" />
     <Compile Include="Model\Pager\PagedList.cs" />
     <Compile Include="Model\Pager\PagerOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

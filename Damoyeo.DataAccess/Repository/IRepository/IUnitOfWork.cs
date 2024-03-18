@@ -17,6 +17,10 @@ namespace Damoyeo.DataAccess.Repository.IRepository
         IDamoyeoNoticeRepository Notice { get; }
 
         IDamoyeoCategoryRepository Category { get; }
+        
+        IDamoyeoMeetupRepository Meetup { get; }
+
+        IDamoyeoImageRepository Image { get; }
 
         void Commit();
     }

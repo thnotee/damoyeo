@@ -22,7 +22,7 @@ namespace Damoyeo.DataAccess.Repository
             _connection = transaction.Connection;
         }
 
-        public async Task AddAsync(DamoyeoMeetup entity)
+        public async Task<int> AddAsync(DamoyeoMeetup entity)
         {
 
             var sql  = @"
@@ -51,7 +51,9 @@ INSERT INTO Damoyeo_Meetup (
     post_detail,
     over_capacity,
     meetup_display
-) VALUES (
+) 
+OUTPUT INSERTED.meetup_id
+VALUES (
     @meetup_name, 
     @meetup_master_id,
     @view_count, 
@@ -80,7 +82,7 @@ INSERT INTO Damoyeo_Meetup (
 
 
 ";
-            await _connection.ExecuteAsync(sql, entity, _transaction);
+            return await _connection.QuerySingleAsync<int>(sql, entity, _transaction);
         }
 
         public Task<DamoyeoMeetup> GetAsync(DamoyeoMeetup entity)

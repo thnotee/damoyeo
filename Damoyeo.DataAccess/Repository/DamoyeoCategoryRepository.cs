@@ -22,7 +22,7 @@ namespace Damoyeo.DataAccess.Repository
             _connection = transaction.Connection;
         }
 
-        public Task AddAsync(DamoyeoCategory entity)
+        public Task<int> AddAsync(DamoyeoCategory entity)
         {
             throw new NotImplementedException();
         }

@@ -33,7 +33,7 @@ comment_id = @comment_id;
             return await _connection.QueryFirstOrDefaultAsync<DamoyeoCommunityComment>(sql, transaction: _transaction);
         }
 
-        public async Task AddAsync(DamoyeoCommunityComment entity)
+        public async Task<int> AddAsync(DamoyeoCommunityComment entity)
         {
             var sql = @"
 INSERT INTO Damoyeo_Community_Comment
@@ -41,7 +41,7 @@ INSERT INTO Damoyeo_Community_Comment
 VALUES
 (@parent_commentid, @board_id, @user_id, @content, @comment_date);
 ";
-            await _connection.ExecuteAsync(sql, entity, transaction: _transaction);
+           return  await _connection.QuerySingleAsync<int>(sql, entity, transaction: _transaction);
         }
 
 

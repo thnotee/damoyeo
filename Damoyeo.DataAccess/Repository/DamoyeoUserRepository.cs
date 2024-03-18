@@ -33,13 +33,13 @@ SELECT * FROM Damoyeo_User
             return await _connection.QueryFirstOrDefaultAsync<DamoyeoUser>(sql, entity, transaction: _transaction);
         }
 
-        public async Task AddAsync(DamoyeoUser entity)
+        public async Task<int> AddAsync(DamoyeoUser entity)
         {
             var sql = @"
 INSERT INTO Damoyeo_User (email, password, profile_image, slf_Intro, nickname, use_tf, signup_type, reg_date)
 VALUES (@email, @password, @profile_image, @slf_Intro, @nickname, @use_tf, @signup_type, @reg_date);
 ";
-            await _connection.ExecuteAsync(sql, entity, transaction: _transaction);
+           return await _connection.QuerySingleAsync<int>(sql, entity, transaction: _transaction);
         }
 
    

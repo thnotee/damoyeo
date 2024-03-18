@@ -9,7 +9,7 @@ namespace Damoyeo.DataAccess.Repository.IRepository
 {
     public interface IRepository<T>
     {
-        Task AddAsync(T entity);
+        Task<int> AddAsync(T entity);
         Task<T> GetAsync(T entity);
         Task<PagedList<T>> GetPagedListAsync(int page, int pageSize, string searchString = "");
         Task UpdateAsync(T entity);

@@ -33,15 +33,16 @@ namespace Damoyeo.DataAccess.Repository
             return await _connection.QueryFirstOrDefaultAsync<DamoyeoNotice>(sql, entity, transaction: _transaction);
         }
 
-        public async Task AddAsync(DamoyeoNotice entity)
+        public async Task<int> AddAsync(DamoyeoNotice entity)
         {
             var sql = @"
 INSERT INTO Damoyeo_Notice
 (user_id, Title, Content, use_tf, post_date)
+OUTPUT INSERTED.board_id
 VALUES
 (@user_id, @title, @content, @use_tf, GETDATE());
 ";
-            await _connection.ExecuteAsync(sql, entity, transaction: _transaction);
+           return await _connection.QuerySingleAsync<int>(sql, entity, transaction: _transaction);
         }
 
 

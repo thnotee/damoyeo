@@ -22,9 +22,14 @@ namespace Damoyeo.DataAccess.Repository
             _connection = transaction.Connection;
         }
 
-        public Task AddAsync(DamoyeoImage entity)
+        public async Task<int> AddAsync(DamoyeoImage entity)
         {
-            throw new NotImplementedException();
+            var sql = @"
+INSERT INTO Damoyeo_Image (save_filename, origin_filename, table_name, directory_path, table_id)
+OUTPUT INSERTED.ID
+VALUES (@save_filename, @origin_filename, @table_name, @directory_path, @table_id);
+";
+            return await _connection.QuerySingleAsync<int>(sql, entity, _transaction);
         }
 
         public Task<DamoyeoImage> GetAsync(DamoyeoImage entity)

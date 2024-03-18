@@ -14,6 +14,8 @@ namespace Damoyeo.Model.Model
         public string table_name { get; set; }
         public string directory_path { get; set; }
 
+        public int table_id { get; set; }
+
     }
 }
 

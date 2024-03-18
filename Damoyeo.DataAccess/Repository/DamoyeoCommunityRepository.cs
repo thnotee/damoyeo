@@ -34,13 +34,14 @@ SELECT * FROM Damoyeo_Community
             return await _connection.QueryFirstOrDefaultAsync<DamoyeoCommunity>(sql, entity, transaction: _transaction);
         }
 
-        public async Task AddAsync(DamoyeoCommunity entity)
+        public async Task<int> AddAsync(DamoyeoCommunity entity)
         {
             var sql = @"
 INSERT INTO Damoyeo_Community(user_id, title, content, use_tf, post_date)
+OUTPUT INSERTED.ID
 VALUES (@user_id, @title, @content, '1', @post_date);
 ";
-            await _connection.ExecuteAsync(sql, entity, transaction: _transaction);
+            return await _connection.QuerySingleAsync<int>(sql, entity, transaction: _transaction);
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using Damoyeo.DataAccess.Repository.IRepository;
 using Damoyeo.Model.Model;
+using Damoyeo.Model.Model.option;
 using Damoyeo.Model.Model.Pager;
 using Damoyeo.Util.Manager;
 using Damoyeo.Web.Fileter;
@@ -26,9 +27,29 @@ namespace Damoyeo.Web.Controllers
         }
 
         // GET: Meetup
-        public ActionResult Index()
+        public async Task<ActionResult> Index(int page =1, string applicationSdate ="", string applicationEdate = "", string searchString = ""
+            , string searchArea = "", int searchCategory = 0, int searchOrder = 1 )
         {
-            return View();
+            if (applicationSdate == "" || applicationEdate == "") 
+            {
+                DateTime now = DateTime.Now; // 현재 날짜와 시간
+                DateTime oneWeekAgo = now.AddDays(-7); // 일주일 전
+                DateTime oneWeekLater = now.AddDays(7); // 일주일 후
+                applicationSdate = oneWeekAgo.ToString("yyyy/MM/dd");
+                applicationEdate = oneWeekLater.ToString("yyyy/MM/dd");
+            }
+            var opt = new MeetupSearchOpt();
+            opt.applicationSdate = applicationSdate;    
+            opt.applicationEdate = applicationEdate;
+            opt.searchString = searchString;
+            opt.searchArea = searchArea;
+            opt.searchCategory = searchCategory;
+            opt.searchOrder = searchOrder;
+
+
+
+            PagedList<DamoyeoMeetup> list = await _unitOfWork.Meetup.GetPagedListAsync(1, 100, opt);
+            return View(list);
         }
 
         [Auth]

@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "OpeningDetail";
+}
+
+@section style
+{
+    <link rel="stylesheet" href="~/Content/css/mypage.css" />
+}
+
+<div class="section_wrap mypage_wrap">
+    <div class="inner sub_inner">
+        <!-- 래프트 고정 -->
+        @Html.Partial("_Partial/_Left")
+
+        <div class="my_right my_box my_open join_list">
+            <div class="back_btn">
+                <a href="my_open.html"><img src="images/page_left.svg" alt=""></a>
+            </div>
+            <p class="my_title">소모임 신청자 리스트</p>
+            <div class="my_common_list">
+                <div class="">
+                    <p class="join_p_tit"><span>지원자 2</span> / 10</p>
+                    <ul>
+                        <!-- 지원자명 클릭시 지원자 정보 팝업-->
+                        <li>
+                            <div class="join_img_name">
+                                <img src="images/profile.png" alt="">
+                                <p>박수정</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="join_img_name">
+                                <img src="images/profile.png" alt="">
+                                <p>박수정</p>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- 소모임 신청자 없을때 -->
+                <div class="no_list_wrap">
+                    <img src="images/no_list.svg" alt="">
+                    <p>소모임 신청자가 없습니다.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 지원자 정보 팝업 -->
+        <div class="meminfo_popup_dim common_pop_dim"></div>
+        <section class="meminfo_popup common_popup">
+            <span class="meminfo_close common_close">
+                <img src="images/close.svg" alt="닫기">
+            </span>
+            <p class="popup_tit">지원자 정보</p>
+
+            <ul class="meminfo_box">
+                <li>
+                    <span>닉네임</span>
+                    <p>두루치기</p>
+                </li>
+                <li>
+                    <span>자기소개</span>
+                    <p>
+                        안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요?안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요?안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요?안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요?안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요?안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요?
+                    </p>
+                </li>
+                <li>
+                    <span>관심카테고리</span>
+                    <p>교육/어학, 교육/어학, 교육/어학, 교육/어학, 교육/어학, 교육/어학, 교육/어학, 교육/어학</p>
+                </li>
+            </ul>
+        </section>
+
+    </div>
+</div>
+
+<script>
+    //지원자 정보 팝업 열고 닫기
+    $(function () {
+        $(".join_img_name").click(function () {
+            $(".meminfo_popup").show();
+            $(".meminfo_popup_dim").show();
+        });
+
+        $(".meminfo_close, .meminfo_popup_dim").click(function () {
+            $(".meminfo_popup").hide();
+            $(".meminfo_popup_dim").hide();
+        });
+    });
+</script>

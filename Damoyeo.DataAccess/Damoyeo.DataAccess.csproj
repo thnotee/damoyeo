@@ -51,6 +51,8 @@
     <Compile Include="Repository\DamoyeoCategoryRepository.cs" />
     <Compile Include="Repository\DamoyeoMeetupRepository.cs" />
     <Compile Include="Repository\DamoyeoImageRepository.cs" />
+    <Compile Include="Repository\DamoyeoMeetupTagsRepository.cs" />
+    <Compile Include="Repository\DamoyeoTagsRepository.cs" />
     <Compile Include="Repository\DamoyeoUserRepository.cs" />
     <Compile Include="Repository\IRepository\IDamoyeoCategoryRepository.cs" />
     <Compile Include="Repository\IRepository\IDamoyeoImageRepository.cs" />
@@ -58,6 +60,8 @@
     <Compile Include="Repository\IRepository\IDamoyeoNoticeRepository.cs" />
     <Compile Include="Repository\IRepository\IDamoyeoCommunityCommentRepository.cs" />
     <Compile Include="Repository\IRepository\IDamoyeoCommunityRepository.cs" />
+    <Compile Include="Repository\IRepository\IDamoyeoMeetupTagsRepository.cs" />
+    <Compile Include="Repository\IRepository\IDamoyeoTagsRepository.cs" />
     <Compile Include="Repository\IRepository\IDamoyeoUserRepository.cs" />
     <Compile Include="Repository\IRepository\IRepository.cs" />
     <Compile Include="Repository\IRepository\IUnitOfWork.cs" />

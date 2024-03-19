@@ -233,8 +233,11 @@
                                 <div class="map_right">
                                     <div class="map_search">
                                         <input type="hidden" name="post_code" value="" id="post_code" placeholder="건물, 지번 또는 도로명 검색">
-                                        <input type="text" name="post_name" value="" id="post_name" placeholder="건물, 지번 또는 도로명 검색">
+                                        <!--법정동-->
+                                        <input type="hidden" name="bname" value="" id="bname" placeholder="건물, 지번 또는 도로명 검색">
+                                        <input type="text" onclick="openDaumPostcode()" name="post_name" value="" id="post_name" placeholder="건물, 지번 또는 도로명 검색" readonly>
                                         <span class="addr_btn" onclick="openDaumPostcode()">검색</span>
+
                                     </div>
                                     <div>
                                         <input type="text" name="post_detail" id="addr_detail" placeholder="상세 주소를 입력해주세요." value="">
@@ -250,41 +253,26 @@
                     <p class="open_tit">모임 알리기</p>
 
                     <ul class="open_info interest_wrap">
+                        <!-- 카테고리테이블을 2개 관리하는건 이상함.. 기획 잘못 삭제
                         <li>
                             <span class="open_stit">모임 카테고리</span>
                             <div class="open_txt">
                                 <div class="inter_box">
                                     <div class="inter_check">
-                                        <label for="interest1" class="check_box">
-                                            <input type="checkbox" id="interest1" name="interest">교육/어학
-                                        </label>
-                                        <label for="interest2" class="check_box">
-                                            <input type="checkbox" id="interest2" name="interest">취업/자격증
-                                        </label>
-                                        <label for="interest3" class="check_box">
-                                            <input type="checkbox" id="interest3" name="interest">여행
-                                        </label>
-                                        <label for="interest4" class="check_box">
-                                            <input type="checkbox" id="interest4" name="interest">스포츠/운동
-                                        </label>
-                                        <label for="interest5" class="check_box">
-                                            <input type="checkbox" id="interest5" name="interest">요리/음식
-                                        </label>
-                                        <label for="interest6" class="check_box">
-                                            <input type="checkbox" id="interest6" name="interest">문화/예술
-                                        </label>
-                                        <label for="interest7" class="check_box">
-                                            <input type="checkbox" id="interest7" name="interest">영화/음악
-                                        </label>
-                                        <label for="interest8" class="check_box">
-                                            <input type="checkbox" id="interest8" name="interest">기타
-                                        </label>
+
+                                        @for(int i=0; i<categoryList.Count; i++)
+                                        {
+                                            <label for="interest_@i" class="check_box">
+                                                <input type="checkbox" id="interest_@i" name="interest" value="@categoryList[i].category_id">@categoryList[i].category_name
+                                            </label>
+                                        }
+
                                     </div>
                                     <p class="open_notice">＊ 선택한 항목에 해당하는 사용자들에게 모임이 추천됩니다. (다중 선택 가능)</p>
                                 </div>
                             </div>
                         </li>
-
+                            -->
                         <li>
                             <span class="open_stit">모임 태그</span>
                             <div class="open_txt">
@@ -302,6 +290,10 @@
             </div>
         </div>
     </div>
+    
+    <div style="display:none" id="dynamic_tag_input_create">
+
+    </div>
 </form>
 
 @section scripts{
@@ -315,6 +307,7 @@
     <script>
 
         var markers = []; 
+        var tags = [];
         //사진 업로드
         $(document).ready(function () {
 
@@ -450,6 +443,7 @@
                     e.preventDefault();
                     var text = $(this).val().trim();
                     if (text !== "") {
+
                         addHashTag(text);
                         $(this).val('');
                     }
@@ -457,15 +451,28 @@
             });
 
             $(document).on('click', '.tag_del', function () {
+                
+
+                var text = $(this).closest(".hash_tag").data('text');
+                var index = tags.indexOf(text); // CSS의 인덱스를 찾음
+                if (index > -1) {
+                    tags.splice(index, 1); // 인덱스 위치에서 하나의 요소를 제거
+                }
+                
                 $(this).closest(".hash_tag").remove();
             });
 
             function addHashTag(text) {
-                var tag = $('<span class="hash_tag"></span>');
-                tag.text('#' + text);
-                var icon = $('<img src="/Content/images/close.svg" class="tag_del" alt="">');
-                icon.appendTo(tag);
-                tag.insertBefore('#input_tag');
+
+                if (!tags.includes(text)) {
+                    tags.push(text);
+                    var tag = $(`<span class="hash_tag" data-text='${text}'></span>`);
+                    tag.text('#' + text);
+                    var icon = $('<img src="/Content/images/close.svg" class="tag_del" alt="">');
+                    icon.appendTo(tag);
+                    tag.insertBefore('#input_tag');
+                }
+
             }
         });
 
@@ -516,8 +523,16 @@
             $("#application_edate").val(applicationDateArr[1].trim());
 
 
-            //검사
+            $("#dynamic_tag_input_create").html("");
+            var appendText = "";
+            for (var tag in tags) {
+                appendText += `<input type='text' value='${tags[tag]}' name='tags'>`;
+            }
+            $("#dynamic_tag_input_create").append(appendText);
 
+
+            //검사
+            
             if ($("#category_id").val() == 0) {
                 alertFocus("카테고리를 선택해주세요.", $('#category_id'));
                 return false;
@@ -571,7 +586,7 @@
                 alertFocus("상세주소를 입력해주세요.", $('#post_detail'));
                 return false;
             }
-
+            
             $("#myform").submit();
 
 
@@ -585,6 +600,7 @@
             new daum.Postcode({
                 oncomplete: function (data) {
 
+                    console.log(data);
                     // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
                     // 각 주소의 노출 규칙에 따라 주소를 조합한다.
@@ -609,9 +625,7 @@
                                 marker.setMap(null); 
                             });
 
-                            console.log('위도 : ' + result[0].y);
-                            console.log('경도 : ' + result[0].x);
-
+                      
                             // 이동할 위도 경도 위치를 생성합니다 
                             var moveLatLon = new kakao.maps.LatLng(result[0].y, result[0].x);
                             // 지도 중심을 이동 시킵니다
@@ -626,6 +640,9 @@
                             marker.setMap(map);
                         }
                     });
+                    //bname 법정동코드를 추가한다
+                    $("#bname").val(data.bname);
+
 
                     // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
                     if (data.userSelectedType === 'R') {

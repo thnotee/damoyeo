@@ -100,6 +100,13 @@ namespace Damoyeo.Model.Model
         /// </summary>
         public string meetup_display { get; set; }
 
+
+        /// <summary>
+        /// 법정동
+        /// </summary>
+        public string bname { get; set; }
+
+        
         //public Category Category { get; set; }
     }
 }

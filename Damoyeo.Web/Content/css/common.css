@@ -27,22 +27,7 @@ table {border-collapse: collapse; border-spacing: 0;}
 ::selection {background-color: #dbf0ff; color: #000;}
 
 
-select {
-    border: 1px solid #ebebeb;
-    padding: 0px 15px;
-    display: inline-block;
-    width: 150px;
-    height: 40px;
-    outline: none;
-    border-radius: 4px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background: #fff url(/Content/images/select_arrow.svg) no-repeat 95% 50%;
-    background-size: 20px;
-    font-size: 14px;
-    color: #737373;
-}
+select {border: 1px solid #ebebeb; padding: 0px 15px; display: inline-block; width: 150px; height: 40px; outline: none; border-radius: 4px; -webkit-appearance: none; -moz-appearance: none; appearance: none; background: #fff url(/Content/images/select_arrow.svg) no-repeat 95% 50%; background-size: 20px; font-size: 14px; color: #737373;}
 
 
 input {appearance: none; -webkit-appearance: none; -webkit-border-radius: 0; border-radius: 4px; padding: 14px; outline: none; font-size: 16px; border: 1px solid #ebebeb; color: #737373; width: 100%;}
@@ -64,7 +49,7 @@ input[type="radio"]:checked {background-color: #fff; color: #fff; border: 0.4em 
 
 /* 체크박스 커스텀 */
 input[type="checkbox"] {width: 20px; height: 20px; padding: 0; border-radius: 3px; vertical-align: middle; margin-right: 10px; border: 1px solid #e5e5e5;}
-input[type="checkbox"]:checked {background: url(file:///C:/Users/2305201/Desktop/공부/images/check.svg) no-repeat; background-color: #0064ff; background-position: center; border: 1px solid #0064ff; background-size: 18px;}
+input[type="checkbox"]:checked {background: url(/Content/images/check.svg) no-repeat; background-color: #0064ff; background-position: center; border: 1px solid #0064ff; background-size: 18px;}
 .check_box {margin-right: 20px;}
 
 /* 스크롤바 커스텀 */
@@ -74,7 +59,7 @@ input[type="checkbox"]:checked {background: url(file:///C:/Users/2305201/Desktop
 
 
 .inner {max-width: 1300px; margin: 0 auto;}
-.sub_inner {padding: 140px 0; text-align: center; min-height: 700px;}
+.sub_inner {padding: 120px 0; text-align: center; min-height: 700px;}
 
 
 .section_wrap {margin-top: 80px;}
@@ -109,8 +94,16 @@ input[type="checkbox"]:checked {background: url(file:///C:/Users/2305201/Desktop
 .common_btn {text-align: right;margin-bottom: 20px;}
 .common_btn a {background-color: #0064ff; border-radius: 5px; padding: 12px 22px; font-size: 14px; margin-left: 25px; color: #fff; display: inline-block; font-family: "Pretendard-Medium";}
 
+.heart_click {cursor: pointer;}
+
 .big_btn {margin: 100px 0 50px; display: inline-block; background: #0064ff; color: #fff;  padding: 20px; width: 250px; text-align: center; border-radius: 5px; cursor: pointer; box-shadow: 0 15px 30px #c0cbdc;}
 
+.page_cbtn {width: 120px; background-color: #333d4b; border: 1px solid #333d4b; color: #fff; border-radius: 4px; display: inline-block; cursor: pointer; text-align: center; font-size: 14px; height: 40px; line-height: 39px;}
+.page_mbtn {width: 120px; border: 1px solid #333d4b; color: #333d4b; border-radius: 4px; display: inline-block; cursor: pointer; text-align: center; font-size: 14px; height: 40px; line-height: 39px; font-family: "Pretendard-Medium";}
+
+.back_btn {text-align: left; margin-bottom: 30px;}
+.back_btn a {background-color: #f6f6f6; width: 35px; height: 35px; border-radius: 10px; text-align: center; display: flex; align-items: center; justify-content: center;}
+.back_btn a:hover {background-color: #dbdbdb; transition: 0.3s;}
 
 /* 소모임 리스트 */
 .contents_wrap .meet_box {border: 1px solid #ededed; border-radius: 15px; overflow: hidden;}
@@ -120,8 +113,8 @@ input[type="checkbox"]:checked {background: url(file:///C:/Users/2305201/Desktop
 .contents_wrap .meet_box a span {display: inline-block;}
 .contents_wrap .meet_box .new_text_wrap {text-align: left; padding-right: 30px; width: calc(100% - 40px);}
 .contents_wrap .meet_box .meet_flex {padding: 30px 30px 40px 30px; display: flex; align-items: flex-end; background-color: #fff; flex-wrap: wrap;}
-.contents_wrap .meet_box .m_mark {background-color: #efefef; border-radius: 5px; font-size: 13px; padding: 6px 10px; margin-bottom: 10px; color: #666;}
-.contents_wrap .meet_box .m_mark img {width: 14px; vertical-align: text-bottom;}
+.m_mark {background-color: #efefef; border-radius: 5px; font-size: 13px; padding: 6px 10px; margin-bottom: 10px; color: #666; display: inline-block;}
+.m_mark img {width: 14px; vertical-align: text-bottom;}
 .contents_wrap .meet_box .m_tit {font-family: "Pretendard-SemiBold"; font-size: 20px; line-height: 24px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; margin-bottom: 10px;}
 .contents_wrap .meet_box .m_txt {overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; color: #888; font-size: 15px;}
 .contents_wrap .meet_box .heart_click {border-radius: 50%; border: 1px solid #ededed; width: 39px; height: 39px; display: inline-block; line-height: 46px; cursor: pointer; text-align: center;}
@@ -130,15 +123,47 @@ input[type="checkbox"]:checked {background: url(file:///C:/Users/2305201/Desktop
 
 
 /* 팝업 */
-.common_pop_dim {position: fixed; top: 0; left: 0; right: 0; z-index: 100; bottom: 0; background-color: rgba(0, 0, 0, 0.5); }
-.common_popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; z-index: 101; margin-bottom: 0 !important; padding: 30px; border-radius: 10px;}
-.common_popup .popup_close {position: absolute; top: 25px; right: 25px; cursor: pointer; width: 25px;}
-.common_popup .popup_tit {font-size: 20px; font-family: "Pretendard-Bold"; margin-bottom: 20px;}
+.common_pop_dim {position: fixed; top: 0; left: 0; right: 0; z-index: 100; bottom: 0; background-color: rgba(0, 0, 0, 0.5); display: none;}
+.common_popup {position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; z-index: 101; margin-bottom: 0 !important; padding: 60px 30px 30px; border-radius: 10px; display: none; text-align: left;}
+.common_popup .common_close {position: absolute; top: 20px; right: 20px; cursor: pointer; width: 25px;}
+.common_popup .popup_tit {font-size: 20px; font-family: "Pretendard-Bold"; margin-bottom: 25px;}
 
 
+/* 리스트 없을때 */
+.no_list_wrap {display: inline-block; width: 100%; padding: 100px 0;}
+.no_list_wrap img {width: 70px; margin-bottom: 30px;}
+.no_list_wrap p {font-size: 14px; color: #aeb3c2; font-family: "Pretendard-Light";}
 
 .po_con_wrap .pop_wrap {display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-gap: 20px;}
 .po_con_wrap .pop_wrap .meet_box .meet_flex {padding: 20px 20px 30px 20px;}
+
+/* 회원정보 */
+.meminput_box ul li {display: flex;align-items: baseline;border-bottom: 1px dashed #ededed;padding: 15px 0;text-align: left;}
+.meminput_box ul li:last-of-type {border: none;padding-bottom: 0;}
+.meminput_box ul li .mo_tit {width: 150px; font-family: "Pretendard-Medium";}
+.meminput_box ul li .mo_txt {width: calc(100% - 150px); display: flex; flex-wrap: wrap;}
+.meminput_box ul li input {font-size: 14px;}
+.meminput_box ul li.mcalc .mo_txt input {width: calc(100% - 125px);margin-right: 5px;}
+.meminput_box ul li.mcalc .page_cbtn {height: 46px; line-height: 45px;}
+
+
+.meminput_box ul li .mo_email {display: flex;align-items: center;width: calc(100% - 120px);}
+.meminput_box ul li .mo_email .email_at {margin-right: 5px; width: 15px;}
+.meminput_box ul li .mo_email select {height: 46px;}
+.mo_email input[type="text"], .mo_email input[type="email"], .mo_email select {flex: 1; margin-right: 5px;}
+
+.meminput_box ul li .mo_mark {color: #d83d3d;; font-size: 12px; margin-top: 10px;}
+
+.meminput_box ul .new_pw_wrap {display: none;}
+
+.meminput_box ul li .inter_check {display: flex;flex-wrap: wrap;width: 100%;}
+.meminput_box ul li .inter_check label {width: 25%; margin-right: 0; margin-bottom: 5px;}
+.meminput_box ul li .inter_check label:nth-child(5),
+.meminput_box ul li .inter_check label:nth-child(6),
+.meminput_box ul li .inter_check label:nth-child(7),
+.meminput_box ul li .inter_check label:nth-child(8) {margin-bottom: 0;}
+.meminput_box ul li textarea {width: 100%; font-size: 14px;}
+i.ab {font-style: normal;font-size: 12px;vertical-align: super;color: #0064ff;}
 
 @media screen and (max-width: 1200px) {
 }

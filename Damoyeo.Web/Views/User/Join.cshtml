@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "Join";
+}
+
+@section style
+{
+    <link rel="stylesheet" href="~/Content/css/mypage.css" />
+}
+<div class="section_wrap mypage_wrap">
+    <div class="inner sub_inner">
+        <!-- 래프트 고정 -->
+        @Html.Partial("_Partial/_Left")
+
+        <div class="my_right my_box my_join">
+            <!-- 개설한 소모임 -->
+            <p class="my_title">참여한 소모임</p>
+
+            <div class="my_common_list">
+                <ul>
+                    <li>
+                        <div class="left">
+                            <img src="~/Content/images/test.jpg" alt="" class="mc_main_img">
+                            <a href="" class="mcl_txt">
+                                <p class="mlist_tit">[맛집/취미] 치킨 같이 먹기 모임 모임 모임 모임모임 모임</p>
+                                <span class="mlist_txt">치킨 먹고 술을 사랑하는 모임이에요 치킨 먹고 술을 사랑하는 모임이에요 치킨 먹고 술을 사랑하는 모임이에요</span>
+                                <span class="m_mark"><img src="~/Content/images/marker.svg" alt=""> 회기동</span>
+                            </a>
+                        </div>
+                        <div class="right">
+                            <ul>
+                                <li>
+                                    <img src="~/Content/images/mini_user.svg" alt="">
+                                    <span>지원자</span>
+                                    <p>2명</p>
+                                </li>
+                                <li>
+                                    <img src="~/Content/images/mini_calendar.svg" alt="">
+                                    <span>마감날짜</span>
+                                    <p>24.03.14</p>
+                                </li>
+                                <li>
+                                    <a href="" class="ml_can ml_btn">지원취소하기</a>
+                                    <a href="" class="ml_kakao ml_btn"><img src="~/Content/images/kakao.svg" alt=""></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="left">
+                            <img src="~/Content/images/test.jpg" alt="" class="mc_main_img">
+                            <a href="" class="mcl_txt">
+                                <p class="mlist_tit">[맛집/취미] 치킨 같이 먹기 모임 모임 모임 모임모임 모임</p>
+                                <span class="mlist_txt">치킨 먹고 술을 사랑하는 모임이에요 치킨 먹고 술을 사랑하는 모임이에요 치킨 먹고 술을 사랑하는 모임이에요</span>
+                                <span class="m_mark"><img src="~/Content/images/marker.svg" alt=""> 회기동</span>
+                            </a>
+                        </div>
+                        <div class="right">
+                            <ul>
+                                <li>
+                                    <img src="~/Content/images/mini_user.svg" alt="">
+                                    <span>지원자</span>
+                                    <p>2명</p>
+                                </li>
+                                <li>
+                                    <img src="~/Content/images/mini_calendar.svg" alt="">
+                                    <span>마감날짜</span>
+                                    <p>24.03.14</p>
+                                </li>
+                                <li>
+                                    <a href="" class="ml_can ml_btn">지원취소하기</a>
+                                    <!-- 카카오 오픈채팅 링크 넣기 -->
+                                    <a href="" class="ml_kakao ml_btn"><img src="~/Content/images/kakao.svg" alt=""></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- 참여한 소모임 없을때 -->
+                <div class="no_list_wrap">
+                    <img src="~/Content/images/no_list.svg" alt="">
+                    <p>참여한 소모임이 없습니다.</p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    //카카오 오픈채팅 링크 복사
+    $(document).ready(function () {
+        $(".ml_kakao").click(function () {
+            var link = $(this).attr('href');
+            copyToClipboard(link);
+            alert('링크가 복사되었습니다: ' + link);
+            return false; // Prevent default link behavior
+        });
+
+        function copyToClipboard(text) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val(text).select();
+            document.execCommand("copy");
+            $temp.remove();
+        }
+    });
+</script>

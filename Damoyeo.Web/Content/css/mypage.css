@@ -1,0 +1,102 @@
+
+.mypage_wrap {background-color: #f9fafb;}
+.mypage_wrap .inner {display: flex;padding: 50px 0;}
+.mypage_wrap .inner .my_box {background-color: #fff; border-radius: 5px;}
+.mypage_wrap .inner .my_box .my_title {font-size: 28px;font-family: "Pretendard-SemiBold";margin-bottom: 50px;text-align: left;}
+.mypage_wrap .my_left {width: 250px; height: auto;}
+.mypage_wrap .my_left .my_sticky {position: sticky; position: -webkit-sticky; top: 110px;}
+
+.mypage_wrap .my_left .my_profile {margin-bottom: 20px; padding: 35px; text-align: center;}
+.mypage_wrap .my_left .my_profile .my_photo {position: relative; display: inline-block; margin-bottom: 20px;}
+.mypage_wrap .my_left .my_profile .my_photo p {width: 100px; height: 100px; border-radius: 50%; border: 1px solid #ededed; overflow: hidden;}
+.mypage_wrap .my_left .my_profile .my_photo p img {width: 100%; height: 100%; object-fit: cover; min-width: 100%; min-height: 100%; position: absolute; transform: translate(-50%, -50%); top: 50%; left: 50%; border-radius: 50%;}
+.mypage_wrap .my_left .my_profile .my_photo span {width: 30px; height: 30px; border-radius: 20px; box-shadow: 0 0 10px #ddd; display: inline-block; position: absolute; bottom: 0; right: 0px; background-color: #fff; cursor: pointer;}
+.mypage_wrap .my_left .my_profile .my_photo span img {width: 100%; padding: 5px;}
+
+.mypage_wrap .my_left .my_profile p {font-size: 24px; line-height: 30px;}
+.mypage_wrap .my_left .my_profile p span {font-family: "Pretendard-Bold";}
+
+.mypage_wrap .my_left .my_move {text-align: left;padding: 35px 20px;}
+.mypage_wrap .my_left .my_move .move_tit {font-size: 20px; font-family: "Pretendard-SemiBold"; margin-bottom: 35px;}
+.mypage_wrap .my_left .my_move ul li {margin-bottom: 5px;}
+.mypage_wrap .my_left .my_move ul li:last-of-type {margin: 0;}
+.mypage_wrap .my_left .my_move ul li a {padding: 15px 20px; width: 100%; border-radius: 5px; display: inline-block;}
+.mypage_wrap .my_left .my_move ul li a.on {background-color: #e9f2fc;color: #0064ff;}
+
+
+.mypage_wrap .my_right {width: calc(100% - 290px);margin-left: 40px;padding: 80px 80px 50px;}
+.mypage_wrap .withdrawal {font-size: 14px;margin-top: 15px;display: inline-block;width: 100%;text-align: right;text-decoration: underline; cursor: pointer;}
+
+
+.my_modify .meminput_box ul li .mo_email {width: 100%;}
+.my_modify .meminput_box ul li .mo_email .mo_txt {width: 100%;}
+.my_modify .meminput_box ul li .mo_email .mo_txt input {width: 100%; margin-right: 0;}
+
+
+
+/* 비밀번호 입력 */
+.lock_section {display: inline-block; width: 250px;}
+.lock_section .lock_icon {background-color: #e9f5f5; width: 140px; height: 140px;border-radius: 50%; display: inline-block; margin-bottom: 30px; margin-top: 20px;}
+.lock_section .lock_icon img {width: 100%; padding: 35px;}
+
+.lock_section .lock_notice {line-height: 22px; margin-bottom: 30px;}
+.lock_section .lock_notice span {font-family: "Pretendard-SemiBold";}
+.lock_section input {font-size: 14px; margin-bottom: 5px;}
+.lock_section .big_btn {margin: 10px 0 0;}
+
+
+/* 리스트 공통 */
+.my_common_list > ul > li {display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ededed; padding-bottom: 20px; margin-bottom: 20px;}
+.my_common_list > ul > li:last-of-type {padding-bottom: 0; margin-bottom: 0; border: none;}
+.my_common_list .left {display: flex;align-items: center;width: 75%;}
+.my_common_list .left .mc_main_img {width: 150px;}
+.my_common_list .left .mcl_txt {width: calc(100% - 150px);padding: 25px 50px 25px 25px;text-align: left;height: 150px;}
+.my_common_list .left .mcl_txt .mlist_tit {font-size: 20px; font-family: "Pretendard-SemiBold"; line-height: 24px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; margin-bottom: 10px;}
+.my_common_list .left .mcl_txt .mlist_txt {display: inline-block;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;color: #888;font-size: 15px;margin-bottom: 24px;}
+.my_common_list .left .mcl_txt .m_mark {margin-bottom: 0;}
+
+.my_common_list .right {width: 25%; text-align: left;}
+.my_common_list .right ul li {display: flex;align-items: center;margin-bottom: 10px;}
+.my_common_list .right ul li:last-of-type {margin-bottom: 0;margin-top: 20px;}
+.my_common_list .right ul li > img {height: 15px;margin-right: 10px;}
+.my_common_list .right span {display: inline-block;width: 60px;font-family: "Pretendard-SemiBold";font-size: 14px;}
+.my_common_list .right p {font-size: 14px;}
+.my_common_list .right a {font-size: 14px; display: flex; align-items: center; justify-content: center;}
+.my_common_list .right a.ml_people img {height: 11px;vertical-align: middle;margin-left: 12px;}
+.my_common_list .right a.ml_people:hover {text-decoration: underline;}
+.my_common_list .right .ml_btn {width: 100%; text-align: center; border-radius: 4px; padding: 10px 0; font-size: 14px; margin-right: 5px; color: #0064ff; border: 1px solid #0064ff; background-color: #fff;}
+.my_common_list .right .ml_del {margin-right: 0; color: #fff; background-color: #0064ff;}
+
+
+
+/* 개설한 소모임 ****************************************************/
+/* 소모임 신청자 리스트 */
+.join_list .join_p_tit {border-bottom: 1px solid #333d4b; margin-bottom: 20px; padding: 0 10px 10px; text-align: left;}
+.join_list .join_p_tit span {font-family: "Pretendard-Bold"; }
+.join_list .join_p_tit img {vertical-align: middle;width: 12px;margin-left: 5px;}
+.join_list ul {display: grid;grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;grid-gap: 30px;overflow-x: auto;max-height: 300px;padding: 0 20px;}
+.join_list ul li .join_img_name {display: flex; align-items: center;}
+.join_list ul li img {width: 35px; border: 1px solid #ededed; border-radius: 50%; margin-right: 10px;}
+.join_list ul li p {display: inline-block; font-size: 14px;}
+
+.join_list .join_img_name {cursor: pointer;}
+
+
+/* 지원자 정보 팝업 */
+.meminfo_popup {width: 600px;}
+.meminfo_box {background-color: #fafafa;padding: 30px;border-radius: 3px;max-height: 400px;overflow-x: auto;}
+.meminfo_box li {display: flex;margin-bottom: 10px;font-size: 15px;line-height: 22px;border-bottom: 1px solid #ededed;padding-bottom: 10px;}
+.meminfo_box li:last-of-type {border: none; padding: 0; margin: 0;}
+.meminfo_box li span {width: 150px;font-family: "Pretendard-SemiBold";}
+.meminfo_box li span::before {width: 3px;height: 3px;background-color: #0064ff;border-radius: 50%;display: inline-block;content: "";vertical-align: middle;margin-right: 5px;}
+.meminfo_box li p {width: calc(100% - 150px);}
+
+
+/* 참여한 소모임 ****************************************************/
+.my_join .right .ml_can {background-color: #fce9ef;border: 1px solid #fce9ef;color: #f47c7c;width: calc(100% - 43px);}
+.my_join .right .ml_kakao {width: 38px; border: 1px solid #ffec3f; background-color: #ffec3f; margin-right: 0;} 
+.my_join .right .ml_kakao img {width: 16px;} 
+
+.my_heart .my_common_list > ul > li {position: relative;}
+.my_heart .heart_cbox {position: absolute;top: 10px;right: 10px;text-align: right;z-index: 1;}
+.my_heart .right ul li:last-of-type {margin-top: 0;}

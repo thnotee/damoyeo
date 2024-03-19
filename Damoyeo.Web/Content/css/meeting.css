@@ -1,11 +1,14 @@
 .meeting_wrap .contents_wrap {padding-top: 0;}
-.meeting_wrap .meeting_search {display: flex;justify-content: center;align-items: flex-end;width: 800px;margin: 0 auto 80px;box-shadow: 0 10px 20px #f2f2f2;border-radius: 5px;}
-.meeting_wrap .meeting_select {display: flex;width: 400px;}
-.meeting_wrap .meeting_select div select {padding: 14px 20px;width: 200px;font-size: 16px;height: auto; border-right: none; border-radius: 5px 0 0 5px;}
-.meeting_wrap .meeting_select div:last-of-type select {border-radius: 0;}
+.meeting_wrap .meeting_search {display: flex; justify-content: center; align-items: flex-end; width: 860px; margin: 0 auto 80px; box-shadow: 0 10px 20px #f2f2f2; border-radius: 5px;}
+.meeting_wrap .meeting_select {display: flex; width: 560px;}
+.meeting_wrap .meeting_select div select {padding: 14px 20px;width: 150px;font-size: 16px;height: auto;border-right: none;border-radius: 5px 0 0 5px;font-size: 14px;}
+.meeting_wrap .meeting_select div:nth-of-type(2) select {border-radius: 0;}
+.meeting_wrap .meeting_select .meeting_date {position: relative;width: 260px;}
+.meeting_wrap .meeting_select .meeting_date input {font-size: 14px;width: 100%;padding: 14px 14px 14px 48px;border-radius: 0;border-right: none;}
+.meeting_wrap .meeting_select .meeting_date img {position: absolute;top: 50%;left: 14px;transform: translateY(-50%);}
 
-.meeting_wrap .search_wrap {margin: 0;box-shadow: none;border-radius: 0 5px 5px 0;}
-.meeting_wrap .search_wrap input {border-left: none;}
+.meeting_wrap .search_wrap {margin: 0;box-shadow: none;border-radius: 0 5px 5px 0;width: 300px;}
+.meeting_wrap .search_wrap input {border-left: none;font-size: 14px;padding: 14px 50px 14px 14px;}
 
 .meeting_wrap .divide_wrap {margin-bottom: 30px; border-bottom: 1px solid #ededed; padding-bottom: 10px; font-size: 14px; display: flex; justify-content: space-between;}
 .meeting_wrap .divide_wrap p span {font-size: 16px; color: #0064ff; font-family: "Pretendard-Medium";}

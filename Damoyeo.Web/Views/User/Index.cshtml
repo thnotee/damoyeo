@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewBag.Title = "마이페이지";
+}
+
+@section style
+{
+    <link rel="stylesheet" href="~/Content/css/mypage.css" />
+}
+<div class="section_wrap mypage_wrap">
+    <div class="inner sub_inner">
+        <!-- 래프트 고정 -->
+        @Html.Partial("_Partial/_Left")
+
+        <div class="my_right my_box my_modify">
+            <!-- 비밀번호 입력 후 회원정보 수정 페이지 나옴 -->
+            <form action="">
+                <div class="lock_section">
+                    <span class="lock_icon">
+                        <img src="~/Content/images/lock.svg" alt="">
+                    </span>
+
+                    <!-- 카카오 가입자일 경우 -->
+                    <div>
+                        <p class="lock_notice">개인정보 보호를 위해<br><span>비밀번호를 생성</span>해 주세요.</p>
+                        <input type="text" class="new_pw" placeholder="비밀번호 입력">
+                        <input type="text" class="newchk_pw" placeholder="비밀번호 확인">
+                        <span class="big_btn kakao_pw_btn">생성하기</span>
+                    </div>
+                    <!-- 생성후 아래 나오게 -->
+                    <!-- 일반 회원가입일 경우 -->
+                    <div>
+                        <p class="lock_notice">개인정보 보호를 위해<br><span>비밀번호를 다시 한번 입력</span>해주세요.</p>
+                        <input type="text" class="now_pw" placeholder="비밀번호 입력">
+                        <span class="big_btn pw_chk_btn">확인</span>
+                    </div>
+                </div>
+            </form>
+
+            <!-- 회원정보 수정페이지 -->
+            <p class="my_title">회원정보수정</p>
+
+            <form action="">
+                <div class="meminput_box">
+                    <ul>
+                        <li class="mcalc">
+                            <p class="mo_tit">이메일</p>
+                            <div class="mo_txt">
+                                <div class="mo_email">
+                                    <div class="mo_txt">
+                                        <input type="text" name="" id="" value="rhwjdrka@gmail.com" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mcalc">
+                            <p class="mo_tit">닉네임<i class="ab">＊</i></p>
+                            <div class="mo_txt">
+                                <input type="text" id="nickname" name="nickname" maxlength="10" placeholder="닉네임을 입력해주세요.">
+                                <span class="page_cbtn" id="nickChk">중복확인</span>
+                                <p class="mo_mark">해당 닉네임은 이미 사용 중입니다.</p>
+                            </div>
+                        </li>
+                        <li class="mcalc">
+                            <p class="mo_tit">현재 비밀번호<i class="ab">＊</i></p>
+                            <div class="mo_txt">
+                                <input type="password" id="password" placeholder="현재 비밀번호">
+                                <span class="page_cbtn" id="pwChg">비밀번호 변경하기</span>
+                                <p class="mo_mark">입력하신 비밀번호가 올바르지 않습니다.</p>
+                            </div>
+                        </li>
+                        <li class="new_pw_wrap">
+                            <p class="mo_tit">신규 비밀번호</p>
+                            <div class="mo_txt">
+                                <input type="password" id="newPw" placeholder="신규 비밀번호">
+                            </div>
+                        </li>
+                        <li class="new_pw_wrap">
+                            <p class="mo_tit">신규 비밀번호 확인</p>
+                            <div class="mo_txt">
+                                <input type="password" id="newPwchk" placeholder="신규 비밀번호 확인">
+                                <p class="mo_mark">입력하신 비밀번호와 확인란의 비밀번호가 일치하지 않습니다.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <p class="mo_tit">관심 카테고리</p>
+                            <div class="mo_txt">
+                                <div class="inter_check">
+                                    <label for="interest1" class="check_box">
+                                        <input type="checkbox" id="interest1" name="interest">교육/어학
+                                    </label>
+                                    <label for="interest2" class="check_box">
+                                        <input type="checkbox" id="interest2" name="interest">취업/자격증
+                                    </label>
+                                    <label for="interest3" class="check_box">
+                                        <input type="checkbox" id="interest3" name="interest">여행
+                                    </label>
+                                    <label for="interest4" class="check_box">
+                                        <input type="checkbox" id="interest4" name="interest">스포츠/운동
+                                    </label>
+                                    <label for="interest5" class="check_box">
+                                        <input type="checkbox" id="interest5" name="interest">요리/음식
+                                    </label>
+                                    <label for="interest6" class="check_box">
+                                        <input type="checkbox" id="interest6" name="interest">문화/예술
+                                    </label>
+                                    <label for="interest7" class="check_box">
+                                        <input type="checkbox" id="interest7" name="interest">영화/음악
+                                    </label>
+                                    <label for="interest8" class="check_box">
+                                        <input type="checkbox" id="interest8" name="interest">기타
+                                    </label>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <p class="mo_tit">자기소개</p>
+                            <div class="mo_txt">
+                                <textarea name="" id="" cols="30" rows="10" placeholder="자유롭게 자신을 소개해보세요."></textarea>
+                            </div>
+                        </li>
+                    </ul>
+                    <span class="withdrawal">회원탈퇴</span>
+                    <span class="modify_btn big_btn">수정하기</span>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    $(function () {
+        $("#pwChg").click(function () {
+            $(".new_pw_wrap").css({ display: "flex" });
+        });
+    });
+</script>

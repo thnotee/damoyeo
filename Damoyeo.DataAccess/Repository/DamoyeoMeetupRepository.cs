@@ -50,7 +50,8 @@ INSERT INTO Damoyeo_Meetup (
     post_name,
     post_detail,
     over_capacity,
-    meetup_display
+    meetup_display,
+    bname
 ) 
 OUTPUT INSERTED.meetup_id
 VALUES (
@@ -77,7 +78,9 @@ VALUES (
     @post_name,
     @post_detail, 
     @over_capacity, 
-    @meetup_display
+    @meetup_display,
+    @bname
+
 );
 
 

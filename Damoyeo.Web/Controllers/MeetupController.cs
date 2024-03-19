@@ -44,7 +44,7 @@ namespace Damoyeo.Web.Controllers
 
         [HttpPost]
         [Auth]
-        public async Task<ActionResult> Write(DamoyeoMeetup meetup, HttpPostedFileBase main_image, IEnumerable<HttpPostedFileBase> files)
+        public async Task<ActionResult> Write(DamoyeoMeetup meetup, HttpPostedFileBase main_image, IEnumerable<HttpPostedFileBase> files, List<string> tags)
         {
             PagedList<DamoyeoCategory> categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
             ViewData["categoryList"] = categoryList;
@@ -66,10 +66,32 @@ namespace Damoyeo.Web.Controllers
                 if (item != null) 
                 {
                     await FileUpload(item, savePath, "Damoyeo_Meetup", insertId);
-                }
-                
+                }   
             }
 
+            /*태그 처리*/
+            if (tags != null) 
+            {
+                foreach (var tagText in tags) 
+                {
+                    var tag = new DamoyeoTags();
+                    tag.tag_name = tagText;
+                    var result = await _unitOfWork.Tags.GetAsync(tag);
+                    var tagId = 0;
+                    //1. 태그아이디를 가져옵니다.
+                    if (result == null) { tagId = await _unitOfWork.Tags.AddAsync(tag); }
+                    else  { tagId = result.tag_id; }
+
+                    if (tagId > 0) 
+                    {
+                        var mapping = new DamoyeoMeetupTags();
+                        mapping.tag_id = tagId;
+                        mapping.meetup_id = insertId;
+                        //2. 태그 매핑테이블에 추가
+                        await _unitOfWork.MeetupTagsMapping.AddAsync(mapping);
+                    }
+                }
+            }
 
             _unitOfWork.Commit();
 

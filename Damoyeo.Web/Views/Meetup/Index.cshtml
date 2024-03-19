@@ -3,5 +3,193 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+@section style
+{
+    <link rel="stylesheet" href="~/Content/css/meeting.css" />
+    <link rel="stylesheet" href="~/Content/css/daterangepicker.css" />
+}
 
+<div class="section_wrap meeting_wrap">
+    <div class="inner sub_inner">
+        <h3 class="section_title">모임</h3>
+
+        <section class="contents_wrap po_con_wrap">
+            <div class="inner">
+
+                <div class="meeting_search">
+                    <div class="meeting_select">
+                        <div>
+                            <select name="" id="category">
+                                <option value="">교육/어학</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select name="" id="area">
+                                <option value="">서울</option>
+                            </select>
+                        </div>
+                        <div class="meeting_date">
+                            <img src="~/Content/images/calendar.svg" alt="">
+                            <input type="text" name="dates" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="search_wrap">
+                        <input type="search" name="" id="search_community" placeholder="검색어를 입력해주세요.">
+                        <span class="search_img">
+                            <img src="~/Content/images/search.svg" alt="">
+                        </span>
+                    </div>
+                </div>
+
+                <div class="divide_wrap">
+                    <p>총 <span>200</span>개의 소모임이 진행중입니다.</p>
+                    <div>
+                        <a href="" class="on">인기순</a>
+                        <a href="">최신순</a>
+                        <a href="">마감 임박순</a>
+                    </div>
+                </div>
+                <div class="pop_wrap">
+                    <div class="meet_box">
+                        <a href="">
+                            <img src="~/Content/images/main/test_img1.png" alt="" />
+                        </a>
+                        <div class="meet_flex">
+                            <a href="" class="new_text_wrap">
+                                <span class="m_mark">
+                                    <img src="~/Content/images/marker.svg" alt="" />
+                                    회기동
+                                </span>
+                                <p class="m_tit">
+                                    요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
+                                </p>
+                                <p class="m_txt">
+                                    요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
+                                    서브텍스트
+                                </p>
+                            </a>
+                            <span class="heart_click">
+                                <img src="~/Content/images/heart.svg" alt="" />
+                            </span>
+                            <div class="apply_wrap">
+                                <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
+                                <!-- 모집기간 -->
+                                <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="meet_box">
+                        <a href="">
+                            <img src="~/Content/images/main/test_img2.png" alt="" />
+                        </a>
+                        <div class="meet_flex">
+                            <a href="" class="new_text_wrap">
+                                <span class="m_mark">
+                                    <img src="~/Content/images/marker.svg" alt="" />
+                                    회기동
+                                </span>
+                                <p class="m_tit">
+                                    요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
+                                </p>
+                                <p class="m_txt">
+                                    요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
+                                    서브텍스트
+                                </p>
+                            </a>
+                            <span class="heart_click">
+                                <img src="~/Content/images/heart.svg" alt="" />
+                            </span>
+                            <div class="apply_wrap">
+                                <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
+                                <!-- 모집기간 -->
+                                <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="meet_box">
+                        <a href="">
+                            <img src="~/Content/images/main/test_img3.png" alt="" />
+                        </a>
+                        <div class="meet_flex">
+                            <a href="" class="new_text_wrap">
+                                <span class="m_mark">
+                                    <img src="~/Content/images/marker.svg" alt="" />
+                                    회기동
+                                </span>
+                                <p class="m_tit">
+                                    요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
+                                </p>
+                                <p class="m_txt">
+                                    요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
+                                    서브텍스트
+                                </p>
+                            </a>
+                            <span class="heart_click">
+                                <img src="~/Content/images/heart.svg" alt="" />
+                            </span>
+                            <div class="apply_wrap">
+                                <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
+                                <!-- 모집기간 -->
+                                <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="meet_box">
+                        <a href="">
+                            <img src="~/Content/images/main/test_img3.png" alt="" />
+                        </a>
+                        <div class="meet_flex">
+                            <a href="" class="new_text_wrap">
+                                <span class="m_mark">
+                                    <img src="~/Content/images/marker.svg" alt="" />
+                                    회기동
+                                </span>
+                                <p class="m_tit">
+                                    요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
+                                </p>
+                                <p class="m_txt">
+                                    요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
+                                    서브텍스트
+                                </p>
+                            </a>
+                            <span class="heart_click">
+                                <img src="~/Content/images/heart.svg" alt="" />
+                            </span>
+                            <div class="apply_wrap">
+                                <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
+                                <!-- 모집기간 -->
+                                <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+@section scripts{
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script>
+        //달력
+        $('input[name="dates"]').daterangepicker({
+            locale: {
+                format: "YYYY/MM/DD",
+                separator: " ~ ",
+                daysOfWeek: ["일", "월", "화", "수", "목", "금", "토"],
+                monthNames: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+                applyLabel: "확인",
+                cancelLabel: "취소",
+            }
+        });
+    </script>
+}

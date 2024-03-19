@@ -22,6 +22,13 @@ namespace Damoyeo.DataAccess.Repository.IRepository
 
         IDamoyeoImageRepository Image { get; }
 
+
+        IDamoyeoTagsRepository Tags { get; }
+
+        IDamoyeoMeetupTagsRepository MeetupTagsMapping { get; }
+
+
+
         void Commit();
     }
 }

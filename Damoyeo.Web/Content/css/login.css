@@ -1,6 +1,3 @@
-.login_wrap .inner {
-  text-align: center;
-}
 .login_wrap .login_box {
   background-color: #fff;
   display: inline-block;
@@ -41,14 +38,29 @@
   margin: 0 10px;
 }
 .login_wrap .login_box .login_btn {
-  background-color: #0064ff;
   text-align: center;
   display: inline-block;
   width: 100%;
-  color: #fff;
-  padding: 20px;
+  padding: 18px 0;
   border-radius: 4px;
+  cursor: pointer;
+}
+.login_wrap .login_box .damoyeo_btn {
+  background-color: #0064ff;
+  color: #fff;
+  margin-bottom: 10px; 
+}
+.login_wrap .login_box .kakao_btn {
+  background-color: #ffec3f;
   margin-bottom: 15px;
+  color: #3f3a39;
+  position: relative;
+} 
+.login_wrap .login_box .kakao_btn img {
+  position: absolute; 
+  top: 50%;
+  left: 18px;
+  transform: translateY(-50%); width: 18px;
 }
 .login_wrap .login_box .mem_join span {
   font-family: "Pretendard-SemiBold";

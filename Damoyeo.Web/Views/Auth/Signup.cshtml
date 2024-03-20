@@ -1,5 +1,5 @@
 ﻿@using Damoyeo.Model.Model;
-@model DamoyeoUser
+@Model.detail DamoyeoUser
 @{
    ViewBag.Title = "Signup";
 }
@@ -20,7 +20,7 @@
                 }
                 else 
                 {
-                    <img src="@Model.profile_image" class="rounded-full w-[70px] h-[70px]" id="preview">
+                    <img src="@Model.detail.profile_image" class="rounded-full w-[70px] h-[70px]" id="preview">
                 }
 
             </div>
@@ -48,10 +48,10 @@
             }
             else
             {
-                <input type="hidden" value="@Model.email" name="email" id="email">
+                <input type="hidden" value="@Model.detail.email" name="email" id="email">
                 <input type="hidden" value="kakao" name="password" id="password">
                 <input type="hidden" value="1" name="signup_type" id="signup_type">
-                <input type="hidden" value="@Model.profile_image" name="kakao_profile_image">
+                <input type="hidden" value="@Model.detail.profile_image" name="kakao_profile_image">
             }
 
 
@@ -62,7 +62,7 @@
                 <input type="text"
                        id="nickname"
                        name="nickname"
-                       value="@Model.nickname"
+                       value="@Model.detail.nickname"
                        maxlength="10"
                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
             </div>
@@ -103,7 +103,7 @@
 @section scripts{
     <script>
 
-        if ("@Model.email" != "")
+        if ("@Model.detail.email" != "")
         {
             alertBox("카카오톡 회원가입 후 이용부탁드립니다.");
         }

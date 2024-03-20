@@ -14,5 +14,7 @@ namespace Damoyeo.Model.Model
         public int meetup_id { get; set; }
 
         public int tag_id { get; set; }
+
+        public DamoyeoTags tag { get; set; }
     }
 }

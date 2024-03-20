@@ -1,0 +1,162 @@
+﻿@using Damoyeo.Model.Model
+@using Damoyeo.Model.ViewModel
+@model  MeetupDetailVm
+@{
+    ViewBag.Title = "Detail";
+
+
+}
+
+@section style
+{
+    <link rel="stylesheet" href="~/Content/css/meeting.css" />
+}
+
+
+<div class="section_wrap md_wrap">
+    <div class="inner sub_inner">
+        <div class="left">
+            <div class="md_img_wrap">
+                <div class="md_img_box">
+                    <!-- 메인이미지 -->
+                    @if (!string.IsNullOrEmpty(Model.detail.meetup_image))
+                    {
+                        var imgArr = Model.detail.meetup_image.Split('.');
+                        var imgSrc = imgArr[0] + "_detail." + imgArr[1];
+                        <img src="@imgSrc" alt="">
+                    }
+                    else
+                    {
+                        <img src="https://placeholder.com/728x728/png" alt="">
+                    }
+
+                    <!-- 상세이미지 4개 -->
+                    @if (Model.image.Any())
+                    {
+                        foreach (var item in Model.image)
+                        {
+                            var imgArr = item.save_filename.Split('.');
+                            var imgSrc = item.directory_path + imgArr[0] + "_detail." + imgArr[1];
+                            <img src="@imgSrc" alt="">
+                        }
+
+                    }
+                    <!--
+                        <img src="~/Content/images/test.jpg" alt="">
+                        <img src="~/Content/images/test.jpg" alt="">
+                        <img src="~/Content/images/test.jpg" alt="">
+                    -->
+                </div>
+                <div class="md_img_btn"><span>상세 이미지 더 보기 <img src="~/Content/images/select_arrow.svg" alt=""></span></div>
+            </div>
+
+            <div class="left_txt">
+                <ul>
+                    <li>
+                        <!-- 소카테고리? 인듯합니다 -->
+                        <p>모임 카테고리</p>
+                        <span>@Model.detail.Category.category_name</span>
+                    </li>
+                    <li>
+                        <p>모임 상세정보</p>
+                        <span>
+                            @Model.detail.meetup_description
+                        </span>
+                    </li>
+                    <li>
+                        <p>모임 위치</p>
+                        <div>
+                            <span>서울시 중구 어쩌구로 98 122동 1111호</span>
+                            <div class="md_map" id="map"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <p>모임 태그</p>
+                        <div class="md_hash">
+                            @if (Model.Tags.Any()) 
+                            {
+                                foreach(var item in Model.Tags) 
+                                {
+                                    <span>#@item.tag.tag_name</span>
+                                }
+                                
+                            }
+                            
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="right">
+            <div class="md_sticky">
+                <ul>
+                    <li>
+                        <!-- 모임개설하기에서 대 카테고리가 제목 옆에 나오는듯합니다-->
+                        <p class="md_top">
+                            <span class="md_tit">[@Model.detail.Category.category_name] @Model.detail.meetup_name</span>
+                            <span class="heart_click">
+                                <img src="~/Content/images/heart.svg" alt="">
+                            </span>
+                        </p>
+                        <span class="md_stit">@Model.detail.meeting_intro</span>
+                    </li>
+                    <li class="md_date">
+                        <p class="em"><span>모임 활동 기간</span> @Model.detail.meeting_sdate ~ @Model.detail.application_edate</p>
+                        <p><span>모임 신청 기간</span> @Model.detail.application_sdate ~ @Model.detail.application_edate</p>
+                    </li>
+                    <li>
+                        <p class="em"><span>문의 연락처</span>@Model.detail.phone_number</p>
+                        <p><span>문의 이메일</span> @Model.detail.email</p>
+                    </li>
+                    <li>
+                        <p><span>모임 정원</span> @(Model.detail.max_user_count)명</p>
+                        <p><span>현재 지원 인원</span> 20명</p>
+                        @if (Model.detail.over_capacity == "1")
+                        {
+                            <!-- 정원 초과 체크일 경우에만 표시 -->
+                            <p class="over_mark">＊ 정원을 초과하여 모집할 수 있는 모임입니다.</p>
+                        }
+
+                    </li>
+                    <li>
+                        <span class="md_apply_btn">소모임 신청하기</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <!--다음 주소찾기 팝업-->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2c03537489f069ffcb99fac73dd5028f&libraries=services"></script>
+    <script>
+        //이미지 더보기
+        $(function () {
+            $(".md_img_btn").click(function () {
+                $(".md_img_box").css({ height: "auto" });
+                $(".md_img_btn").css({ display: "none" });
+            });
+        });
+
+
+        var container = document.getElementById('map');
+        var options = {
+            center: new kakao.maps.LatLng(@Model.detail.latitude, @Model.detail.longitude),
+            level: 3,
+        };
+
+        var map = new kakao.maps.Map(container, options);
+        // 마커가 표시될 위치입니다
+        var markerPosition = new kakao.maps.LatLng(@Model.detail.latitude, @Model.detail.longitude);
+
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            position: markerPosition
+        });
+        marker.setMap(map);
+        markers.push(marker);
+    </script>
+    }

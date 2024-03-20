@@ -1,10 +1,9 @@
-﻿
-@using Damoyeo.Model.Model
-@model  PagedList<DamoyeoMeetup>
+﻿@using Damoyeo.Model.ViewModel
+@model  MeetupListVm
 @{
-
+    
     int totalCount = 0;
-    if (Model.Any()) { totalCount = Model.FirstOrDefault().total_count; }
+    if (Model.list.Any()) { totalCount = Model.list.FirstOrDefault().total_count; }
     ViewBag.Title = "Index";
 }
 
@@ -14,234 +13,242 @@
     <link rel="stylesheet" href="~/Content/css/daterangepicker.css" />
 }
 
-<div class="section_wrap meeting_wrap">
-    <div class="inner sub_inner">
-        <h3 class="section_title">모임</h3>
+<form action="/Meetup/index" method="get" id="myform">
+    <input type="hidden" id="searchOrder" name="searchOrder" value="@Model.MeetupSearchOpt.searchOrder">
+    <div class="section_wrap meeting_wrap">
+        <div class="inner sub_inner">
+            <h3 class="section_title">모임</h3>
 
-        <section class="contents_wrap po_con_wrap">
-            <div class="inner">
+            <section class="contents_wrap po_con_wrap">
+                <div class="inner">
 
-                <div class="meeting_search">
-                    <div class="meeting_select">
-                        <div>
-                            <select name="" id="category">
-                                <option value="">전체</option>
-                            </select>
-                        </div>
-                        <div>
-                            <select name="" id="area">
-                                <option value="">전체</option>
-                                <option value="서울">서울</option>
-                                <option value="경기/인천">경기/인천</option>
-                                <option value="대전/충청">대전/충청</option>
-                                <option value="대구/경상북도">대구/경북</option>
-                                <option value="부산/경상남도">부산/경남</option>
-                                <option value="광주/전라">광주/전라</option>
-                                <option value="강원">강원</option>
-                                <option value="제주">제주</option>
-                            </select>
-                        </div>
-                        <div class="meeting_date">
-                            <img src="~/Content/images/calendar.svg" alt="">
-                            <input type="text" name="dates" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="search_wrap">
-                        <input type="search" name="" id="search_community" placeholder="검색어를 입력해주세요.">
-                        <span class="search_img">
-                            <img src="~/Content/images/search.svg" alt="">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="divide_wrap">
-                    <p>총 <span>@totalCount</span>개의 소모임이 진행중입니다.</p>
-                    <div>
-                        <a href="" class="on">최신순</a>
-                        <a href="">인기순</a>
-                        <a href="">마감 임박순</a>
-                    </div>
-                </div>
-                <div class="pop_wrap">
-
-
-
-                    @foreach (var item in Model)
-                    {
-
-
-
-
-                        <div class="meet_box">
-                            <a href="">
-                                @if (!string.IsNullOrEmpty(item.meetup_image))
-                                {
-                                    <img src="@item.meetup_image" alt="" />
-                                }
-                                else
-                                {
-                                    <img src="https://placeholder.com/308x269/png" alt="" />
-                                }
-
-
-                            </a>
-                            <div class="meet_flex">
-                                <a href="" class="new_text_wrap">
-                                    @if (!string.IsNullOrEmpty(item.bname))
+                    <div class="meeting_search">
+                        <div class="meeting_select">
+                            <div>
+                                <select name="searchCategory" id="searchCategory">
+                                    <option value="0">전체</option>
+                                    @foreach (var item in Model.categoryList)
                                     {
-                                        <span class="m_mark">
-                                            <img src="~/Content/images/marker.svg" alt="" />
-                                            @item.bname
-                                        </span>
+                                        <option value="@item.category_id">@item.category_name</option>
                                     }
-
-                                    <p class="m_tit">
-                                        @item.meetup_name
-                                    </p>
-                                    <p class="m_txt">
-                                        @item.meeting_intro
-                                    </p>
-                                </a>
-                                <span class="heart_click">
-                                    <img src="~/Content/images/heart.svg" alt="" />
-                                </span>
-                                <div class="apply_wrap">
-                                    <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
-                                    <!-- 모집기간 -->
-                                    <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ @item.application_edate</p>
-                                </div>
+                                </select>
+                            </div>
+                            <div>
+                                <select name="searchArea" id="searchArea">
+                                    <option value="">전체</option>
+                                    <option value="서울">서울</option>
+                                    <option value="경기/인천">경기/인천</option>
+                                    <option value="대전/충청">대전/충청</option>
+                                    <option value="대구/경상북도">대구/경북</option>
+                                    <option value="부산/경상남도">부산/경남</option>
+                                    <option value="광주/전라">광주/전라</option>
+                                    <option value="강원">강원</option>
+                                    <option value="제주">제주</option>
+                                </select>
+                            </div>
+                            <div class="meeting_date">
+                                <img src="~/Content/images/calendar.svg" alt="">
+                                <input type="text" name="dates" class="form-control">
+                                <input type="hidden" name="applicationSdate" id="applicationSdate" class="form-control">
+                                <input type="hidden" name="applicationEdate" id="applicationEdate" class="form-control">
                             </div>
                         </div>
 
-                    }
+                        <div class="search_wrap">
+                            <input type="search" name="searchString" id="searchString" placeholder="검색어를 입력해주세요.">
+                            <span class="search_img" id="searchBtn">
+                                <img src="~/Content/images/search.svg" alt="">
+                            </span>
+                        </div>
+                    </div>
 
-                    @*
+                    <div class="divide_wrap">
+                        <p>총 <span>@totalCount</span>개의 소모임이 진행중입니다.</p>
+                        <div>
+                            <a href="javascript:MeetupSort(1)" @(Model.MeetupSearchOpt.searchOrder == 1 ? "class=on" : "" )>최신순</a>
+                            <a href="javascript:MeetupSort(2)" @(Model.MeetupSearchOpt.searchOrder == 2 ? "class=on" : "" )>인기순</a>
+                            <a href="javascript:MeetupSort(3)" @(Model.MeetupSearchOpt.searchOrder == 3 ? "class=on" : "" )>마감 임박순</a>
+                        </div>
+                    </div>
+                    <div class="pop_wrap">
 
-        <div class="meet_box">
-            <a href="">
-                <img src="~/Content/images/main/test_img1.png" alt="" />
-            </a>
-            <div class="meet_flex">
-                <a href="" class="new_text_wrap">
-                    <span class="m_mark">
-                        <img src="~/Content/images/marker.svg" alt="" />
-                        회기동
-                    </span>
-                    <p class="m_tit">
-                        요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                    </p>
-                    <p class="m_txt">
-                        요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                        서브텍스트
-                    </p>
-                </a>
-                <span class="heart_click">
-                    <img src="~/Content/images/heart.svg" alt="" />
-                </span>
-                <div class="apply_wrap">
-                    <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
-                    <!-- 모집기간 -->
-                    <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
+
+
+                        @foreach (var item in Model.list)
+                        {
+
+
+
+                            
+                            <div class="meet_box">
+                                <a href="/Meetup/Detail?meetup_id=@item.meetup_id">
+                                    @if (!string.IsNullOrEmpty(item.meetup_image))
+                                    {
+                                        <img src="@item.meetup_image" alt="" />
+                                    }
+                                    else
+                                    {
+                                        <img src="https://placeholder.com/308x269/png" alt="" />
+                                    }
+
+
+                                </a>
+                                <div class="meet_flex">
+                                    <a href="" class="new_text_wrap">
+                                        @if (!string.IsNullOrEmpty(item.bname))
+                                        {
+                                            <span class="m_mark">
+                                                <img src="~/Content/images/marker.svg" alt="" />
+                                                @item.bname
+                                            </span>
+                                        }
+
+                                        <p class="m_tit">
+                                            @item.meetup_name
+                                        </p>
+                                        <p class="m_txt">
+                                            @item.meeting_intro
+                                        </p>
+                                    </a>
+                                    <span class="heart_click">
+                                        <img src="~/Content/images/heart.svg" alt="" />
+                                    </span>
+                                    <div class="apply_wrap">
+                                        <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
+                                        <!-- 모집기간 -->
+                                        <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ @item.application_edate</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                        @*
+
+                            <div class="meet_box">
+                                <a href="">
+                                    <img src="~/Content/images/main/test_img1.png" alt="" />
+                                </a>
+                                <div class="meet_flex">
+                                    <a href="" class="new_text_wrap">
+                                        <span class="m_mark">
+                                            <img src="~/Content/images/marker.svg" alt="" />
+                                            회기동
+                                        </span>
+                                        <p class="m_tit">
+                                            요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
+                                        </p>
+                                        <p class="m_txt">
+                                            요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
+                                            서브텍스트
+                                        </p>
+                                    </a>
+                                    <span class="heart_click">
+                                        <img src="~/Content/images/heart.svg" alt="" />
+                                    </span>
+                                    <div class="apply_wrap">
+                                        <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
+                                        <!-- 모집기간 -->
+                                        <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="meet_box">
+                                <a href="">
+                                    <img src="~/Content/images/main/test_img2.png" alt="" />
+                                </a>
+                                <div class="meet_flex">
+                                    <a href="" class="new_text_wrap">
+                                        <span class="m_mark">
+                                            <img src="~/Content/images/marker.svg" alt="" />
+                                            회기동
+                                        </span>
+                                        <p class="m_tit">
+                                            요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
+                                        </p>
+                                        <p class="m_txt">
+                                            요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
+                                            서브텍스트
+                                        </p>
+                                    </a>
+                                    <span class="heart_click">
+                                        <img src="~/Content/images/heart.svg" alt="" />
+                                    </span>
+                                    <div class="apply_wrap">
+                                        <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
+                                        <!-- 모집기간 -->
+                                        <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="meet_box">
+                                <a href="">
+                                    <img src="~/Content/images/main/test_img3.png" alt="" />
+                                </a>
+                                <div class="meet_flex">
+                                    <a href="" class="new_text_wrap">
+                                        <span class="m_mark">
+                                            <img src="~/Content/images/marker.svg" alt="" />
+                                            회기동
+                                        </span>
+                                        <p class="m_tit">
+                                            요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
+                                        </p>
+                                        <p class="m_txt">
+                                            요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
+                                            서브텍스트
+                                        </p>
+                                    </a>
+                                    <span class="heart_click">
+                                        <img src="~/Content/images/heart.svg" alt="" />
+                                    </span>
+                                    <div class="apply_wrap">
+                                        <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
+                                        <!-- 모집기간 -->
+                                        <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="meet_box">
+                                <a href="">
+                                    <img src="~/Content/images/main/test_img3.png" alt="" />
+                                </a>
+                                <div class="meet_flex">
+                                    <a href="" class="new_text_wrap">
+                                        <span class="m_mark">
+                                            <img src="~/Content/images/marker.svg" alt="" />
+                                            회기동
+                                        </span>
+                                        <p class="m_tit">
+                                            요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
+                                        </p>
+                                        <p class="m_txt">
+                                            요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
+                                            서브텍스트
+                                        </p>
+                                    </a>
+                                    <span class="heart_click">
+                                        <img src="~/Content/images/heart.svg" alt="" />
+                                    </span>
+                                    <div class="apply_wrap">
+                                        <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
+                                        <!-- 모집기간 -->
+                                        <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
+                                    </div>
+                                </div>
+                            </div>
+                        *@
+                    </div>
                 </div>
-            </div>
+            </section>
         </div>
-
-        <div class="meet_box">
-            <a href="">
-                <img src="~/Content/images/main/test_img2.png" alt="" />
-            </a>
-            <div class="meet_flex">
-                <a href="" class="new_text_wrap">
-                    <span class="m_mark">
-                        <img src="~/Content/images/marker.svg" alt="" />
-                        회기동
-                    </span>
-                    <p class="m_tit">
-                        요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                    </p>
-                    <p class="m_txt">
-                        요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                        서브텍스트
-                    </p>
-                </a>
-                <span class="heart_click">
-                    <img src="~/Content/images/heart.svg" alt="" />
-                </span>
-                <div class="apply_wrap">
-                    <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
-                    <!-- 모집기간 -->
-                    <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="meet_box">
-            <a href="">
-                <img src="~/Content/images/main/test_img3.png" alt="" />
-            </a>
-            <div class="meet_flex">
-                <a href="" class="new_text_wrap">
-                    <span class="m_mark">
-                        <img src="~/Content/images/marker.svg" alt="" />
-                        회기동
-                    </span>
-                    <p class="m_tit">
-                        요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                    </p>
-                    <p class="m_txt">
-                        요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                        서브텍스트
-                    </p>
-                </a>
-                <span class="heart_click">
-                    <img src="~/Content/images/heart.svg" alt="" />
-                </span>
-                <div class="apply_wrap">
-                    <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
-                    <!-- 모집기간 -->
-                    <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="meet_box">
-            <a href="">
-                <img src="~/Content/images/main/test_img3.png" alt="" />
-            </a>
-            <div class="meet_flex">
-                <a href="" class="new_text_wrap">
-                    <span class="m_mark">
-                        <img src="~/Content/images/marker.svg" alt="" />
-                        회기동
-                    </span>
-                    <p class="m_tit">
-                        요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                    </p>
-                    <p class="m_txt">
-                        요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                        서브텍스트
-                    </p>
-                </a>
-                <span class="heart_click">
-                    <img src="~/Content/images/heart.svg" alt="" />
-                </span>
-                <div class="apply_wrap">
-                    <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
-                    <!-- 모집기간 -->
-                    <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
-                </div>
-            </div>
-        </div>
-                    *@
-                </div>
-            </div>
-        </section>
     </div>
-</div>
 
 
-
+</form>
 @section scripts{
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -250,6 +257,8 @@
     <script>
         //달력
         $('input[name="dates"]').daterangepicker({
+            startDate: "@Model.MeetupSearchOpt.applicationSdate",
+            endDate: "@Model.MeetupSearchOpt.applicationEdate",
             locale: {
                 format: "YYYY/MM/DD",
                 separator: " ~ ",
@@ -258,6 +267,29 @@
                 applyLabel: "확인",
                 cancelLabel: "취소",
             }
+        });
+
+
+        function Search() {
+            //날짜 셋팅
+            var dates = $('input[name="dates"]');
+            var applicationDate = dates[0].value;
+            var applicationDateArr = applicationDate.split('~');
+            $("#applicationSdate").val(applicationDateArr[0].trim());
+            $("#applicationEdate").val(applicationDateArr[1].trim());
+
+            $("#myform").submit();
+        }
+
+        function MeetupSort(type)
+        {
+            $("#searchOrder").val(type);
+            Search();
+        }
+
+
+        $("#searchBtn").on("click", function () {
+            Search();
         });
     </script>
 }

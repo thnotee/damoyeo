@@ -52,7 +52,9 @@ INSERT INTO Damoyeo_Meetup (
     post_detail,
     over_capacity,
     meetup_display,
-    bname
+    bname,
+    longitude,
+    latitude
 ) 
 OUTPUT INSERTED.meetup_id
 VALUES (
@@ -80,7 +82,9 @@ VALUES (
     @post_detail, 
     @over_capacity, 
     @meetup_display,
-    @bname
+    @bname,
+    @longitude,
+    @latitude
 
 );
 
@@ -89,9 +93,60 @@ VALUES (
             return await _connection.QuerySingleAsync<int>(sql, entity, _transaction);
         }
 
-        public Task<DamoyeoMeetup> GetAsync(DamoyeoMeetup entity)
+        public async Task<DamoyeoMeetup> GetAsync(DamoyeoMeetup entity)
         {
-            throw new NotImplementedException();
+            var sql = @"
+SELECT A.meetup_id
+      ,A.meetup_name
+      ,A.meetup_master_id
+      ,A.view_count
+      ,A.user_count
+      ,A.max_user_count
+      ,A.use_tf
+      ,A.reg_date
+      ,A.meetup_image
+      ,A.meetup_description
+      ,A.category_id
+      ,A.phone_number
+      ,A.email
+      ,A.meeting_intro
+      ,A.person_name
+      ,A.meeting_sdate
+      ,A.meeting_edate
+      ,A.application_sdate
+      ,A.application_edate
+      ,A.kakao_openchat_link
+      ,A.post_code
+      ,A.post_name
+      ,A.post_detail
+      ,A.over_capacity
+      ,A.meetup_display
+      ,A.bname
+      ,A.longitude
+      ,A.latitude
+	  ,B.category_name
+  FROM Damoyeo_Meetup A inner join Damoyeo_Category B on A.category_id = b.category_id
+  where 
+  use_tf = 1
+  and meetup_id = @meetup_id
+
+";
+
+
+
+            var item = await _connection.QueryAsync<DamoyeoMeetup, DamoyeoCategory, DamoyeoMeetup>(
+             sql,
+             (meetup, category) =>
+             {
+                 meetup.Category = category;
+                 return meetup;
+             },
+             entity,
+             transaction: _transaction,
+             splitOn: "category_name");
+
+            return item.FirstOrDefault();
+          
         }
 
         public Task<PagedList<DamoyeoMeetup>> GetPagedListAsync(int page, int pageSize, string searchString = "")
@@ -108,13 +163,42 @@ VALUES (
             var whereSql = "";
             var orderby = "";
 
+            if (!string.IsNullOrEmpty(option.searchString)) 
+            {
+                whereSql += "AND meetup_name LIKE '%'+@searchString+'%'";
+            }
+
+            if (!string.IsNullOrEmpty(option.searchArea))
+            {
+
+                if (option.searchArea.IndexOf("/") != -1)
+                {
+                    var tempArr = option.searchArea.Trim().Split('/');
+                    option.temp1 = tempArr[0];
+                    option.temp2 = tempArr[1];
+                    whereSql += "AND (post_name LIKE '%'+@temp1+'%' OR post_name LIKE '%'+@temp2+'%')";
+                }
+                else 
+                {
+                    whereSql += "AND post_name LIKE '%'+@searchArea+'%'";
+                }
+              
+            }
+
+            if (option.searchCategory != 0) 
+            {
+                whereSql += "AND category_id = @searchCategory";
+            }
+            
+
+
             if (option.searchOrder == 1) { orderby = "order by reg_date desc"; }
             else if (option.searchOrder == 2) { orderby = "order by view_count desc"; }
             else { orderby = "order by meeting_edate desc"; }
 
 
-            int startRange = ((page - 1) * pageSize) + 1;
-            int endRange = startRange + pageSize - 1;
+            option.startRange = ((page - 1) * pageSize) + 1;
+            option.endRange = option.startRange + pageSize - 1;
 
             var sql = $@"
 SELECT * FROM (
@@ -147,19 +231,21 @@ SELECT * FROM (
 		  ,over_capacity
 		  ,meetup_display
 		  ,bname
+          ,longitude
+          ,latitude
 	  FROM Damoyeo_Meetup
 	  where 
-		application_sdate >= '2023/03/18'
-		and application_edate <= '2024/05/30'
+        use_tf = 1
+        AND @applicationSdate BETWEEN application_sdate AND application_edate
+        {whereSql}
 ) X
 WHERE 
-use_tf = 1
-AND X.row_num BETWEEN 1 AND 10 
+ X.row_num BETWEEN @startRange AND @endRange
 ";
 
 
 
-            var items = await _connection.QueryAsync<DamoyeoMeetup>(sql, new { startRange, endRange }, transaction: _transaction);
+            var items = await _connection.QueryAsync<DamoyeoMeetup>(sql, option, transaction: _transaction);
             if (items.Any())
             {
                 return new PagedList<DamoyeoMeetup>(items, items.FirstOrDefault().total_count, page, pageSize);

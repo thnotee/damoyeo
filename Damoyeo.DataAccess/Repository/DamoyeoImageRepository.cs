@@ -32,6 +32,24 @@ VALUES (@save_filename, @origin_filename, @table_name, @directory_path, @table_i
             return await _connection.QuerySingleAsync<int>(sql, entity, _transaction);
         }
 
+        public Task<IEnumerable<DamoyeoImage>> GetAllAsync(DamoyeoImage entity)
+        {
+            var sql = @"
+SELECT Id
+      ,save_filename
+      ,origin_filename
+      ,table_name
+      ,directory_path
+      ,table_id
+  FROM Damoyeo_Image
+  where 
+  table_id = @table_id
+  and table_name = @table_name
+
+";
+            return _connection.QueryAsync<DamoyeoImage>(sql, entity, _transaction);
+        }
+
         public Task<DamoyeoImage> GetAsync(DamoyeoImage entity)
         {
             throw new NotImplementedException();

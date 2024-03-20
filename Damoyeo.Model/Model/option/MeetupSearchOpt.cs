@@ -9,6 +9,7 @@ namespace Damoyeo.Model.Model.option
     public class MeetupSearchOpt
     {
 
+     
 
         /// <summary>
         /// 신청시작일
@@ -40,6 +41,17 @@ namespace Damoyeo.Model.Model.option
         ///         3:마감임박순
         /// </summary>
         public int searchOrder { get; set; }
+
+        /*
+         *  dapper 이용 데이터
+         */
+        public int startRange { get; set; }
+
+        public int endRange { get; set; }
+
+        public string temp1 { get; set; }
+
+        public string temp2 { get; set; }
 
     }
 }

@@ -31,9 +31,9 @@ $(document).ready(function () {
         $(this)
             .find("img")
             .attr("src", function (_, attr) {
-                return attr === "images/heart.svg"
-                    ? "images/heart_on.svg"
-                    : "images/heart.svg";
+                return attr === "/Content/images/heart.svg"
+                    ? "/Content/images/heart_on.svg"
+                    : "/Content/images/heart.svg";
             });
     });
 

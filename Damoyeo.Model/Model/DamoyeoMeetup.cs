@@ -106,7 +106,16 @@ namespace Damoyeo.Model.Model
         /// </summary>
         public string bname { get; set; }
 
-        
-        //public Category Category { get; set; }
+        /// <summary>
+        /// 경도
+        /// </summary>
+        public string longitude { get; set; }
+
+        /// <summary>
+        /// 위도
+        /// </summary>
+        public string latitude { get; set; }
+
+        public DamoyeoCategory Category { get; set; }
     }
 }

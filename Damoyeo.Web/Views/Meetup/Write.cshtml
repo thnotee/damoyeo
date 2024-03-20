@@ -10,6 +10,8 @@
 }
 
 <form method="post" action="/Meetup/Write" enctype="multipart/form-data" id="myform">
+    <input type="hidden" value="" name="longitude" id="longitude">
+    <input type="hidden" value="" name="latitude" id="latitude">
     <div class="section_wrap open_wrap">
         <div class="inner sub_inner">
             <h3 class="section_title">모임개설하기</h3>
@@ -290,7 +292,7 @@
             </div>
         </div>
     </div>
-    
+
     <div style="display:none" id="dynamic_tag_input_create">
 
     </div>
@@ -625,7 +627,9 @@
                                 marker.setMap(null); 
                             });
 
-                      
+
+                            $("#longitude").val(result[0].x);
+                            $("#latitude").val(result[0].y);
                             // 이동할 위도 경도 위치를 생성합니다 
                             var moveLatLon = new kakao.maps.LatLng(result[0].y, result[0].x);
                             // 지도 중심을 이동 시킵니다

@@ -298,6 +298,7 @@
     <Content Include="Views\User\Join.cshtml" />
     <Content Include="Views\User\OpeningDetail.cshtml" />
     <Content Include="Views\User\Wish.cshtml" />
+    <Content Include="Views\Meetup\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Damoyeo.DataAccess\Damoyeo.DataAccess.csproj">

@@ -7,6 +7,8 @@ using Damoyeo.Web.Fileter;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -14,6 +16,8 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Damoyeo.Model.ViewModel;
+using System.Globalization;
 
 namespace Damoyeo.Web.Controllers
 {
@@ -30,27 +34,56 @@ namespace Damoyeo.Web.Controllers
         public async Task<ActionResult> Index(int page =1, string applicationSdate ="", string applicationEdate = "", string searchString = ""
             , string searchArea = "", int searchCategory = 0, int searchOrder = 1 )
         {
+
+            MeetupListVm viewModel = new MeetupListVm();
+
             if (applicationSdate == "" || applicationEdate == "") 
             {
                 DateTime now = DateTime.Now; // 현재 날짜와 시간
-                DateTime oneWeekAgo = now.AddDays(-7); // 일주일 전
+                //DateTime oneWeekAgo = now.AddDays(-7); // 일주일 전
+                DateTime oneWeekAgo = now; // 일주일 전
                 DateTime oneWeekLater = now.AddDays(7); // 일주일 후
-                applicationSdate = oneWeekAgo.ToString("yyyy/MM/dd");
-                applicationEdate = oneWeekLater.ToString("yyyy/MM/dd");
+                applicationSdate = oneWeekAgo.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
+                applicationEdate = oneWeekLater.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
             }
-            var opt = new MeetupSearchOpt();
-            opt.applicationSdate = applicationSdate;    
-            opt.applicationEdate = applicationEdate;
-            opt.searchString = searchString;
-            opt.searchArea = searchArea;
-            opt.searchCategory = searchCategory;
-            opt.searchOrder = searchOrder;
+            viewModel.MeetupSearchOpt = new MeetupSearchOpt();
+            viewModel.MeetupSearchOpt.applicationSdate = applicationSdate;
+            viewModel.MeetupSearchOpt.applicationEdate = applicationEdate;
+            viewModel.MeetupSearchOpt.searchString = searchString;
+            viewModel.MeetupSearchOpt.searchArea = searchArea;
+            viewModel.MeetupSearchOpt.searchCategory = searchCategory;
+            viewModel.MeetupSearchOpt.searchOrder = searchOrder;
 
 
 
-            PagedList<DamoyeoMeetup> list = await _unitOfWork.Meetup.GetPagedListAsync(1, 100, opt);
-            return View(list);
+            viewModel.list = await _unitOfWork.Meetup.GetPagedListAsync(1, 100, viewModel.MeetupSearchOpt);
+            viewModel.categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
+
+            
+            return View(viewModel);
         }
+
+        public async Task<ActionResult> Detail(DamoyeoMeetup entity) 
+        {
+
+            MeetupDetailVm meetupDetailVm = new MeetupDetailVm();
+
+
+            meetupDetailVm.detail = await _unitOfWork.Meetup.GetAsync(entity);
+
+            var imageParameta = new DamoyeoImage();
+            imageParameta.table_name = "Damoyeo_Meetup";
+            imageParameta.table_id = entity.meetup_id;
+            meetupDetailVm.image = await _unitOfWork.Image.GetAllAsync(imageParameta);
+
+            var meetupTagsMappingParameta = new DamoyeoMeetupTags();
+            meetupTagsMappingParameta.meetup_id = entity.meetup_id;
+            meetupDetailVm.Tags = await _unitOfWork.MeetupTagsMapping.GetAllAsync(meetupTagsMappingParameta);
+
+            return View(meetupDetailVm);
+        }
+
+
 
         [Auth]
         public async Task<ActionResult> Write()
@@ -72,7 +105,7 @@ namespace Damoyeo.Web.Controllers
             meetup.reg_date = DateTime.Now;
             meetup.use_tf = 1;
             meetup.meetup_master_id = UserManager.GetCookie().UserId;
-            var savePath = "~/Content/upload/meetup";
+            var savePath = "/Content/upload/meetup";
             
             //메인이미지가 존재하면 파일 업로드 해준다.
             if (main_image != null) 
@@ -173,10 +206,17 @@ namespace Damoyeo.Web.Controllers
             var savefileName = Guid.NewGuid().ToString()
                            + Path.GetExtension(file.FileName);
 
+            var saveDetailfileName = savefileName.Split('.')[0]
+                           + "_detail"
+                           + Path.GetExtension(file.FileName);
+
             //~/Content/upload/meetup
             // 파일을 저장할 경로를 지정합니다.
             var path = Path.Combine(Server.MapPath(savePath), savefileName);
+
             
+            var detailPath = Path.Combine(Server.MapPath(savePath), saveDetailfileName);
+
             // 해당 경로에 폴더가 없으면 폴더를 생성합니다.
             var directory = Path.GetDirectoryName(path);
             if (!Directory.Exists(directory))
@@ -185,11 +225,13 @@ namespace Damoyeo.Web.Controllers
             }
 
             // 파일을 지정한 경로에 저장합니다.
-            file.SaveAs(path);
+            //file.SaveAs(path);
+            ResizeAndSaveImage(file,406,354,path); //리스트용 이미지
+            ResizeAndSaveImage(file, 728, 728, detailPath); // 상세이미지
             if (!string.IsNullOrEmpty(tableSaveName) && tableId > 0) 
             {
                 DamoyeoImage image = new DamoyeoImage();                
-                image.directory_path =  savePath + @"\";
+                image.directory_path =  savePath + "/";
                 image.origin_filename = originFileName;
                 image.save_filename = savefileName;
                 image.table_name = tableSaveName;
@@ -200,6 +242,27 @@ namespace Damoyeo.Web.Controllers
 
             return Url.Content(savePath + "/" + savefileName);
         }
-        
+
+
+        private void ResizeAndSaveImage(HttpPostedFileBase file, int width, int height, string outputPath)
+        {
+            using (Image originalImage = Image.FromStream(file.InputStream, true, true))
+            {
+                using (Bitmap newImage = new Bitmap(width, height))
+                {
+                    using (Graphics graphics = Graphics.FromImage(newImage))
+                    {
+                        graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                        graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                        graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+
+                        graphics.DrawImage(originalImage, 0, 0, width, height);
+                    }
+
+                    // 리사이즈된 이미지 저장 (JPEG 형식으로 저장)
+                    newImage.Save(outputPath, ImageFormat.Jpeg);
+                }
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace Damoyeo.DataAccess.Repository.IRepository
 {
     public interface IDamoyeoMeetupTagsRepository : IRepository<DamoyeoMeetupTags>
     {
-        
+        Task<IEnumerable<DamoyeoMeetupTags>> GetAllAsync(DamoyeoMeetupTags entity);
     }
     
 }

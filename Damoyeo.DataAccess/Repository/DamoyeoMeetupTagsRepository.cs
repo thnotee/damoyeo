@@ -31,6 +31,30 @@ VALUES (@meetup_id, @tag_id);
             return await _connection.ExecuteAsync(sql, entity, _transaction);
         }
 
+        public async Task<IEnumerable<DamoyeoMeetupTags>> GetAllAsync(DamoyeoMeetupTags entity)
+        {
+            var sql = @"
+	SELECT A.meetup_id, A.tag_id, B.tag_name from Damoyeo_Meetup_Tags A INNER JOIN Damoyeo_Tags B ON A.tag_id = B.tag_id
+	WHERE meetup_id = 4
+";
+
+
+            var item = await _connection.QueryAsync<DamoyeoMeetupTags, DamoyeoTags, DamoyeoMeetupTags>(
+           sql,
+           (MeetupTags, tags) =>
+           {
+               MeetupTags.tag = tags;
+               return MeetupTags;
+           },
+           entity,
+           transaction: _transaction,
+           splitOn: "tag_name");
+
+            return item;
+
+
+        }
+
         public Task<DamoyeoMeetupTags> GetAsync(DamoyeoMeetupTags entity)
         {
             throw new NotImplementedException();

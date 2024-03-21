@@ -3,11 +3,30 @@
  * @param {any} text
  * @param {any} obj
  */
-function alertBox(text) {
+function alertBox(text, func) {
 
-    Swal.fire({
-        title: text
-    });
+    if (func == null) {
+        Swal.fire({
+            title: text
+        });
+    }
+    else
+    {
+        Swal.fire({
+            title: text
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 여기에 확인 버튼 클릭 시 실행할 함수를 작성하세요.
+                func();
+            }
+        });
+    }
+
+}
+
+function reloadPage()
+{
+    location.reload();
 }
 
 /**

@@ -16,5 +16,7 @@ namespace Damoyeo.Model.ViewModel
         public IEnumerable<DamoyeoImage> image { get; set; }
 
         public IEnumerable<DamoyeoMeetupTags> Tags { get; set; }
-    }
+
+        public IEnumerable<DamoyeoApplications> applicationList { get; set; }
+}
 }

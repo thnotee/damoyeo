@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\AuthMdoel.cs" />
+    <Compile Include="Model\DamoyeoApplications.cs" />
     <Compile Include="Model\DamoyeoCategory.cs" />
     <Compile Include="Model\DamoyeoNotice.cs" />
     <Compile Include="Model\DamoyeoCommunity.cs" />

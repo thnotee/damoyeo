@@ -27,7 +27,9 @@ namespace Damoyeo.DataAccess.Repository.IRepository
 
         IDamoyeoMeetupTagsRepository MeetupTagsMapping { get; }
 
+        IDamoyeoApplicationsRepository Applications { get; }
 
+        
 
         void Commit();
     }

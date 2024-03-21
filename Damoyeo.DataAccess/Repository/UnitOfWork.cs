@@ -32,6 +32,8 @@ namespace Damoyeo.DataAccess.Repository
         public IDamoyeoTagsRepository Tags { get; private set; }
         public IDamoyeoMeetupTagsRepository MeetupTagsMapping { get; private set; }
 
+        public IDamoyeoApplicationsRepository Applications { get; private set; }
+
 
         public UnitOfWork(IDbConnection connection)
         {
@@ -47,6 +49,7 @@ namespace Damoyeo.DataAccess.Repository
             Image = new DamoyeoImageRepository(_transaction);
             Tags = new DamoyeoTagsRepository(_transaction);
             MeetupTagsMapping = new DamoyeoMeetupTagsRepository(_transaction);
+            Applications = new DamoyeoApplicationsRepository(_transaction);
         }
 
    

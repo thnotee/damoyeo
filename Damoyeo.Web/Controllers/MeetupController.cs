@@ -18,6 +18,7 @@ using System.Web;
 using System.Web.Mvc;
 using Damoyeo.Model.ViewModel;
 using System.Globalization;
+using Damoyeo.DataAccess.Repository;
 
 namespace Damoyeo.Web.Controllers
 {
@@ -69,19 +70,29 @@ namespace Damoyeo.Web.Controllers
             MeetupDetailVm meetupDetailVm = new MeetupDetailVm();
 
 
-            meetupDetailVm.detail = await _unitOfWork.Meetup.GetAsync(entity);
+            ///비동기 작업 시작
+            var detailTask = _unitOfWork.Meetup.GetAsync(entity);
+            var applicationEntity = new DamoyeoApplications { meetup_id = entity.meetup_id };
+            var applicationsTask = _unitOfWork.Applications.GetAllAsync(applicationEntity);
+            var imageParameta = new DamoyeoImage { table_name = "Damoyeo_Meetup", table_id = entity.meetup_id };
+            var imagesTask = _unitOfWork.Image.GetAllAsync(imageParameta);
+            var meetupTagsMappingParameta = new DamoyeoMeetupTags { meetup_id = entity.meetup_id };
+            var tagsTask = _unitOfWork.MeetupTagsMapping.GetAllAsync(meetupTagsMappingParameta);
 
-            var imageParameta = new DamoyeoImage();
-            imageParameta.table_name = "Damoyeo_Meetup";
-            imageParameta.table_id = entity.meetup_id;
-            meetupDetailVm.image = await _unitOfWork.Image.GetAllAsync(imageParameta);
+            await Task.WhenAll(detailTask, applicationsTask, imagesTask, tagsTask);
 
-            var meetupTagsMappingParameta = new DamoyeoMeetupTags();
-            meetupTagsMappingParameta.meetup_id = entity.meetup_id;
-            meetupDetailVm.Tags = await _unitOfWork.MeetupTagsMapping.GetAllAsync(meetupTagsMappingParameta);
+            
+            meetupDetailVm.detail = await detailTask;
+            meetupDetailVm.applicationList = await applicationsTask;
+            meetupDetailVm.image = await imagesTask;
+            meetupDetailVm.Tags = await tagsTask;
+            ///비동기 작업 끝
 
             return View(meetupDetailVm);
         }
+
+
+
 
 
 
@@ -160,7 +171,40 @@ namespace Damoyeo.Web.Controllers
         ////////////
 
 
-        public async Task<ActionResult> SearchLocationDataAsunc(string searchData) 
+
+
+        [HttpPost]
+        public async Task<ActionResult> Application(int meetup_id)
+        {
+            if (UserManager.IsLogin())
+            {
+                var entity = new DamoyeoApplications();
+                entity.meetup_id = meetup_id;
+                entity.user_id = UserManager.GetCookie().UserId;
+                entity.application_date = DateTime.Now;
+                var data = await _unitOfWork.Applications.GetAsync(entity);
+                if (data == null)
+                {
+                    await _unitOfWork.Applications.AddAsync(entity);
+                    _unitOfWork.Commit();
+                    return Json(new { success = true, code = 1 });
+                }
+                else 
+                {
+                    await _unitOfWork.Applications.RemoveAsync(data.application_id);
+                    _unitOfWork.Commit();
+                    return Json(new { success = true, code = 2 });
+                }
+
+            }
+            else 
+            {
+                return Json(new { success = false,  code = 3 });
+            }
+            
+        }
+
+            public async Task<ActionResult> SearchLocationDataAsunc(string searchData) 
         {
 
             // 요청할 URL

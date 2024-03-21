@@ -73,15 +73,15 @@
                     <li>
                         <p>모임 태그</p>
                         <div class="md_hash">
-                            @if (Model.Tags.Any()) 
+                            @if (Model.Tags.Any())
                             {
-                                foreach(var item in Model.Tags) 
+                                foreach (var item in Model.Tags)
                                 {
                                     <span>#@item.tag.tag_name</span>
                                 }
-                                
+
                             }
-                            
+
                         </div>
                     </li>
                 </ul>
@@ -110,7 +110,7 @@
                     </li>
                     <li>
                         <p><span>모임 정원</span> @(Model.detail.max_user_count)명</p>
-                        <p><span>현재 지원 인원</span> 20명</p>
+                        <p><span>현재 참여 인원</span> @(Model.applicationList.Count() + 1)명</p>
                         @if (Model.detail.over_capacity == "1")
                         {
                             <!-- 정원 초과 체크일 경우에만 표시 -->
@@ -119,7 +119,32 @@
 
                     </li>
                     <li>
-                        <span class="md_apply_btn">소모임 신청하기</span>
+                        @if (Damoyeo.Util.Manager.UserManager.IsLogin())
+                        {
+                            var userId = Damoyeo.Util.Manager.UserManager.GetCookie().UserId;
+                            bool exists = Model.applicationList.Any(x => x.user_id == userId);
+
+
+                            if (Model.detail.meetup_master_id == userId)
+                            {
+                                <span class="md_apply_btn" onclick="">수정</span>
+                                <span class="md_apply_btn" onclick="">삭제</span>
+                            }
+                            else
+                            {
+                                if (exists)
+                                { <span class="md_apply_btn" onclick="Application()">소모임 참여 취소하기</span> }
+                                else
+                                { <span class="md_apply_btn" onclick="Application()">소모임 참여하기</span> }
+                            }
+
+
+                        }
+                        else
+                        {
+                            <span class="md_apply_btn">로그인 후 참여 가능합니다.</span>
+                        }
+
                     </li>
                 </ul>
             </div>
@@ -158,5 +183,36 @@
         });
         marker.setMap(map);
         markers.push(marker);
+
+
+        function Application() {
+            
+
+            
+                 $.ajax({
+                    type: "POST",
+                    url: "/Meetup/Application",
+                    data: { meetup_id : @Model.detail.meetup_id },
+                    success: function (response) {
+                        if (response.success)
+                        {
+                            if (response.code == 1)
+                            {
+                                alertBox("모임참여 완료 하였습니다!! \n 마이페이지에 > 참여 소모임 \n 카카오톡 오픈채팅을 이용해주세요.", reloadPage)
+                            }
+                            else if (response.code == 2) {
+                                alertBox("모임참여 취소 하였습니다.", reloadPage)
+                            }
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("실패: ", error);
+                    }
+                });
+
+               
+        }
+
+
     </script>
-    }
+}

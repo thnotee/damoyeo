@@ -19,6 +19,7 @@ using System.Web.Mvc;
 using Damoyeo.Model.ViewModel;
 using System.Globalization;
 using Damoyeo.DataAccess.Repository;
+using static Dapper.SqlMapper;
 
 namespace Damoyeo.Web.Controllers
 {
@@ -161,10 +162,44 @@ namespace Damoyeo.Web.Controllers
             _unitOfWork.Commit();
 
 
-
-
             return View();
         }
+
+
+        public async Task<ActionResult> Edit(int meetup_id)
+        {
+            PagedList<DamoyeoCategory> categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
+            ViewData["categoryList"] = categoryList;
+
+            DamoyeoMeetup parameter = new DamoyeoMeetup();
+            parameter.meetup_id = meetup_id;
+
+            await _unitOfWork.Meetup.GetAsync(parameter);
+
+
+            MeetupDetailVm meetupDetailVm = new MeetupDetailVm();
+
+
+            ///비동기 작업 시작
+            var detailTask = _unitOfWork.Meetup.GetAsync(parameter);
+            var applicationEntity = new DamoyeoApplications { meetup_id = parameter.meetup_id };
+            var applicationsTask = _unitOfWork.Applications.GetAllAsync(applicationEntity);
+            var imageParameta = new DamoyeoImage { table_name = "Damoyeo_Meetup", table_id = parameter.meetup_id };
+            var imagesTask = _unitOfWork.Image.GetAllAsync(imageParameta);
+            var meetupTagsMappingParameta = new DamoyeoMeetupTags { meetup_id = parameter.meetup_id };
+            var tagsTask = _unitOfWork.MeetupTagsMapping.GetAllAsync(meetupTagsMappingParameta);
+
+            await Task.WhenAll(detailTask, applicationsTask, imagesTask, tagsTask);
+
+
+            meetupDetailVm.detail = await detailTask;
+            meetupDetailVm.applicationList = await applicationsTask;
+            meetupDetailVm.image = await imagesTask;
+            meetupDetailVm.Tags = await tagsTask;
+
+            return View(meetupDetailVm);
+        }
+
 
         /////////////
         ///API CALLS

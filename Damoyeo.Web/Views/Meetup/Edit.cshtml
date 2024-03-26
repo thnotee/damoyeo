@@ -1,0 +1,684 @@
+﻿@using Damoyeo.Model.Model;
+@using Damoyeo.Model.ViewModel;
+@model  MeetupDetailVm
+@{
+
+    var categoryList = ViewData["categoryList"] as PagedList<DamoyeoCategory>;
+
+}
+@section style{
+    <link rel="stylesheet" href="~/Content/css/open.css" />
+    <link rel="stylesheet" href="~/Content/css/daterangepicker.css" />
+}
+
+<form method="post" action="/Meetup/Write" enctype="multipart/form-data" id="myform">
+    <input type="hidden" value="" name="longitude" id="longitude">
+    <input type="hidden" value="" name="latitude" id="latitude">
+    <div class="section_wrap open_wrap">
+        <div class="inner sub_inner">
+            <h3 class="section_title">모임개설하기</h3>
+
+            <div class="open_box">
+                <div class="open_top">
+                    <div class="left">
+                        <p class="open_tit">대표 이미지 업로드</p>
+                        <div class="ib_main_img">
+                            <div class="img_box_main img_common_box"></div>
+                            <span class="img_main_btn img_up_btn" id="m_img_up">
+                                <label for="file_upload">
+                                    <img src="/Content/images/upload.svg" alt="" class="up_img">
+                                    <input type="file" id="file_upload" name="main_image" style="display: none;">
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <p class="open_tit">기본정보 <span>(필수)</span></p>
+                        <ul class="open_info">
+                            <li class="o_box1">
+                                <span class="open_stit">카테고리 / 모임명</span>
+                                <div class="open_txt">
+                                    <select name="category_id" id="category_id">
+                                        <option value="0">카테고리선택</option>
+
+                                        @foreach (var item in categoryList)
+                                        {
+                                            <option value="@item.category_id">@item.category_name</option>
+                                        }
+
+
+                                    </select>
+                                    <input type="text" name="meetup_name" id="meetup_name" placeholder="모임명을 입력해주세요." />
+                                </div>
+                            </li>
+                            <li class="o_box2">
+                                <span class="open_stit">문의 연락처</span>
+                                <div class="open_txt">
+                                    <div class="inquiry_call">
+                                        <span>담당자명</span>
+                                        <input type="text" name="person_name" />
+                                    </div>
+                                    <div class="inquiry_call">
+                                        <span>전화번호</span>
+                                        <input type="text" name="phone_number" />
+                                    </div>
+                                    <div class="inquiry_call inquiry_email">
+                                        <span>이메일</span>
+                                        <input type="text" id="txtEmail" value="" />
+                                        <p class="email_at">@@</p>
+                                        <input type="text" id="selectEmail2" value="">
+                                        <input type="hidden" id="email" name="email" value="">
+                                        <select id="selectEmail">
+                                            <option value="1" selected="">직접입력</option>
+                                            <option value="naver.com">naver.com</option>
+                                            <option value="hanmail.net">hanmail.net</option>
+                                            <option value="gmail.com">gmail.com</option>
+                                        </select>
+                                    </div>
+                                    <p class="open_notice">＊ 모임 종료 전까지 연락처가 노출되며, 임의로 입력한 경우 개인정보 도용으로 처벌받을 수 있습니다.</p>
+                                </div>
+                            </li>
+                            <li class="o_box3">
+                                <span class="open_stit">모임소개</span>
+                                <div class="open_txt">
+                                    <input id="meeting_intro" type="text" name="meeting_intro" placeholder="소모임을 간단히 한줄로 소개해주세요. (100자 이내)" />
+                                    <div class="text_check">
+                                        <span id="charCount">0</span> / 100
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="open_detail">
+                    <div class="od_con">
+                        <div>
+                            <p class="open_tit">상세 이미지 업로드</p>
+                            <div class="dimg_up">
+                                <div class="dimg_box">
+                                    <div class="img_box_sub img_common_box"></div>
+                                    <label for="d_file_upload1" class="dimg_up_btn img_up_btn" id="d_img_up1">
+                                        <img src="/Content/images/upload.svg" alt="">
+                                        <input type="file" id="d_file_upload1" name="files" style="display: none;">
+                                    </label>
+                                </div>
+                                <div class="dimg_box">
+                                    <div class="img_box_sub img_common_box"></div>
+                                    <label for="d_file_upload2" class="dimg_up_btn img_up_btn" id="d_img_up2">
+                                        <img src="/Content/images/upload.svg" alt="">
+                                        <input type="file" id="d_file_upload2" name="files" style="display: none;">
+                                    </label>
+                                </div>
+                                <div class="dimg_box">
+                                    <div class="img_box_sub img_common_box"></div>
+                                    <label for="d_file_upload3" class="dimg_up_btn img_up_btn" id="d_img_up3">
+                                        <img src="/Content/images/upload.svg" alt="">
+                                        <input type="file" id="d_file_upload3" name="files" style="display: none;">
+                                    </label>
+                                </div>
+                                <div class="dimg_box">
+                                    <div class="img_box_sub img_common_box"></div>
+                                    <label for="d_file_upload4" class="dimg_up_btn img_up_btn" id="d_img_up4">
+                                        <img src="/Content/images/upload.svg" alt="">
+                                        <input type="file" id="d_file_upload4" name="files" style="display: none;">
+                                    </label>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="dtxt_box">
+                            <p class="open_tit">상세정보 <span>(필수)</span></p>
+                            <textarea name="meetup_description"
+                                      id="meetup_description"
+                                      cols="30"
+                                      rows="10"
+                                      placeholder="내용을 입력해주세요."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="open_date">
+                    <p class="open_tit">그룹정보 <span>(필수)</span></p>
+
+                    <div class="open_info_con">
+                        <ul class="open_info">
+                            <li>
+                                <span class="open_stit">모임기간</span>
+                                <div class="open_txt">
+                                    <img src="/Content/images/calendar.svg" alt="">
+                                    <input type="text" name="dates" class="form-control">
+                                    <input type="hidden" name="meeting_sdate" id="meeting_sdate" class="form-control">
+                                    <input type="hidden" name="meeting_edate" id="meeting_edate" class="form-control">
+                                </div>
+                            </li>
+                            <li>
+                                <span class="open_stit">신청기간</span>
+                                <div class="open_txt">
+                                    <img src="/Content/images/calendar.svg" alt="">
+                                    <input type="text" name="dates" class="form-control">
+                                    <input type="hidden" name="application_sdate" id="application_sdate" class="form-control">
+                                    <input type="hidden" name="application_edate" id="application_edate" class="form-control">
+                                </div>
+                                <p class="open_notice open_npadding">＊ 참여 신청 및 취소는 신청기간에만 가능합니다.</p>
+                            </li>
+                            <li>
+                                <span class="open_stit over_stit">
+                                    카카오 오픈 채팅
+                                    <span class="explain_mark">
+                                        ?
+                                        <i class="explain_txt">
+                                            카카오 오픈채팅을 통해 소모임이 진행됩니다. 먼저 카카오 오픈채팅을 개설한 후 해당 링크를 입력해주세요.
+                                        </i>
+                                    </span>
+                                </span>
+                                <div class="open_txt">
+                                    <input type="text" id="kakao_openchat_link" name="kakao_openchat_link" placeholder="카카오 오픈 채팅 주소를 입력해주세요.">
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="open_info">
+                            <li>
+                                <span class="open_stit">모집 정원 입력</span>
+                                <input type="text" id="max_user_count" name="max_user_count" placeholder="모임의 정원을 입력해주세요.">
+                            </li>
+                            <li>
+                                <p class="open_stit over_stit">
+                                    정원초과 모집
+                                    <span class="explain_mark">
+                                        ?
+                                        <i class="explain_txt">
+                                            정원이 초과된 경우에도 추가 신청을 받을지 여부를 선택할 수 있습니다.
+                                        </i>
+                                    </span>
+                                </p>
+                                <div>
+                                    <label for="agree1" class="radio_box">
+                                        <input type="radio" id="agree1" name="over_capacity" value="1" checked="checked">허용
+                                    </label>
+                                    <label for="agree2" class="radio_box">
+                                        <input type="radio" id="agree2" name="over_capacity" value="0">허용안함
+                                    </label>
+                                </div>
+                            </li>
+
+                            <li>
+                                <span class="open_stit">모임 노출 설정</span>
+                                <div class="expose_wrap">
+                                    <div>
+                                        <label for="expose1" class="radio_box">
+                                            <input type="radio" id="expose1" name="meetup_display" value="1" checked="checked">노출
+                                        </label>
+                                        <label for="expose2" class="radio_box">
+                                            <input type="radio" id="expose2" name="meetup_display" value="0">미노출
+                                        </label>
+                                    </div>
+                                    <!--
+                                    <div class="ex_px_wrap">
+                                        <label for="ex_pw" class="check_box">
+                                            <input type="checkbox" id="ex_pw" name="ex_pw">비밀번호 설정
+                                        </label>
+                                        <input type="text" name="" id="url_pw" class="url_pw" placeholder="사용할 비밀번호 네자리를 입력해주세요.">
+                                    </div>
+                                        -->
+                                    <p class="open_notice">＊ 모임 미노출 시, URL로만 접근 가능합니다.</p>
+                                    <!--<p class="open_notice">＊ 비밀번호 사용 시 비밀번호를 입력해야만 접근이 가능합니다.</p>-->
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="open_map">
+                        <ul class="open_info">
+                            <li>
+                                <span class="open_stit">주소</span>
+                                <div class="map_right">
+                                    <div class="map_search">
+                                        <input type="hidden" name="post_code" value="" id="post_code" placeholder="건물, 지번 또는 도로명 검색">
+                                        <!--법정동-->
+                                        <input type="hidden" name="bname" value="" id="bname" placeholder="건물, 지번 또는 도로명 검색">
+                                        <input type="text" onclick="openDaumPostcode()" name="post_name" value="" id="post_name" placeholder="건물, 지번 또는 도로명 검색" readonly>
+                                        <span class="addr_btn" onclick="openDaumPostcode()">검색</span>
+
+                                    </div>
+                                    <div>
+                                        <input type="text" name="post_detail" id="addr_detail" placeholder="상세 주소를 입력해주세요." value="">
+                                    </div>
+                                    <div class="map_section" id="map"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="intro_wrap">
+                    <p class="open_tit">모임 알리기</p>
+
+                    <ul class="open_info interest_wrap">
+                        <!-- 카테고리테이블을 2개 관리하는건 이상함.. 기획 잘못 삭제
+                        <li>
+                            <span class="open_stit">모임 카테고리</span>
+                            <div class="open_txt">
+                                <div class="inter_box">
+                                    <div class="inter_check">
+
+                                        @for(int i=0; i<categoryList.Count; i++)
+                                        {
+                                            <label for="interest_@i" class="check_box">
+                                                <input type="checkbox" id="interest_@i" name="interest" value="@categoryList[i].category_id">@categoryList[i].category_name
+                                            </label>
+                                        }
+
+                                    </div>
+                                    <p class="open_notice">＊ 선택한 항목에 해당하는 사용자들에게 모임이 추천됩니다. (다중 선택 가능)</p>
+                                </div>
+                            </div>
+                        </li>
+                            -->
+                        <li>
+                            <span class="open_stit">모임 태그</span>
+                            <div class="open_txt">
+                                <div class="tag_wrap">
+                                    <input type="text" id="input_tag" placeholder="태그를 입력해주세요.">
+                                </div>
+                                <p class="open_notice">＊ 태그를 엔터로 구분하여 입력해주세요.</p>
+                                <p class="open_notice">＊ 모임태그 입력 시 태그별 모아보기가 가능하고 검색 결과에도 반영됩니다.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <span class="maker_btn big_btn" id="maker_btn">모임 개설하기</span>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:none" id="dynamic_tag_input_create">
+
+    </div>
+</form>
+
+@section scripts{
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <!--다음 주소찾기 팝업-->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2c03537489f069ffcb99fac73dd5028f&libraries=services"></script>
+
+    <script>
+
+        var markers = [];
+        var tags = [];
+        //사진 업로드
+        $(document).ready(function () {
+
+            $('.img_up_btn input[type=file]').change(function (event) {
+                var file = event.target.files[0];
+                var reader = new FileReader();
+                var inputElement = this; // 현재 input[type=file] 요소를 저장합니다.
+
+                reader.onload = function (event) {
+                    var imgBoxMain = $(inputElement).closest('.img_up_btn').siblings('.img_common_box');
+
+                    var img = $('<img>');
+                    img.attr('src', event.target.result);
+                    imgBoxMain.empty(); // 기존 이미지를 지우고
+                    imgBoxMain.append(img); // 새 이미지를 추가합니다.
+
+                    var newHtml = `
+                                                                          <div class="after_btn">
+                                                                              <label> 사진 변경
+                                                                                  <input type="file" class="file_upload_new" style="display: none;">
+                                                                              </label>
+                                                                              <span class="delete_photo">사진 삭제</span>
+                                                                          </div>
+                                                                      `;
+
+                    $(inputElement).closest('.img_up_btn').hide().after(newHtml);
+
+                    // 새로운 사진 변경 버튼에 대한 이벤트 핸들러를 추가
+                    $('.file_upload_new').change(function (event) {
+                        var newFile = event.target.files[0];
+                        var newReader = new FileReader();
+                        var newInputElement = this; // 새로운 input[type=file] 요소를 저장합니다.
+
+                        newReader.onload = function (event) {
+                            var newImgBoxMain = $(newInputElement).closest('.after_btn').prevAll('.img_common_box').first();
+                            var newImg = $('<img>');
+                            newImg.attr('src', event.target.result);
+                            newImgBoxMain.empty();
+                            newImgBoxMain.append(newImg);
+                        };
+
+                        newReader.readAsDataURL(newFile);
+                    });
+
+                    // 사진 삭제 버튼에 대한 이벤트 핸들러를 추가
+                    $('.delete_photo').click(function () {
+                        var deleteBtn = this;
+                        var imgBoxMainToDelete = $(deleteBtn).closest('.after_btn').prevAll('.img_common_box').first();
+                        imgBoxMainToDelete.empty();
+                        $(deleteBtn).closest('.after_btn').prev('.img_up_btn').show();
+                        $(deleteBtn).parent('.after_btn').remove();
+                    });
+                };
+
+                reader.readAsDataURL(file);
+            });
+        });
+
+        //이메일 선택
+        $(function () {
+            $('#selectEmail').change(function () {
+                $("#selectEmail option:selected").each(function () {
+
+                    if ($(this).val() == '1') {
+                        $("#selectEmail2").val('');
+                        $("#selectEmail2").attr("disabled", false);
+                    } else {
+                        $("#selectEmail2").val($(this).text());
+                        $("#selectEmail2").attr("disabled", true);
+                    }
+                });
+            });
+        });
+
+        //글자수 제한
+        $(document).ready(function () {
+            var maxLength = 100;
+            var $introInput = $('#introInput');
+            var $charCount = $('#charCount');
+
+            $introInput.on('input', function () {
+                var textLength = $introInput.val().length;
+                $charCount.text(textLength);
+
+                if (textLength > maxLength) {
+                    $introInput.val($introInput.val().substring(0, maxLength));
+                    alert('최대 ' + maxLength + '자까지 입력 가능합니다.');
+                    $charCount.text(maxLength);
+                }
+            });
+        });
+
+        //달력
+        $('input[name="dates"]').daterangepicker({
+            locale: {
+                format: "YYYY/MM/DD",
+                separator: " ~ ",
+                daysOfWeek: ["일", "월", "화", "수", "목", "금", "토"],
+                monthNames: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+                applyLabel: "확인",
+                cancelLabel: "취소",
+            }
+        });
+
+        //멤버 입력란 숫자만
+        $(document).ready(function () {
+            $('#memberInput').on('input', function () {
+                var inputValue = $(this).val();
+                if (!/^\d*$/.test(inputValue)) {
+                    alert("숫자만 입력 가능합니다.");
+                    $(this).val(inputValue.replace(/\D/g, ''));
+                }
+            });
+        });
+
+
+
+
+        //미노출 선택시 비밀번호 입력창
+        $(document).ready(function () {
+            $('.ex_px_wrap').hide();
+
+            $('input[type="radio"][name="expose"]').click(function () {
+                $('.ex_px_wrap').toggle($('#expose2').prop('checked'));
+                $('#url_pw').val('');
+            });
+        });
+
+        //해시태그 입력
+        $(document).ready(function () {
+            $('#input_tag').keypress(function (e) {
+                if (e.which == 13) {
+                    e.preventDefault();
+                    var text = $(this).val().trim();
+                    if (text !== "") {
+
+                        addHashTag(text);
+                        $(this).val('');
+                    }
+                }
+            });
+
+            $(document).on('click', '.tag_del', function () {
+
+
+                var text = $(this).closest(".hash_tag").data('text');
+                var index = tags.indexOf(text); // CSS의 인덱스를 찾음
+                if (index > -1) {
+                    tags.splice(index, 1); // 인덱스 위치에서 하나의 요소를 제거
+                }
+
+                $(this).closest(".hash_tag").remove();
+            });
+
+            function addHashTag(text) {
+
+                if (!tags.includes(text)) {
+                    tags.push(text);
+                    var tag = $(`<span class="hash_tag" data-text='${text}'></span>`);
+                    tag.text('#' + text);
+                    var icon = $('<img src="/Content/images/close.svg" class="tag_del" alt="">');
+                    icon.appendTo(tag);
+                    tag.insertBefore('#input_tag');
+                }
+
+            }
+        });
+
+        var container = document.getElementById('map');
+        var options = {
+            center: new kakao.maps.LatLng(37.59347385552367, 127.15240704096172),
+            level: 3,
+        };
+
+        var map = new kakao.maps.Map(container, options);
+        // 마커가 표시될 위치입니다
+        var markerPosition = new kakao.maps.LatLng(37.59347385552367, 127.15240704096172);
+
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            position: markerPosition
+        });
+        marker.setMap(map);
+        markers.push(marker);
+
+        // 배열에 추가된 마커들을 지도에 표시하거나 삭제하는 함수입니다
+        /*
+        function setMarkers(map) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }*/
+
+
+        $("#maker_btn").on("click", function () {
+
+
+
+            //이메일 셋팅
+            var email = $("#txtEmail").val() + "@@" + $("#selectEmail2").val();
+            $("#email").val(email);
+
+            //날짜 셋팅
+            var dates = $('input[name="dates"]');
+            var meetingDate = dates[0].value;
+            var applicationDate = dates[1].value;
+            var meetingDateArr = meetingDate.split('~');
+            $("#meeting_sdate").val(meetingDateArr[0].trim());
+            $("#meeting_edate").val(meetingDateArr[1].trim());
+
+            var applicationDateArr = applicationDate.split('~');
+            $("#application_sdate").val(applicationDateArr[0].trim());
+            $("#application_edate").val(applicationDateArr[1].trim());
+
+
+            $("#dynamic_tag_input_create").html("");
+            var appendText = "";
+            for (var tag in tags) {
+                appendText += `<input type='text' value='${tags[tag]}' name='tags'>`;
+            }
+            $("#dynamic_tag_input_create").append(appendText);
+
+
+            //검사
+
+            if ($("#category_id").val() == 0) {
+                alertFocus("카테고리를 선택해주세요.", $('#category_id'));
+                return false;
+            }
+
+            if ($("#meetup_name").val() == 0) {
+                alertFocus("모임명을 입력해주세요.", $('#meetup_name'));
+                return false;
+            }
+
+            if ($("#person_name").val() == 0) {
+                alertFocus("담당자명을 입력해주세요.", $('#person_name'));
+                return false;
+            }
+
+            if ($("#phone_number").val() == 0) {
+                alertFocus("전화번호를 입력해주세요.", $('#phone_number'));
+                return false;
+            }
+
+            if ($("#email").val() == "") {
+                alertFocus("이메일을 입력해주세요", $('#txtEmail'));
+                return false;
+            }
+
+
+            if ($("#meeting_intro").val() == "") {
+                alertFocus("모임소개를 입력해주세요.", $('#meeting_intro'));
+                return false;
+            }
+
+
+
+            if ($("#meetup_description").val() == "") {
+                alertFocus("상세소개글을 입력해주세요.", $('#meetup_description'));
+                return false;
+            }
+
+            if ($("#max_user_count").val() == "") {
+                alertFocus("모집 정원을 입력해주세요.", $('#max_user_count'));
+                return false;
+            }
+
+            if ($("#post_name").val() == "") {
+                alertFocus("주소를 입력해주세요.", $('#post_name'));
+                return false;
+            }
+
+
+            if ($("#post_detail").val() == "") {
+                alertFocus("상세주소를 입력해주세요.", $('#post_detail'));
+                return false;
+            }
+
+            $("#myform").submit();
+
+
+
+        });
+    </script>
+
+
+    <script>
+        function openDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+
+                    console.log(data);
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 위도 및 경도 좌푯값 구하기
+                    var geocoder = new kakao.maps.services.Geocoder();
+                    geocoder.addressSearch(data.roadAddress, (result, status) => {
+                        if (status === kakao.maps.services.Status.OK) {
+
+                            ////마커제거
+                            markers.forEach(function (marker) {
+                                marker.setMap(null);
+                            });
+
+
+                            $("#longitude").val(result[0].x);
+                            $("#latitude").val(result[0].y);
+                            // 이동할 위도 경도 위치를 생성합니다
+                            var moveLatLon = new kakao.maps.LatLng(result[0].y, result[0].x);
+                            // 지도 중심을 이동 시킵니다
+                            map.setCenter(moveLatLon);
+
+                            var markerPosition = new kakao.maps.LatLng(result[0].y, result[0].x);
+                            // 마커를 생성합니다
+                            var marker = new kakao.maps.Marker({
+                                position: markerPosition
+                            });
+                            // 마커가 지도 위에 표시되도록 설정합니다
+                            marker.setMap(map);
+                        }
+                    });
+                    //bname 법정동코드를 추가한다
+                    $("#bname").val(data.bname);
+
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if (data.userSelectedType === 'R') {
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if (data.buildingName !== '' && data.apartment === 'Y') {
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if (extraAddr !== '') {
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+                        //document.getElementById("sample6_extraAddress").value = extraAddr;
+
+                    } else {
+                        //document.getElementById("sample6_extraAddress").value = '';
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('post_code').value = data.zonecode;
+                    document.getElementById("post_name").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("post_code").focus();
+                }
+            }).open();
+        }
+    </script>
+}

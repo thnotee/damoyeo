@@ -10,5 +10,8 @@ namespace Damoyeo.DataAccess.Repository.IRepository
     public interface IDamoyeoImageRepository : IRepository<DamoyeoImage>
     {       
         Task<IEnumerable<DamoyeoImage>> GetAllAsync(DamoyeoImage entity);
+
+       
+        Task<int> RemoveTableIdAsync(DamoyeoImage entity);
     }
 }

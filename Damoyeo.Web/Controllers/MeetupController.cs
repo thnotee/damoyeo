@@ -165,19 +165,15 @@ namespace Damoyeo.Web.Controllers
             return View();
         }
 
-
+        
+        [Auth]
         public async Task<ActionResult> Edit(int meetup_id)
         {
             PagedList<DamoyeoCategory> categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
             ViewData["categoryList"] = categoryList;
-
-
-
             DamoyeoMeetup parameter = new DamoyeoMeetup();
             parameter.meetup_id = meetup_id;
             
-
-
             MeetupDetailVm meetupDetailVm = new MeetupDetailVm();
             ///비동기 작업 시작
             var detailTask = _unitOfWork.Meetup.GetAsync(parameter);
@@ -199,6 +195,67 @@ namespace Damoyeo.Web.Controllers
             return View(meetupDetailVm);
         }
 
+        [HttpPost]
+        [Auth]
+        public async Task<ActionResult> Edit(DamoyeoMeetup meetup, HttpPostedFileBase main_image, IEnumerable<HttpPostedFileBase> files, List<string> tags)
+        {
+            PagedList<DamoyeoCategory> categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
+            ViewData["categoryList"] = categoryList;
+            meetup.reg_date = DateTime.Now;
+            meetup.use_tf = 1;
+            meetup.meetup_master_id = UserManager.GetCookie().UserId;
+            var savePath = "/Content/upload/meetup";
+
+            //메인이미지가 존재하면 파일 업로드 해준다.
+            if (main_image != null)
+            {
+                meetup.meetup_image = await FileUpload(main_image, savePath);
+            }
+
+            await _unitOfWork.Meetup.UpdateAsync(meetup);
+
+            //DB에서 이미지삭제
+            var imageParameta = new DamoyeoImage { table_name = "Damoyeo_Meetup", table_id = meetup.meetup_id };
+            await _unitOfWork.Image.RemoveTableIdAsync(imageParameta);
+            foreach (var item in files)
+            {
+                if (item != null)
+                {
+                    await FileUpload(item, savePath, "Damoyeo_Meetup", meetup.meetup_id);
+                }
+            }
+
+
+            await _unitOfWork.MeetupTagsMapping.RemoveAsync(meetup.meetup_id);
+            /*태그 처리*/
+            if (tags != null)
+            {
+                foreach (var tagText in tags)
+                {
+                    var tag = new DamoyeoTags();
+                    tag.tag_name = tagText;
+                    var result = await _unitOfWork.Tags.GetAsync(tag);
+                    var tagId = 0;
+                    //1. 태그아이디를 가져옵니다.
+                    if (result == null) { tagId = await _unitOfWork.Tags.AddAsync(tag); }
+                    else { tagId = result.tag_id; }
+
+                    if (tagId > 0)
+                    {
+                        var mapping = new DamoyeoMeetupTags();
+                        mapping.tag_id = tagId;
+                        mapping.meetup_id = meetup.meetup_id;
+                        //2. 태그 매핑테이블에 추가
+                        await _unitOfWork.MeetupTagsMapping.AddAsync(mapping);
+                    }
+                }
+            }
+
+            _unitOfWork.Commit();
+            ///리다이렉트
+
+            return View();
+        }
 
         /////////////
         ///API CALLS

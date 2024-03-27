@@ -263,9 +263,46 @@ WHERE
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(DamoyeoMeetup entity)
+        public async Task UpdateAsync(DamoyeoMeetup entity)
         {
-            throw new NotImplementedException();
+
+            var sql = @"
+
+UPDATE Damoyeo_Meetup
+SET 
+    meetup_name = @meetup_name, 
+    meetup_master_id = @meetup_master_id,
+    view_count = @view_count, 
+    user_count = @user_count, 
+    max_user_count = @max_user_count, 
+    use_tf = @use_tf, 
+    reg_date = @reg_date, 
+    meetup_image = @meetup_image, 
+    meetup_description = @meetup_description, 
+    category_id = @category_id, 
+    phone_number = @phone_number,
+    email = @email, 
+    meeting_intro = @meeting_intro, 
+    person_name = @person_name, 
+    meeting_sdate = @meeting_sdate, 
+    meeting_edate = @meeting_edate, 
+    application_sdate = @application_sdate,
+    application_edate = @application_edate, 
+    kakao_openchat_link = @kakao_openchat_link,
+    post_code = @post_code, 
+    post_name = @post_name,
+    post_detail = @post_detail, 
+    over_capacity = @over_capacity, 
+    meetup_display = @meetup_display,
+    bname = @bname,
+    longitude = @longitude,
+    latitude = @latitude
+WHERE meetup_id = @meetup_id;
+
+";
+
+
+            await _connection.ExecuteAsync(sql, entity, _transaction);
         }
     }
 }

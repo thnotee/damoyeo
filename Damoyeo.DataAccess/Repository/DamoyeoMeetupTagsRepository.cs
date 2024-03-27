@@ -33,9 +33,10 @@ VALUES (@meetup_id, @tag_id);
 
         public async Task<IEnumerable<DamoyeoMeetupTags>> GetAllAsync(DamoyeoMeetupTags entity)
         {
+            
             var sql = @"
 	SELECT A.meetup_id, A.tag_id, B.tag_name from Damoyeo_Meetup_Tags A INNER JOIN Damoyeo_Tags B ON A.tag_id = B.tag_id
-	WHERE meetup_id = 4
+	WHERE meetup_id = @meetup_id
 ";
 
 
@@ -65,9 +66,13 @@ VALUES (@meetup_id, @tag_id);
             throw new NotImplementedException();
         }
 
-        public Task RemoveAsync(int id)
+        public async Task RemoveAsync(int id)
         {
-            throw new NotImplementedException();
+            var sql = @"
+	delete from Damoyeo_Meetup_Tags
+	WHERE meetup_id = @id
+";
+            await _connection.ExecuteAsync(sql, new { id }, _transaction);
         }
 
         public Task UpdateAsync(DamoyeoMeetupTags entity)

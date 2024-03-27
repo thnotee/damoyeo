@@ -5,6 +5,17 @@
 
     var categoryList = ViewData["categoryList"] as PagedList<DamoyeoCategory>;
     bool mainImgTf = !string.IsNullOrEmpty(Model.detail.meetup_image);
+
+    var emailId = "";
+    var emailDomain = "";
+
+    if (!string.IsNullOrEmpty(Model.detail.email))
+    {
+        var emailArr = Model.detail.email.Split('@');
+        emailId = emailArr[0];
+        emailDomain = emailArr[1];
+    }
+
 }
 @section style{
     <link rel="stylesheet" href="~/Content/css/open.css" />
@@ -13,9 +24,12 @@
      
 }
 
-<form method="post" action="/Meetup/Write" enctype="multipart/form-data" id="myform">
-    <input type="hidden" value="" name="longitude" id="longitude">
-    <input type="hidden" value="" name="latitude" id="latitude">
+<form method="post" action="/Meetup/Edit" enctype="multipart/form-data" id="myform">
+    <input type="hidden" value="@Model.detail.longitude" name="longitude" id="longitude">
+    <input type="hidden" value="@Model.detail.latitude" name="latitude" id="latitude">
+    <input type="hidden" value="@Model.detail.meetup_id" name="meetup_id" id="meetup_id">
+
+    
     <div class="section_wrap open_wrap">
         <div class="inner sub_inner">
             <h3 class="section_title">모임수정하기</h3>
@@ -26,13 +40,46 @@
                         <p class="open_tit">대표 이미지 업로드</p>
                         <div class="ib_main_img">
                             <div class="img_box_main img_common_box">
+
+                                @if (mainImgTf)
+                                {
+                                    <img src="@Model.detail.meetup_image" />
+                                }
                             </div>
-                            <span class="img_main_btn img_up_btn" id="m_img_up" style="display: none;">
-                                <label for="file_upload">
-                                    <img src="/Content/images/upload.svg" alt="" class="up_img">
-                                    <input type="file" id="file_upload" name="main_image" style="display: none;">
-                                </label>
-                            </span>
+                            @if (mainImgTf)
+                            {
+                                <span class="img_main_btn img_up_btn" id="m_img_up" style="display: none;">
+
+                                    <label for="file_upload">
+                                        <img src="/Content/images/upload.svg" alt="" class="up_img">
+                                        <input type="file" id="file_upload" name="main_image" style="display: none;">
+                                    </label>
+                                </span>
+
+                                <div class="after_btn">
+                                    <label>
+                                        사진 변경
+                                        <input type="file" class="file_upload_new" style="display: none;">
+                                    </label>
+                                    <span class="delete_photo">사진 삭제</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <span class="img_main_btn img_up_btn" id="m_img_up">
+
+                                    <label for="file_upload">
+                                        <img src="/Content/images/upload.svg" alt="" class="up_img">
+                                        <input type="file" id="file_upload" name="main_image" style="display: none;">
+                                    </label>
+                                </span>
+
+                            }
+
+
+
+
+
                         </div>
                     </div>
                     <div class="right">
@@ -46,7 +93,12 @@
 
                                         @foreach (var item in categoryList)
                                         {
-                                            <option value="@item.category_id">@item.category_name</option>
+                                            var selected = "";
+                                            if (item.category_id == Model.detail.category_id)
+                                            {
+                                                selected = "selected";
+                                            }
+                                            <option value="@item.category_id" @selected>@item.category_name</option>
                                         }
 
 
@@ -59,17 +111,18 @@
                                 <div class="open_txt">
                                     <div class="inquiry_call">
                                         <span>담당자명</span>
-                                        <input type="text" name="person_name" @Model.detail.person_name />
+                                        <input type="text" name="person_name" value="@Model.detail.person_name" />
                                     </div>
                                     <div class="inquiry_call">
                                         <span>전화번호</span>
-                                        <input type="text" name="phone_number" @Model.detail.phone_number />
+                                        <input type="text" name="phone_number" value="@Model.detail.phone_number" />
                                     </div>
                                     <div class="inquiry_call inquiry_email">
+
                                         <span>이메일</span>
-                                        <input type="text" id="txtEmail" value="" />
+                                        <input type="text" id="txtEmail" value="@emailId" />
                                         <p class="email_at">@@</p>
-                                        <input type="text" id="selectEmail2" value="">
+                                        <input type="text" id="selectEmail2" value="@emailDomain">
                                         <input type="hidden" id="email" name="email" value="">
                                         <select id="selectEmail">
                                             <option value="1" selected="">직접입력</option>
@@ -99,53 +152,49 @@
                         <div>
                             <p class="open_tit">상세 이미지 업로드</p>
                             <div class="dimg_up">
-                                <div class="dimg_box">
-                                    <div class="img_box_sub img_common_box"></div>
-                                    <label for="d_file_upload1" class="dimg_up_btn img_up_btn" id="d_img_up1">
-                                        <img src="/Content/images/upload.svg" alt="">
-                                        <input type="file" id="d_file_upload1" name="files" style="display: none;">
-                                    </label>
-                                </div>
-
-                                <!--
-    <div class="dimg_box">
-        <div class="img_box_sub img_common_box"></div>
-        <label for="d_file_upload2" class="dimg_up_btn img_up_btn" id="d_img_up2">
-            <img src="/Content/images/upload.svg" alt="">
-            <input type="file" id="d_file_upload2" name="files" style="display: none;">
-        </label>
-    </div>
-     -->
 
 
-                                <div class="dimg_box">
-                                    <div class="img_box_sub img_common_box"><img src="~/Content/images/customer/ev_banner.jpg"></div>
-                                    <label for="d_file_upload2" class="dimg_up_btn img_up_btn" id="d_img_up2" style="display: none;">
-                                        <img src="/Content/images/upload.svg" alt="">
-                                        <input type="file" id="d_file_upload2" name="files" style="display: none;">
-                                    </label>
-                                    <div class="after_btn">
-                                        <label>
-                                            사진 변경
-                                            <input type="file" class="file_upload_new" style="display: none;">
-                                        </label>
-                                        <span class="delete_photo" onclick="DeletePhotoImg();">사진 삭제</span>
-                                    </div>
-                                </div>
-                                <div class="dimg_box">
-                                    <div class="img_box_sub img_common_box"></div>
-                                    <label for="d_file_upload3" class="dimg_up_btn img_up_btn" id="d_img_up3">
-                                        <img src="/Content/images/upload.svg" alt="">
-                                        <input type="file" id="d_file_upload3" name="files" style="display: none;">
-                                    </label>
-                                </div>
-                                <div class="dimg_box">
-                                    <div class="img_box_sub img_common_box"></div>
-                                    <label for="d_file_upload4" class="dimg_up_btn img_up_btn" id="d_img_up4">
-                                        <img src="/Content/images/upload.svg" alt="">
-                                        <input type="file" id="d_file_upload4" name="files" style="display: none;">
-                                    </label>
-                                </div>
+                                @for (var i = 0; i < 4; i++)
+                                {
+                                    var img = Model.image.ElementAtOrDefault(i);
+
+                                    if (img != null)
+                                    {
+
+                                        <div class="dimg_box">
+                                            <div class="img_box_sub img_common_box">
+                                                <img src="@img.directory_path/@img.save_filename">
+
+                                            </div>
+                                            <label for="d_file_upload@(i+1)" class="dimg_up_btn img_up_btn" id="d_img_up@(i+1)" style="display: none;">
+                                                <img src="/Content/images/upload.svg" alt="">
+                                                <input type="file" id="d_file_upload@(i+1)" name="files" style="display: none;">
+                                            </label>
+                                            <div class="after_btn">
+                                                <label>
+                                                    사진 변경
+                                                    <input type="file" class="file_upload_new" style="display: none;">
+                                                </label>
+                                                <span class="delete_photo">사진 삭제</span>
+                                            </div>
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+
+                                        <div class="dimg_box">
+                                            <div class="img_box_sub img_common_box"></div>
+                                            <label for="d_file_upload@(i+1)" class="dimg_up_btn img_up_btn" id="d_img_up@(i+1)">
+                                                <img src="/Content/images/upload.svg" alt="">
+                                                <input type="file" id="d_file_upload@(i+1)" name="files" style="display: none;">
+                                            </label>
+                                        </div>
+                                    }
+
+
+                                }
+
                             </div>
 
 
@@ -258,15 +307,15 @@
                                 <span class="open_stit">주소</span>
                                 <div class="map_right">
                                     <div class="map_search">
-                                        <input type="hidden" name="post_code" value="" id="post_code" placeholder="건물, 지번 또는 도로명 검색">
+                                        <input type="hidden" name="post_code" value="@Model.detail.post_code" id="post_code" placeholder="건물, 지번 또는 도로명 검색">
                                         <!--법정동-->
-                                        <input type="hidden" name="bname" value="" id="bname" placeholder="건물, 지번 또는 도로명 검색">
-                                        <input type="text" onclick="openDaumPostcode()" name="post_name" value="" id="post_name" placeholder="건물, 지번 또는 도로명 검색" readonly>
+                                        <input type="hidden" name="bname" value="@Model.detail.bname" id="bname" placeholder="건물, 지번 또는 도로명 검색">
+                                        <input type="text" onclick="openDaumPostcode()" name="post_name" value="@Model.detail.post_name" id="post_name" placeholder="건물, 지번 또는 도로명 검색" readonly>
                                         <span class="addr_btn" onclick="openDaumPostcode()">검색</span>
 
                                     </div>
                                     <div>
-                                        <input type="text" name="post_detail" id="addr_detail" placeholder="상세 주소를 입력해주세요." value="">
+                                        <input type="text" name="post_detail" id="addr_detail" placeholder="상세 주소를 입력해주세요." value="@Model.detail.post_detail">
                                     </div>
                                     <div class="map_section" id="map"></div>
                                 </div>
@@ -317,7 +366,7 @@
                     </ul>
                 </div>
 
-                <span class="maker_btn big_btn" id="maker_btn">모임 개설하기</span>
+                <span class="maker_btn big_btn" id="maker_btn">모임 수정하기</span>
             </div>
         </div>
     </div>
@@ -341,7 +390,6 @@
 
 
         SetData();
-        console.log(tags);
         function SetData()
         {
             //이미지추가
@@ -390,48 +438,42 @@
 
                 $(inputElement).closest('.img_up_btn').hide().after(newHtml);
 
-                // 새로운 사진 변경 버튼에 대한 이벤트 핸들러를 추가
-                $('.file_upload_new').change(function (event) {
-                    var newFile = event.target.files[0];
-                    var newReader = new FileReader();
-                    var newInputElement = this; // 새로운 input[type=file] 요소를 저장합니다.
 
-                    newReader.onload = function (event) {
-                        var newImgBoxMain = $(newInputElement).closest('.after_btn').prevAll('.img_common_box').first();
-                        var newImg = $('<img>');
-                        newImg.attr('src', event.target.result);
-                        newImgBoxMain.empty();
-                        newImgBoxMain.append(newImg);
-                    };
-
-                    newReader.readAsDataURL(newFile);
-                });
-
-                // 사진 삭제 버튼에 대한 이벤트 핸들러를 추가
-                $('.delete_photo').click(function () {
-                    console.log("실행");
-                    var deleteBtn = this;
-                    var imgBoxMainToDelete = $(deleteBtn).closest('.after_btn').prevAll('.img_common_box').first();
-                    imgBoxMainToDelete.empty();
-                    $(deleteBtn).closest('.after_btn').prev('.img_up_btn').show();
-                    $(deleteBtn).parent('.after_btn').remove();
-                });
             };
 
             reader.readAsDataURL(file);
         }
 
-        function DeletePhotoImg()
-        {
-            console.log("실행");
-            console.log(this);
-            var deleteBtn = this;
-            var imgBoxMainToDelete = $(deleteBtn).closest('.after_btn').prevAll('.img_common_box').first();
-            imgBoxMainToDelete.empty();
-            $(deleteBtn).closest('.after_btn').prev('.img_up_btn').show();
-            $(deleteBtn).parent('.after_btn').remove();
 
-        }
+        //사진 삭제
+        $(document).on('click', '.delete_photo', function (e) {
+            //console.log(this);
+
+            var imgBoxMainToDelete = $(this).closest('.after_btn').prevAll('.img_common_box').first();
+            imgBoxMainToDelete.empty();
+            $(this).closest('.after_btn').prev('.img_up_btn').show();
+            $(this).parent('.after_btn').remove();
+        });
+
+        //사진변경
+        $(document).on('change', '.file_upload_new', function (e) {
+
+            var newFile = event.target.files[0];
+            var newReader = new FileReader();
+            var newInputElement = this; // 새로운 input[type=file] 요소를 저장합니다.
+
+            newReader.onload = function (e) {
+                var newImgBoxMain = $(newInputElement).closest('.after_btn').prevAll('.img_common_box').first();
+                var newImg = $('<img>');
+                newImg.attr('src', e.target.result);
+                newImgBoxMain.empty();
+                newImgBoxMain.append(newImg);
+            };
+
+            newReader.readAsDataURL(newFile);
+        });
+
+
 
         //사진 업로드
         $(document).ready(function () {
@@ -441,7 +483,7 @@
                 fileUpload(this);
             });
 
-            
+
 
             //이메일 선택
             $('#selectEmail').change(function () {
@@ -556,30 +598,24 @@
             }
         });
 
-        var container = document.getElementById('map');
-        var options = {
-            center: new kakao.maps.LatLng(37.59347385552367, 127.15240704096172),
-            level: 3,
-        };
+      var container = document.getElementById('map');
+     var options = {
+         center: new kakao.maps.LatLng(@Model.detail.latitude, @Model.detail.longitude),
+         level: 3,
+     };
 
-        var map = new kakao.maps.Map(container, options);
-        // 마커가 표시될 위치입니다
-        var markerPosition = new kakao.maps.LatLng(37.59347385552367, 127.15240704096172);
+     var map = new kakao.maps.Map(container, options);
+     // 마커가 표시될 위치입니다
+     var markerPosition = new kakao.maps.LatLng(@Model.detail.latitude, @Model.detail.longitude);
 
-        // 마커를 생성합니다
-        var marker = new kakao.maps.Marker({
-            position: markerPosition
-        });
-        marker.setMap(map);
-        markers.push(marker);
+     // 마커를 생성합니다
+     var marker = new kakao.maps.Marker({
+         position: markerPosition
+     });
+     marker.setMap(map);
+     markers.push(marker);
 
-        // 배열에 추가된 마커들을 지도에 표시하거나 삭제하는 함수입니다
-        /*
-        function setMarkers(map) {
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(map);
-            }
-        }*/
+ 
 
 
         $("#maker_btn").on("click", function () {

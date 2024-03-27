@@ -65,6 +65,14 @@ SELECT Id
             throw new NotImplementedException();
         }
 
+        public async Task<int> RemoveTableIdAsync(DamoyeoImage entity)
+        {
+            var sql = @"
+    delete from Damoyeo_Image where  table_id = @table_id and table_name = @table_name
+";
+            return await _connection.ExecuteAsync(sql, entity, _transaction); 
+        }
+
         public Task UpdateAsync(DamoyeoImage entity)
         {
             throw new NotImplementedException();

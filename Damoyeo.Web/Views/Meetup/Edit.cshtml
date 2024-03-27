@@ -4,11 +4,13 @@
 @{
 
     var categoryList = ViewData["categoryList"] as PagedList<DamoyeoCategory>;
-
+    bool mainImgTf = !string.IsNullOrEmpty(Model.detail.meetup_image);
 }
 @section style{
     <link rel="stylesheet" href="~/Content/css/open.css" />
     <link rel="stylesheet" href="~/Content/css/daterangepicker.css" />
+
+     
 }
 
 <form method="post" action="/Meetup/Write" enctype="multipart/form-data" id="myform">
@@ -16,15 +18,16 @@
     <input type="hidden" value="" name="latitude" id="latitude">
     <div class="section_wrap open_wrap">
         <div class="inner sub_inner">
-            <h3 class="section_title">모임개설하기</h3>
+            <h3 class="section_title">모임수정하기</h3>
 
             <div class="open_box">
                 <div class="open_top">
                     <div class="left">
                         <p class="open_tit">대표 이미지 업로드</p>
                         <div class="ib_main_img">
-                            <div class="img_box_main img_common_box"></div>
-                            <span class="img_main_btn img_up_btn" id="m_img_up">
+                            <div class="img_box_main img_common_box">
+                            </div>
+                            <span class="img_main_btn img_up_btn" id="m_img_up" style="display: none;">
                                 <label for="file_upload">
                                     <img src="/Content/images/upload.svg" alt="" class="up_img">
                                     <input type="file" id="file_upload" name="main_image" style="display: none;">
@@ -48,7 +51,7 @@
 
 
                                     </select>
-                                    <input type="text" name="meetup_name" id="meetup_name" placeholder="모임명을 입력해주세요." />
+                                    <input type="text" name="meetup_name" id="meetup_name" placeholder="모임명을 입력해주세요." value="@Model.detail.meetup_name" />
                                 </div>
                             </li>
                             <li class="o_box2">
@@ -56,11 +59,11 @@
                                 <div class="open_txt">
                                     <div class="inquiry_call">
                                         <span>담당자명</span>
-                                        <input type="text" name="person_name" />
+                                        <input type="text" name="person_name" @Model.detail.person_name />
                                     </div>
                                     <div class="inquiry_call">
                                         <span>전화번호</span>
-                                        <input type="text" name="phone_number" />
+                                        <input type="text" name="phone_number" @Model.detail.phone_number />
                                     </div>
                                     <div class="inquiry_call inquiry_email">
                                         <span>이메일</span>
@@ -81,7 +84,7 @@
                             <li class="o_box3">
                                 <span class="open_stit">모임소개</span>
                                 <div class="open_txt">
-                                    <input id="meeting_intro" type="text" name="meeting_intro" placeholder="소모임을 간단히 한줄로 소개해주세요. (100자 이내)" />
+                                    <input id="meeting_intro" type="text" name="meeting_intro" placeholder="소모임을 간단히 한줄로 소개해주세요. (100자 이내)" value="@Model.detail.meeting_intro" />
                                     <div class="text_check">
                                         <span id="charCount">0</span> / 100
                                     </div>
@@ -103,12 +106,31 @@
                                         <input type="file" id="d_file_upload1" name="files" style="display: none;">
                                     </label>
                                 </div>
+
+                                <!--
+    <div class="dimg_box">
+        <div class="img_box_sub img_common_box"></div>
+        <label for="d_file_upload2" class="dimg_up_btn img_up_btn" id="d_img_up2">
+            <img src="/Content/images/upload.svg" alt="">
+            <input type="file" id="d_file_upload2" name="files" style="display: none;">
+        </label>
+    </div>
+     -->
+
+
                                 <div class="dimg_box">
-                                    <div class="img_box_sub img_common_box"></div>
-                                    <label for="d_file_upload2" class="dimg_up_btn img_up_btn" id="d_img_up2">
+                                    <div class="img_box_sub img_common_box"><img src="~/Content/images/customer/ev_banner.jpg"></div>
+                                    <label for="d_file_upload2" class="dimg_up_btn img_up_btn" id="d_img_up2" style="display: none;">
                                         <img src="/Content/images/upload.svg" alt="">
                                         <input type="file" id="d_file_upload2" name="files" style="display: none;">
                                     </label>
+                                    <div class="after_btn">
+                                        <label>
+                                            사진 변경
+                                            <input type="file" class="file_upload_new" style="display: none;">
+                                        </label>
+                                        <span class="delete_photo" onclick="DeletePhotoImg();">사진 삭제</span>
+                                    </div>
                                 </div>
                                 <div class="dimg_box">
                                     <div class="img_box_sub img_common_box"></div>
@@ -135,7 +157,7 @@
                                       id="meetup_description"
                                       cols="30"
                                       rows="10"
-                                      placeholder="내용을 입력해주세요."></textarea>
+                                      placeholder="내용을 입력해주세요.">@Model.detail.meetup_description</textarea>
                         </div>
                     </div>
                 </div>
@@ -150,8 +172,8 @@
                                 <div class="open_txt">
                                     <img src="/Content/images/calendar.svg" alt="">
                                     <input type="text" name="dates" class="form-control">
-                                    <input type="hidden" name="meeting_sdate" id="meeting_sdate" class="form-control">
-                                    <input type="hidden" name="meeting_edate" id="meeting_edate" class="form-control">
+                                    <input type="hidden" name="meeting_sdate" id="meeting_sdate" class="form-control" value="@Model.detail.meeting_sdate">
+                                    <input type="hidden" name="meeting_edate" id="meeting_edate" class="form-control" value="@Model.detail.meeting_edate">
                                 </div>
                             </li>
                             <li>
@@ -159,8 +181,8 @@
                                 <div class="open_txt">
                                     <img src="/Content/images/calendar.svg" alt="">
                                     <input type="text" name="dates" class="form-control">
-                                    <input type="hidden" name="application_sdate" id="application_sdate" class="form-control">
-                                    <input type="hidden" name="application_edate" id="application_edate" class="form-control">
+                                    <input type="hidden" name="application_sdate" id="application_sdate" class="form-control" value="@Model.detail.application_sdate">
+                                    <input type="hidden" name="application_edate" id="application_edate" class="form-control" value="@Model.detail.application_edate">
                                 </div>
                                 <p class="open_notice open_npadding">＊ 참여 신청 및 취소는 신청기간에만 가능합니다.</p>
                             </li>
@@ -175,14 +197,14 @@
                                     </span>
                                 </span>
                                 <div class="open_txt">
-                                    <input type="text" id="kakao_openchat_link" name="kakao_openchat_link" placeholder="카카오 오픈 채팅 주소를 입력해주세요.">
+                                    <input type="text" id="kakao_openchat_link" name="kakao_openchat_link" placeholder="카카오 오픈 채팅 주소를 입력해주세요." value="@Model.detail.kakao_openchat_link">
                                 </div>
                             </li>
                         </ul>
                         <ul class="open_info">
                             <li>
                                 <span class="open_stit">모집 정원 입력</span>
-                                <input type="text" id="max_user_count" name="max_user_count" placeholder="모임의 정원을 입력해주세요.">
+                                <input type="text" id="max_user_count" name="max_user_count" placeholder="모임의 정원을 입력해주세요." value="@Model.detail.max_user_count">
                             </li>
                             <li>
                                 <p class="open_stit over_stit">
@@ -196,10 +218,10 @@
                                 </p>
                                 <div>
                                     <label for="agree1" class="radio_box">
-                                        <input type="radio" id="agree1" name="over_capacity" value="1" checked="checked">허용
+                                        <input type="radio" id="agree1" name="over_capacity" value="1" @(Model.detail.over_capacity == "1" ? "checked" : "")>허용
                                     </label>
                                     <label for="agree2" class="radio_box">
-                                        <input type="radio" id="agree2" name="over_capacity" value="0">허용안함
+                                        <input type="radio" id="agree2" name="over_capacity" value="0" @(Model.detail.over_capacity == "0" ? "checked" : "")>허용안함
                                     </label>
                                 </div>
                             </li>
@@ -209,10 +231,10 @@
                                 <div class="expose_wrap">
                                     <div>
                                         <label for="expose1" class="radio_box">
-                                            <input type="radio" id="expose1" name="meetup_display" value="1" checked="checked">노출
+                                            <input type="radio" id="expose1" name="meetup_display" value="1" @(Model.detail.meetup_display == "1" ? "checked" : "")>노출
                                         </label>
                                         <label for="expose2" class="radio_box">
-                                            <input type="radio" id="expose2" name="meetup_display" value="0">미노출
+                                            <input type="radio" id="expose2" name="meetup_display" value="0" @(Model.detail.meetup_display == "0" ? "checked" : "")>미노출
                                         </label>
                                     </div>
                                     <!--
@@ -281,6 +303,11 @@
                             <span class="open_stit">모임 태그</span>
                             <div class="open_txt">
                                 <div class="tag_wrap">
+                                    @foreach (var tag in Model.Tags)
+                                    {
+                                        <span class="hash_tag" data-text="@tag.tag.tag_name">#@tag.tag.tag_name<img src="/Content/images/close.svg" class="tag_del" alt=""></span>
+                                    }
+
                                     <input type="text" id="input_tag" placeholder="태그를 입력해주세요.">
                                 </div>
                                 <p class="open_notice">＊ 태그를 엔터로 구분하여 입력해주세요.</p>
@@ -309,69 +336,114 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2c03537489f069ffcb99fac73dd5028f&libraries=services"></script>
 
     <script>
-
         var markers = [];
         var tags = [];
+
+
+        SetData();
+        console.log(tags);
+        function SetData()
+        {
+            //이미지추가
+
+            // 첫 번째 Date Range Picker 초기화 및 설정
+            $('input[name="dates"]').eq(0).daterangepicker();
+            var datePicker1 = $('input[name="dates"]').eq(0).data('daterangepicker');
+            datePicker1.setStartDate('@Model.detail.meeting_sdate');
+            datePicker1.setEndDate('@Model.detail.meeting_edate');
+
+            // 두 번째 Date Range Picker 초기화 및 설정
+            $('input[name="dates"]').eq(1).daterangepicker();
+            var datePicker2 = $('input[name="dates"]').eq(1).data('daterangepicker');
+            datePicker2.setStartDate('@Model.detail.application_sdate');
+            datePicker2.setEndDate('@Model.detail.application_edate');
+
+            //태그추가
+            @foreach(var tag in Model.Tags)
+            {
+                @:tags.push('@tag.tag.tag_name');
+            }
+        }
+
+        function fileUpload(data) {
+
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            var inputElement = data; // 현재 input[type=file] 요소를 저장합니다.
+
+            reader.onload = function (event) {
+                var imgBoxMain = $(inputElement).closest('.img_up_btn').siblings('.img_common_box');
+
+                var img = $('<img>');
+                img.attr('src', event.target.result);
+                imgBoxMain.empty(); // 기존 이미지를 지우고
+                imgBoxMain.append(img); // 새 이미지를 추가합니다.
+
+                var newHtml = `
+         <div class="after_btn">
+         <label> 사진 변경
+             <input type="file" class="file_upload_new" style="display: none;">
+                 </label>
+             <span class="delete_photo">사진 삭제</span>
+         </div>
+     `;
+
+                $(inputElement).closest('.img_up_btn').hide().after(newHtml);
+
+                // 새로운 사진 변경 버튼에 대한 이벤트 핸들러를 추가
+                $('.file_upload_new').change(function (event) {
+                    var newFile = event.target.files[0];
+                    var newReader = new FileReader();
+                    var newInputElement = this; // 새로운 input[type=file] 요소를 저장합니다.
+
+                    newReader.onload = function (event) {
+                        var newImgBoxMain = $(newInputElement).closest('.after_btn').prevAll('.img_common_box').first();
+                        var newImg = $('<img>');
+                        newImg.attr('src', event.target.result);
+                        newImgBoxMain.empty();
+                        newImgBoxMain.append(newImg);
+                    };
+
+                    newReader.readAsDataURL(newFile);
+                });
+
+                // 사진 삭제 버튼에 대한 이벤트 핸들러를 추가
+                $('.delete_photo').click(function () {
+                    console.log("실행");
+                    var deleteBtn = this;
+                    var imgBoxMainToDelete = $(deleteBtn).closest('.after_btn').prevAll('.img_common_box').first();
+                    imgBoxMainToDelete.empty();
+                    $(deleteBtn).closest('.after_btn').prev('.img_up_btn').show();
+                    $(deleteBtn).parent('.after_btn').remove();
+                });
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function DeletePhotoImg()
+        {
+            console.log("실행");
+            console.log(this);
+            var deleteBtn = this;
+            var imgBoxMainToDelete = $(deleteBtn).closest('.after_btn').prevAll('.img_common_box').first();
+            imgBoxMainToDelete.empty();
+            $(deleteBtn).closest('.after_btn').prev('.img_up_btn').show();
+            $(deleteBtn).parent('.after_btn').remove();
+
+        }
+
         //사진 업로드
         $(document).ready(function () {
 
             $('.img_up_btn input[type=file]').change(function (event) {
-                var file = event.target.files[0];
-                var reader = new FileReader();
-                var inputElement = this; // 현재 input[type=file] 요소를 저장합니다.
 
-                reader.onload = function (event) {
-                    var imgBoxMain = $(inputElement).closest('.img_up_btn').siblings('.img_common_box');
-
-                    var img = $('<img>');
-                    img.attr('src', event.target.result);
-                    imgBoxMain.empty(); // 기존 이미지를 지우고
-                    imgBoxMain.append(img); // 새 이미지를 추가합니다.
-
-                    var newHtml = `
-                                                                          <div class="after_btn">
-                                                                              <label> 사진 변경
-                                                                                  <input type="file" class="file_upload_new" style="display: none;">
-                                                                              </label>
-                                                                              <span class="delete_photo">사진 삭제</span>
-                                                                          </div>
-                                                                      `;
-
-                    $(inputElement).closest('.img_up_btn').hide().after(newHtml);
-
-                    // 새로운 사진 변경 버튼에 대한 이벤트 핸들러를 추가
-                    $('.file_upload_new').change(function (event) {
-                        var newFile = event.target.files[0];
-                        var newReader = new FileReader();
-                        var newInputElement = this; // 새로운 input[type=file] 요소를 저장합니다.
-
-                        newReader.onload = function (event) {
-                            var newImgBoxMain = $(newInputElement).closest('.after_btn').prevAll('.img_common_box').first();
-                            var newImg = $('<img>');
-                            newImg.attr('src', event.target.result);
-                            newImgBoxMain.empty();
-                            newImgBoxMain.append(newImg);
-                        };
-
-                        newReader.readAsDataURL(newFile);
-                    });
-
-                    // 사진 삭제 버튼에 대한 이벤트 핸들러를 추가
-                    $('.delete_photo').click(function () {
-                        var deleteBtn = this;
-                        var imgBoxMainToDelete = $(deleteBtn).closest('.after_btn').prevAll('.img_common_box').first();
-                        imgBoxMainToDelete.empty();
-                        $(deleteBtn).closest('.after_btn').prev('.img_up_btn').show();
-                        $(deleteBtn).parent('.after_btn').remove();
-                    });
-                };
-
-                reader.readAsDataURL(file);
+                fileUpload(this);
             });
-        });
 
-        //이메일 선택
-        $(function () {
+            
+
+            //이메일 선택
             $('#selectEmail').change(function () {
                 $("#selectEmail option:selected").each(function () {
 
@@ -385,6 +457,7 @@
                 });
             });
         });
+
 
         //글자수 제한
         $(document).ready(function () {
@@ -414,6 +487,7 @@
                 applyLabel: "확인",
                 cancelLabel: "취소",
             }
+
         });
 
         //멤버 입력란 숫자만
@@ -464,6 +538,8 @@
                 }
 
                 $(this).closest(".hash_tag").remove();
+
+
             });
 
             function addHashTag(text) {

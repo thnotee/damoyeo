@@ -2,7 +2,7 @@
 @using Damoyeo.Model.ViewModel
 @model  MeetupDetailVm
 @{
-    ViewBag.Title = "Detail";
+    ViewBag.Title = "모임성세";
 
 
 }
@@ -127,7 +127,7 @@
 
                             if (Model.detail.meetup_master_id == userId)
                             {
-                                <span class="md_apply_btn" onclick="">수정</span>
+                                <span class="md_apply_btn" onclick="GoEdit()">수정</span>
                                 <span class="md_apply_btn" onclick="">삭제</span>
                             }
                             else
@@ -214,5 +214,9 @@
         }
 
 
+        function GoEdit()
+        {
+            location.href = "/Meetup/Edit?meetup_id=@Model.detail.meetup_id";
+        }
     </script>
 }

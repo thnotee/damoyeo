@@ -171,15 +171,14 @@ namespace Damoyeo.Web.Controllers
             PagedList<DamoyeoCategory> categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
             ViewData["categoryList"] = categoryList;
 
+
+
             DamoyeoMeetup parameter = new DamoyeoMeetup();
             parameter.meetup_id = meetup_id;
-
-            await _unitOfWork.Meetup.GetAsync(parameter);
+            
 
 
             MeetupDetailVm meetupDetailVm = new MeetupDetailVm();
-
-
             ///비동기 작업 시작
             var detailTask = _unitOfWork.Meetup.GetAsync(parameter);
             var applicationEntity = new DamoyeoApplications { meetup_id = parameter.meetup_id };

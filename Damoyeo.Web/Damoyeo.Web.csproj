@@ -176,6 +176,7 @@
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Fileter\Auth.cs" />
+    <Compile Include="Fileter\AuthUserinfoAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -300,6 +301,8 @@
     <Content Include="Views\User\Wish.cshtml" />
     <Content Include="Views\Meetup\Detail.cshtml" />
     <Content Include="Views\Meetup\Edit.cshtml" />
+    <Content Include="Views\Auth\CreatePassword.cshtml" />
+    <Content Include="Views\Auth\CheckPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Damoyeo.DataAccess\Damoyeo.DataAccess.csproj">

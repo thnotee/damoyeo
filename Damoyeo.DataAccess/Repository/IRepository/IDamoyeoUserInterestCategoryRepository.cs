@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Damoyeo.DataAccess.Repository.IRepository
 {
-    public interface IDamoyeoUserRepository : IRepository<DamoyeoUser>
+    public interface IDamoyeoUserInterestCategoryRepository : IRepository<DamoyeoUserInterestCategory>
     {
-        Task<DamoyeoUser> GetNicknameAsync(DamoyeoUser entity);
+        Task<IEnumerable<DamoyeoUserInterestCategory>> GetAllAsync(DamoyeoUserInterestCategory entity);
     }
-    
 }

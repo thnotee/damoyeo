@@ -8,23 +8,33 @@ using System.Web.Mvc;
 
 namespace Damoyeo.Web.Fileter
 {
-    public class Auth : ActionFilterAttribute
+    public class Auth : AuthorizeAttribute
     {
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            
-            HttpCookie authCookie = HttpContext.Current.Request.Cookies["UserCookie"];
 
-            
-            // 로그인 여부 확인
-            if (!UserManager.IsLogin())
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
+
+
+            base.OnAuthorization(filterContext);
+
+            if (!this.AuthorizeCore(filterContext.HttpContext))
             {
+                //일반회원 or 비밀번호 생성한 카카오회원
                 // 로그인되지 않은 경우, 로그인 페이지로 리다이렉션
                 string returnUrl = HttpUtility.UrlEncode(filterContext.HttpContext.Request.RawUrl);
                 filterContext.Result = new RedirectResult("~/Auth/Login?returnUrl=" + returnUrl);
             }
-
-            base.OnActionExecuting(filterContext);
         }
+
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            if (!UserManager.IsLogin())
+            {
+                return false;
+            }
+            return true;
+
+        }
+
     }
 }

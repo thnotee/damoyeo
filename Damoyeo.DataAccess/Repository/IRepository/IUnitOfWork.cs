@@ -29,7 +29,8 @@ namespace Damoyeo.DataAccess.Repository.IRepository
 
         IDamoyeoApplicationsRepository Applications { get; }
 
-        
+        IDamoyeoUserInterestCategoryRepository UserInterestCategory { get; }
+
 
         void Commit();
     }

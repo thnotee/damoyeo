@@ -1,10 +1,13 @@
 ﻿using Damoyeo.DataAccess.Repository.IRepository;
 using Damoyeo.Model.Model;
+using Damoyeo.Model.Model.Pager;
 using Damoyeo.Util;
 using Damoyeo.Util.Manager;
+using Damoyeo.Web.Fileter;
 using Dapper;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -41,13 +44,15 @@ namespace Damoyeo.Web.Controllers
         }
 
 
-        public ActionResult Signup()
+        public async Task<ActionResult> Signup()
         {
             var user = new DamoyeoUser();
+            PagedList<DamoyeoCategory> categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
+            ViewData["categoryList"] = categoryList;
             return View(user);
         }
 
-        public ActionResult KaKaoSignup()
+        public async Task<ActionResult> KaKaoSignup()
         {
             var user = new DamoyeoUser();
             user.email = Session["email"] as string;
@@ -59,10 +64,43 @@ namespace Damoyeo.Web.Controllers
             {
                 throw new Exception("카카오 ID NULL");
             }
-            
+
+            PagedList<DamoyeoCategory> categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
+            ViewData["categoryList"] = categoryList;
             return View("Signup",user);
         }
+        [HttpPost]
+        public async Task<ActionResult> Signup(DamoyeoUser user, List<int> interest)
+        {
 
+
+            user.reg_date = DateTime.Now;
+            user.use_tf = "1";
+            if (user.signup_type == 0)
+            {
+                user.password = StringUtil.GetSHA256(user.password);
+            }
+            else 
+            {
+                user.password = user.password;
+            }
+            
+            int userId = await _unitOfWork.Users.AddAsync(user);
+
+            foreach (var item in interest) 
+            {
+                var interestEntity = new DamoyeoUserInterestCategory();
+                interestEntity.user_id = userId;
+                interestEntity.category_id = item;     
+                await _unitOfWork.UserInterestCategory.AddAsync(interestEntity);
+            }
+            _unitOfWork.Commit();
+
+            TempData["successMsg"] = user.nickname + "님 회원가입 되었습니다.";
+            return RedirectToAction("Index", "Home");
+        }
+
+        /*
         [HttpPost]
         public async Task<ActionResult> Signup(DamoyeoUser user, HttpPostedFileBase profile_image, string kakao_profile_image = "")
         {
@@ -108,7 +146,7 @@ namespace Damoyeo.Web.Controllers
             TempData["successMsg"] = user.nickname + "님 회원가입 되었습니다.";
             return RedirectToAction("Index", "Home");
         }
-
+        */
         [HttpGet]
         public ActionResult Login(string returnUrl = "/Home/index")
         {
@@ -136,6 +174,8 @@ namespace Damoyeo.Web.Controllers
                     userCookie.Values["profile_image"] = userObj.profile_image;
                     userCookie.Values["slf_Intro"] = userObj.slf_Intro;
                     userCookie.Values["signup_type"] = userObj.signup_type.ToString();
+                    
+
                     // 쿠키 만료 시간 설정
                     userCookie.Expires = DateTime.Now.AddDays(7); // 예를 들어, 7일 후에 만료되도록 설정
                     // 쿠키 추가
@@ -153,6 +193,76 @@ namespace Damoyeo.Web.Controllers
             return View();
         }
 
+        [Auth]
+        public ActionResult CreatePassword()
+        {
+            return View();
+        }
+
+        [Auth]
+        [HttpPost]
+        public async Task<ActionResult> CreatePassword(string password)
+        {
+            if (!string.IsNullOrEmpty(password)) 
+            {
+                var userCookie = UserManager.GetCookie();
+                var userParameter = new DamoyeoUser();
+                userParameter.email = userCookie.Email;
+
+                var userObj = await _unitOfWork.Users.GetAsync(userParameter);
+                userObj.password = StringUtil.GetSHA256(password);
+                userObj.signup_type = 2;
+
+
+                // 기존 쿠키 가져오기
+                HttpCookie UserCookie = HttpContext.Request.Cookies["UserCookie"];
+                UserCookie.Values["signup_type"] = "2";
+                HttpContext.Response.Cookies.Add(UserCookie);
+                
+
+                await _unitOfWork.Users.UpdateAsync(userObj);
+                _unitOfWork.Commit();
+
+                return RedirectToAction("CheckPassword");
+
+            }
+            return View();
+        }
+
+
+        [Auth]
+        public ActionResult CheckPassword()
+        {
+            return View();
+        }
+
+        [Auth]
+        [HttpPost]
+        public async Task<ActionResult> CheckPassword(string password)
+        {
+
+            var userCookie = UserManager.GetCookie();
+            var userParameter = new DamoyeoUser();
+            userParameter.email = userCookie.Email;
+            var userObj = await _unitOfWork.Users.GetAsync(userParameter);
+            if (userObj.password == StringUtil.GetSHA256(password))
+            {
+                HttpCookie userInfoCookie = new HttpCookie("UserInfoCookie");
+                userInfoCookie.Expires = DateTime.Now.AddMinutes(30); //10분뒤 쿠키 만료
+                userInfoCookie.Value = "1";
+                HttpContext.Response.Cookies.Add(userInfoCookie);
+                return RedirectToAction("Index", "User");
+            }
+            else 
+            {
+                TempData["errorMsg"] = "비밀번호를 확인해주세요.";
+            }
+
+
+            return View();
+        }
+
+
         public ActionResult Logout()
         {
             if (Request.Cookies["UserCookie"] != null)
@@ -166,8 +276,50 @@ namespace Damoyeo.Web.Controllers
         }
 
 
+        /////////////////////////////////////
+        ///API CALLS
+        /////////////////////////////////////
+        public async Task<ActionResult> CheckDuplicateId(string email)
+        {
+            var user = new DamoyeoUser();
+            user.email = email;
+            var userObj = await _unitOfWork.Users.GetAsync(user);
+
+            if (userObj == null)
+            {
+                //사용가능
+                return Json(new { seccess = true, data = true });
+            }
+            else 
+            {
+                //불가능
+                return Json(new { seccess = true, data = false }); ;
+            }
+        }
+
+        public async Task<ActionResult> CheckDuplicateNickname(string nickname)
+        {
+            var user = new DamoyeoUser();
+            user.nickname = nickname;
+            var userObj = await _unitOfWork.Users.GetNicknameAsync(user);
+
+            if (userObj == null)
+            {
+                //사용가능
+                return Json(new { seccess = true, data = true });
+            }
+            else
+            {
+                //불가능
+                return Json(new { seccess = true, data = false }); ;
+            }
+        }
+
+
+
+
         /// <summary>
-        /// 유튜브 콜백함수
+        /// 카카오 콜백함수
         /// 받은 code를 사용하여 쿠키에 AccessToken을 등록합니다.
         /// </summary>
         /// <param name="code"></param>
@@ -187,7 +339,7 @@ namespace Damoyeo.Web.Controllers
                 var userObj = await _unitOfWork.Users.GetAsync(user);
      
                 //3.로그인 처리
-                if (userObj != null && userObj.signup_type == 1)
+                if (userObj != null && userObj.signup_type != 0)
                 {
                     HttpCookie userCookie = new HttpCookie("UserCookie");
                     // 값 추가
@@ -197,6 +349,8 @@ namespace Damoyeo.Web.Controllers
                     userCookie.Values["profile_image"] = userObj.profile_image;
                     userCookie.Values["slf_Intro"] = userObj.slf_Intro;
                     userCookie.Values["signup_type"] = userObj.signup_type.ToString();
+                    
+
                     // 쿠키 만료 시간 설정
                     userCookie.Expires = DateTime.Now.AddDays(7); // 예를 들어, 7일 후에 만료되도록 설정
                                                                   // 쿠키 추가
@@ -235,7 +389,7 @@ namespace Damoyeo.Web.Controllers
                       {
                           new KeyValuePair<string, string>("grant_type", "authorization_code"),
                           new KeyValuePair<string, string>("client_id", "6fdb7adf5e19747b49b3d6585e26de48" ),
-                          new KeyValuePair<string, string>("redirect_uri", "https://localhost:44369/Auth/CallBack"),
+                          new KeyValuePair<string, string>("redirect_uri", StringUtil.GetAppSetting("BaseUrl")+"/Auth/CallBack"),
                           new KeyValuePair<string, string>("code", code),
                           new KeyValuePair<string, string>("client_secret","62INf9ybK77JZ4NcwV3IMyaLFsOwR7S7")
 

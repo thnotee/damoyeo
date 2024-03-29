@@ -1,6 +1,9 @@
-﻿
+﻿@using Damoyeo.Model.Model;
+@using Damoyeo.Model.ViewModel;
+@model UserInfoVm
 @{
     ViewBag.Title = "마이페이지";
+    var categoryList = ViewData["categoryList"] as PagedList<DamoyeoCategory>;
 }
 
 @section style
@@ -13,115 +16,83 @@
         @Html.Partial("_Partial/_Left")
 
         <div class="my_right my_box my_modify">
-            <!-- 비밀번호 입력 후 회원정보 수정 페이지 나옴 -->
-            <form action="">
-                <div class="lock_section">
-                    <span class="lock_icon">
-                        <img src="~/Content/images/lock.svg" alt="">
-                    </span>
-
-                    <!-- 카카오 가입자일 경우 -->
-                    <div>
-                        <p class="lock_notice">개인정보 보호를 위해<br><span>비밀번호를 생성</span>해 주세요.</p>
-                        <input type="text" class="new_pw" placeholder="비밀번호 입력">
-                        <input type="text" class="newchk_pw" placeholder="비밀번호 확인">
-                        <span class="big_btn kakao_pw_btn">생성하기</span>
-                    </div>
-                    <!-- 생성후 아래 나오게 -->
-                    <!-- 일반 회원가입일 경우 -->
-                    <div>
-                        <p class="lock_notice">개인정보 보호를 위해<br><span>비밀번호를 다시 한번 입력</span>해주세요.</p>
-                        <input type="text" class="now_pw" placeholder="비밀번호 입력">
-                        <span class="big_btn pw_chk_btn">확인</span>
-                    </div>
-                </div>
-            </form>
 
             <!-- 회원정보 수정페이지 -->
             <p class="my_title">회원정보수정</p>
 
-            <form action="">
+            <form action="/User/Index" method="post" id="myform">
                 <div class="meminput_box">
                     <ul>
-                        <li class="mcalc">
-                            <p class="mo_tit">이메일</p>
-                            <div class="mo_txt">
-                                <div class="mo_email">
-                                    <div class="mo_txt">
-                                        <input type="text" name="" id="" value="rhwjdrka@gmail.com" disabled>
+                        @if (Model.userInfo.signup_type == 0)
+                        {
+                            <li class="mcalc">
+                                <p class="mo_tit">이메일</p>
+                                <div class="mo_txt">
+                                    <div class="mo_email">
+                                        <div class="mo_txt">
+                                            <input type="text" value="@Model.userInfo.email" disabled>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        }
+
                         <li class="mcalc">
                             <p class="mo_tit">닉네임<i class="ab">＊</i></p>
                             <div class="mo_txt">
-                                <input type="text" id="nickname" name="nickname" maxlength="10" placeholder="닉네임을 입력해주세요.">
-                                <span class="page_cbtn" id="nickChk">중복확인</span>
-                                <p class="mo_mark">해당 닉네임은 이미 사용 중입니다.</p>
+                                <input type="text" id="nickname_input" maxlength="10" value="@Model.userInfo.nickname" placeholder="닉네임을 입력해주세요.">
+                                <input type="hidden" id="nickname" name="nickname" value="" maxlength="10">
+                                <span class="page_cbtn" onclick="NicknameCheck();">중복확인</span>
+                                <p class="mo_mark" id="nickname_check_msg" style="display:none;">해당 닉네임은 이미 사용 중입니다.</p>
                             </div>
                         </li>
+
                         <li class="mcalc">
                             <p class="mo_tit">현재 비밀번호<i class="ab">＊</i></p>
                             <div class="mo_txt">
-                                <input type="password" id="password" placeholder="현재 비밀번호">
+                                <input type="password" id="password" name="password" placeholder="현재 비밀번호">
                                 <span class="page_cbtn" id="pwChg">비밀번호 변경하기</span>
-                                <p class="mo_mark">입력하신 비밀번호가 올바르지 않습니다.</p>
+                                <!--<p class="mo_mark">입력하신 비밀번호가 올바르지 않습니다.</p>-->
                             </div>
                         </li>
                         <li class="new_pw_wrap">
                             <p class="mo_tit">신규 비밀번호</p>
                             <div class="mo_txt">
-                                <input type="password" id="newPw" placeholder="신규 비밀번호">
+                                <input type="password" id="new_password" name="newPassword" placeholder="신규 비밀번호">
                             </div>
                         </li>
                         <li class="new_pw_wrap">
                             <p class="mo_tit">신규 비밀번호 확인</p>
                             <div class="mo_txt">
-                                <input type="password" id="newPwchk" placeholder="신규 비밀번호 확인">
-                                <p class="mo_mark">입력하신 비밀번호와 확인란의 비밀번호가 일치하지 않습니다.</p>
+                                <input type="password" id="new_confirm_password" placeholder="신규 비밀번호 확인">
+                                <p class="mo_mark" id="pw_check_msg">입력하신 비밀번호와 확인란의 비밀번호가 일치하지 않습니다.</p>
                             </div>
                         </li>
                         <li>
                             <p class="mo_tit">관심 카테고리</p>
                             <div class="mo_txt">
                                 <div class="inter_check">
-                                    <label for="interest1" class="check_box">
-                                        <input type="checkbox" id="interest1" name="interest">교육/어학
-                                    </label>
-                                    <label for="interest2" class="check_box">
-                                        <input type="checkbox" id="interest2" name="interest">취업/자격증
-                                    </label>
-                                    <label for="interest3" class="check_box">
-                                        <input type="checkbox" id="interest3" name="interest">여행
-                                    </label>
-                                    <label for="interest4" class="check_box">
-                                        <input type="checkbox" id="interest4" name="interest">스포츠/운동
-                                    </label>
-                                    <label for="interest5" class="check_box">
-                                        <input type="checkbox" id="interest5" name="interest">요리/음식
-                                    </label>
-                                    <label for="interest6" class="check_box">
-                                        <input type="checkbox" id="interest6" name="interest">문화/예술
-                                    </label>
-                                    <label for="interest7" class="check_box">
-                                        <input type="checkbox" id="interest7" name="interest">영화/음악
-                                    </label>
-                                    <label for="interest8" class="check_box">
-                                        <input type="checkbox" id="interest8" name="interest">기타
-                                    </label>
+
+                                    @foreach (var item in categoryList)
+                                    {
+                                        bool exis = Model.interestCategoryList.Any(x => x.category_id == item.category_id);
+
+                                        <label for="" class="check_box">
+                                            <input type="checkbox" value="@item.category_id" name="interest" @(exis ? "checked" : "")>@item.category_name
+                                        </label>
+                                    }
                                 </div>
                             </div>
                         </li>
                         <li>
                             <p class="mo_tit">자기소개</p>
                             <div class="mo_txt">
-                                <textarea name="" id="" cols="30" rows="10" placeholder="자유롭게 자신을 소개해보세요."></textarea>
+                                <textarea name="slf_Intro" id="slf_Intro" cols="30" rows="10" placeholder="자유롭게 자신을 소개해보세요.">@Model.userInfo.slf_Intro</textarea>
                             </div>
                         </li>
                     </ul>
                     <span class="withdrawal">회원탈퇴</span>
-                    <span class="modify_btn big_btn">수정하기</span>
+                    <span class="modify_btn big_btn" id="modify_btn">수정하기</span>
 
                 </div>
             </form>
@@ -131,10 +102,104 @@
 
 </div>
 
+@section scripts{
+    @Html.Partial("~/Views/Shared/_Partial/_SweetAlert.cshtml")
 <script>
-    $(function () {
-        $("#pwChg").click(function () {
-            $(".new_pw_wrap").css({ display: "flex" });
+        $(function () {
+            $("#pwChg").click(function () {
+                $(".new_pw_wrap").css({ display: "flex" });
+            });
         });
-    });
+
+        function NicknameCheck() {
+
+            if ($("#nickname_input").val() == "") {
+                alertFocus("닉네임을 입력해주세요", $('#nickname_input'));
+                return false;
+            }
+
+            var nickname = $("#nickname_input").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '/Auth/CheckDuplicateNickname', // 요청을 보낼 서버 측 URL
+                data: { nickname: nickname }, // 전송할 데이터
+                success: function (response) {
+                    // 성공적으로 요청을 처리했을 때 실행할 코드
+                    console.log(response);
+                    if (response.seccess) {
+                        if (response.data) {
+                            $("#nickname").val(nickname);
+                            $("#nickname_check_msg").html("사용 가능한 닉네임입니다");
+                            $("#nickname_check_msg").css("color", "green");
+                            $("#nickname_check_msg").show();
+
+                            //수정금지처리
+                            $("#nickname").attr("readonly", true);
+                        }
+                        else {
+                            $("#nickname_check_msg").html("해당 닉네임은 이미 사용 중입니다.");
+                            $("#nickname_check_msg").css("color", "#d83d3d");
+                            $("#nickname_check_msg").show();
+
+                        }
+
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // 요청이 실패했을 때 실행할 코드
+                    console.error(xhr.responseText);
+                }
+            });
+
+        }
+
+        function PwCheck() {
+            var password = $("#new_password").val();
+            var confirmPassword = $("#new_confirm_password").val();
+
+            if (password == confirmPassword) {
+                $("#pw_check_msg").html("비밀번호가 일치합니다.").css('color', 'green');
+                return true;
+            } else {
+                $("#pw_check_msg").html("입력하신 비밀번호와 확인란의 비밀번호가 일치하지 않습니다.").css('color', '#d83d3d');
+                return false;
+            }
+        }
+
+        $("#modify_btn").on("click", function () {
+
+            console.log();
+            console.log("@Model.userInfo.nickname");
+            console.log($("#nickname_input").val() == "@Model.userInfo.nickname");
+            //닉네임 변경시
+            
+            if ($("#nickname_input").val().trim() != "@Model.userInfo.nickname") {
+
+                if ($("#nickname").val() == "") {
+                    alertFocus("닉네임을 중복확인을 해주세요.", $('#nickname_input'));
+                    return false;
+                }
+
+            }
+
+            if ($("#password").val() == "") {
+                alertFocus("비밀번호를 입력해주세요", $('#password'));
+                return false;
+            }
+
+            if ($("#new_password").val() != "") {
+
+                if (!PwCheck()) {
+                    alertFocus("비밀번호와 확인값이 일치하지 않습니다.", $('#new_password'));
+                    return false;
+                }
+            }
+
+            $("#myform").submit();
+
+        });
 </script>
+
+}

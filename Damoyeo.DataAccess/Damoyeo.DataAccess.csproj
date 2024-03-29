@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\DamoyeoUserInterestCategoryRepository.cs" />
     <Compile Include="Repository\DamoyeoCommunityCommentRepository.cs" />
     <Compile Include="Repository\DamoyeoNoticeRepository.cs" />
     <Compile Include="Repository\DamoyeoCommunityRepository.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Repository\DamoyeoTagsRepository.cs" />
     <Compile Include="Repository\DamoyeoApplicationsRepository.cs" />
     <Compile Include="Repository\DamoyeoUserRepository.cs" />
+    <Compile Include="Repository\IRepository\IDamoyeoUserInterestCategoryRepository.cs" />
     <Compile Include="Repository\IRepository\IDamoyeoCategoryRepository.cs" />
     <Compile Include="Repository\IRepository\IDamoyeoImageRepository.cs" />
     <Compile Include="Repository\IRepository\IDamoyeoMeetupRepository.cs" />

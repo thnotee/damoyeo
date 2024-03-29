@@ -1,154 +1,278 @@
 ﻿@using Damoyeo.Model.Model;
-@Model.detail DamoyeoUser
+@Model DamoyeoUser
 @{
-   ViewBag.Title = "Signup";
+    ViewBag.Title = "회원가입";
+    var categoryList = ViewData["categoryList"] as PagedList<DamoyeoCategory>;
 }
 <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
-<h2>회원가입페이지입니다.</h2>
-
-<div class="contents_wrap">
-    <form id="myform" action="/auth/signup" method="post" enctype="multipart/form-data">
-
-        <div class="max-w-lg mx-auto">
-            <div class="flex items-center justify-center">
-                @if (string.IsNullOrEmpty(Model.email))
-                {
-                    <img src="~/Content/images/main/test_img1.png" class="rounded-full w-[70px] h-[70px]" id="preview">
-                }
-                else 
-                {
-                    <img src="@Model.detail.profile_image" class="rounded-full w-[70px] h-[70px]" id="preview">
-                }
-
-            </div>
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="user_avatar">프로필 사진을 선택해주세요(선택).</label>
-            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                   aria-describedby="user_avatar_help"
-                   id="profile_image"
-                   name="profile_image"
-                   type="file">
-        </div>
+@section style
+{    
+    <link rel="stylesheet" href="~/Content/css/signup.css" />
+}
 
 
-        <div class="max-w-sm mx-auto m-5">
-            @if (string.IsNullOrEmpty(Model.email))
-            {
-                <div class="mb-5">
-                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">이메일을 입력해주세요(중복확인 버튼필요).</label>
-                    <input type="email"
-                           id="email"
-                           name="email"
-                           maxlength="50"
-                           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="name@flowbite.com" required />
+<div class="section_wrap sign_wrap">
+    <div class="inner sub_inner">
+        <h3 class="section_title">회원가입</h3>
+
+        <div class="sign_box">
+            <form id="myform" action="/auth/signup" method="post" enctype="multipart/form-data">
+                <div class="meminput_box">
+                    <ul>
+
+                        @if (string.IsNullOrEmpty(Model.email))
+                        {
+                            <li class="mcalc">
+                                <p class="mo_tit">이메일<i class="ab">＊</i></p>
+                                <div class="mo_txt">
+                                    <div class="mo_email">
+                                        <input type="email" id="emailId" maxlength="50" value="" />
+                                        <input type="hidden" id="email" name="email" maxlength="50" value="" />
+                                        <p class="email_at">@@</p>
+                                        <input type="text" id="selectEmail2" value="">
+                                        <select id="selectEmail">
+                                            <option value="1" selected="">직접입력</option>
+                                            <option value="naver.com">naver.com</option>
+                                            <option value="hanmail.net">hanmail.net</option>
+                                            <option value="gmail.com">gmail.com</option>
+                                        </select>
+                                    </div>
+                                    <span class="page_cbtn" onclick="IdCheck();">중복확인</span>
+                                    <p class="mo_mark" id="id_check_msg" style="display:none;">해당 이메일은 이미 사용 중입니다.</p>
+                                </div>
+                            </li>
+                            <li class="mcalc">
+                                <p class="mo_tit">닉네임<i class="ab">＊</i></p>
+                                <div class="mo_txt">
+                                    <input type="text" id="nickname_input" maxlength="10" placeholder="닉네임을 입력해주세요.">
+                                    <input type="hidden" id="nickname" name="nickname" maxlength="10">
+                                    <span class="page_cbtn" onclick="NicknameCheck();">중복확인</span>
+                                    <p class="mo_mark" id="nickname_check_msg" style="display:none;">해당 닉네임은 이미 사용 중입니다.</p>
+                                </div>
+                            </li>
+                            <li class="mcalc">
+                                <p class="mo_tit">비밀번호<i class="ab">＊</i></p>
+                                <div class="mo_txt">
+                                    <input type="password" id="password" name="password" placeholder="현재 비밀번호">
+                                </div>
+                            </li>
+                            <li class="">
+                                <p class="mo_tit">비밀번호 확인<i class="ab">＊</i></p>
+                                <div class="mo_txt">
+                                    <input type="password" id="confirm_password" placeholder="비밀번호 확인" onkeyup="PwCheck();">
+                                    <p class="mo_mark" id="pw_check_msg"></p>
+                                </div>
+                            </li>
+                            <input type="hidden" value="0" name="signup_type" id="signup_type">
+                        }
+                        else
+                        {//카카오 회원가입 시
+                            <input type="hidden" value="@Model.email" name="email" id="email">
+                            <input type="hidden" value="kakao" name="password" id="password">
+                            <input type="hidden" value="1" name="signup_type" id="signup_type">
+
+                            <li class="mcalc">
+                                <p class="mo_tit">닉네임<i class="ab">＊</i></p>
+                                <div class="mo_txt">
+                                    <input type="text" id="nickname_input" maxlength="10" placeholder="닉네임을 입력해주세요.">
+                                    <input type="hidden" id="nickname" name="nickname" maxlength="10">
+                                    <span class="page_cbtn" onclick="NicknameCheck();">중복확인</span>
+                                    <p class="mo_mark" id="nickname_check_msg" style="display:none;">해당 닉네임은 이미 사용 중입니다.</p>
+                                </div>
+                            </li>
+                        }
+
+                        <li>
+                            <p class="mo_tit">관심 카테고리</p>
+                            <div class="mo_txt">
+                                <div class="inter_check">
+                                    @foreach (var item in categoryList)
+                                    {
+                                        <label for="" class="check_box">
+                                            <input type="checkbox" value="@item.category_id" name="interest">@item.category_name
+                                        </label>
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <p class="mo_tit">자기소개</p>
+                            <div class="mo_txt">
+                                <textarea name="slf_Intro" id="slf_Intro" cols="30" rows="10" placeholder="자유롭게 자신을 소개해보세요."></textarea>
+                            </div>
+                        </li>
+                    </ul>
+                    <span class="sign_btn big_btn" id="submitBtn">가입하기</span>
+
                 </div>
-                <input type="hidden" value="0" name="signup_type" id="signup_type">
-            }
-            else
-            {
-                <input type="hidden" value="@Model.detail.email" name="email" id="email">
-                <input type="hidden" value="kakao" name="password" id="password">
-                <input type="hidden" value="1" name="signup_type" id="signup_type">
-                <input type="hidden" value="@Model.detail.profile_image" name="kakao_profile_image">
-            }
-
-
-
-            <div class="mb-5">
-                <label for="nickname"
-                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">닉네임을 입력해주세요 (중복확인 버튼필요)</label>
-                <input type="text"
-                       id="nickname"
-                       name="nickname"
-                       value="@Model.detail.nickname"
-                       maxlength="10"
-                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
-            </div>
-
-            @if (string.IsNullOrEmpty(Model.email))
-            {
-                <div class="mb-5">
-                    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">비밀번호를 입력해주세요.</label>
-                    <input type="password"
-                           id="password"
-                           name="password"
-                           maxlength="20"
-                           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
-                </div>
-            }
-
-            <div class="mb-5">
-                <label for="repeat-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">자기소개를 입력해주세요(선택)</label>
-                <input type="text"
-                       id="slf_Intro"
-                       name="slf_Intro"
-                       maxlength="20"
-                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
-            </div>
-
-
-            <button type="button"
-                    id="submitBtn"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                회원가입
-            </button>
+            </form>
         </div>
-    </form>
-
-
+    </div>
 </div>
+
+
 
 @section scripts{
     <script>
 
-        if ("@Model.detail.email" != "")
+        if ("@Model.email" != "")
         {
             alertBox("카카오톡 회원가입 후 이용부탁드립니다.");
         }
 
         $(document).ready(function () {
-            //선택이미지 프리뷰
-            $("#profile_image").on("change", function () {
-                var file = this.files[0];
-                var reader = new FileReader();
 
-                reader.onloadend = function () {
-                    $('#preview').attr('src', reader.result);
-                }
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                } else {
-                    $('#preview').attr('src', "");
-                }
-            });
 
             $("#submitBtn").on("click", function () {
 
+                //카카오 회원가입이 x
+                if ("@Model.email" == "") {
+                    if ($("#email").val() == "") {
+                        alertFocus("이메일을 중복확인을 해주세요.", $('#emailId'));
+                        return false;
+                    }
 
-                if ($("#email").val() == "") {
-                    alertFocus("이메일을 입력해주세요", $('#email'));
-                    return false;
+                    if ($("#nickname").val() == "") {
+                        alertFocus("닉네임을 중복확인을 해주세요.", $('#nickname_input'));
+                        return false;
+                    }
+
+                    if ($("#password").val() == "") {
+                        alertFocus("비밀번호를 입력해주세요", $('#password'));
+                        return false;
+                    }
+
+                    if (!PwCheck()) {
+                        alertFocus("비밀번호와 확인값이 일치하지 않습니다.", $('#password'));
+                        return false;
+                    }
                 }
-
-                if ($("#password").val() == "") {
-                    alertFocus("비밀번호를 입력해주세요", $('#password'));
-                    return false;
+                else
+                {//카카오 회원가입
+                    if ($("#nickname").val() == "") {
+                        alertFocus("닉네임을 중복확인을 해주세요.", $('#nickname_input'));
+                        return false;
+                    }
                 }
-
-
-                if ($("#nickname").val() == "") {
-                    alertFocus("닉네임을 입력해주세요", $('#nickname'));
-                    return false;
-                }
-
-
-
+    
                 $("#myform").submit();
             });
         });
 
+
+
+        function IdCheck()
+        {
+            console.log("실행")
+            if ($("#emailId").val() == "" || $("#selectEmail2").val() == "") {
+                alertFocus("이메일을 입력해주세요", $('#emailId'));
+                return false;
+            }
+            var email = $("#emailId").val() + "@@" + $("#selectEmail2").val()
+
+
+            console.log(email)
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/Auth/CheckDuplicateId', // 요청을 보낼 서버 측 URL
+                data: { email: email }, // 전송할 데이터
+                success: function (response) {
+                    // 성공적으로 요청을 처리했을 때 실행할 코드
+                    console.log(response);
+                    if (response.seccess)
+                    {
+                        if (response.data) {
+                            $("#email").val(email);
+                            $("#id_check_msg").html("사용 가능한 이메일입니다");
+                            $("#id_check_msg").css("color", "green")
+                            $("#id_check_msg").show();
+
+                            //수정금지처리
+                            $("#selectEmail").prop("disabled", true);
+                            $("#selectEmail2").attr("readonly", true);
+                            $("#emailId").attr("readonly", true);
+                        }
+                        else
+                        {
+                            $("#id_check_msg").html("해당 이메일은 이미 사용 중입니다.");
+                            $("#id_check_msg").show();
+                            //$("").show();
+                        }
+
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // 요청이 실패했을 때 실행할 코드
+                    console.error(xhr.responseText);
+                }
+            });
+
+        }
+
+        function NicknameCheck() {
+
+            if ($("#nickname_input").val() == "") {
+                alertFocus("닉네임을 입력해주세요", $('#nickname_input'));
+                return false;
+            }
+
+            var nickname = $("#nickname_input").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '/Auth/CheckDuplicateNickname', // 요청을 보낼 서버 측 URL
+                data: { nickname: nickname }, // 전송할 데이터
+                success: function (response) {
+                    // 성공적으로 요청을 처리했을 때 실행할 코드
+                    console.log(response);
+                    if (response.seccess) {
+                        if (response.data) {
+                            $("#nickname").val(nickname);
+                            $("#nickname_check_msg").html("사용 가능한 닉네임입니다");
+                            $("#nickname_check_msg").css("color", "green");
+                            $("#nickname_check_msg").show();
+
+                            //수정금지처리
+                            $("#nickname").attr("readonly", true);
+                        }
+                        else {
+                            $("#nickname_check_msg").html("해당 닉네임은 이미 사용 중입니다.");
+                            $("#nickname_check_msg").css("color", "#d83d3d");
+                            $("#nickname_check_msg").show();
+
+                        }
+
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // 요청이 실패했을 때 실행할 코드
+                    console.error(xhr.responseText);
+                }
+            });
+
+        }
+
+
+        function PwCheck()
+        {
+            var password = $("#password").val();
+            var confirmPassword = $("#confirm_password").val();
+
+            if (password == confirmPassword) {
+                $("#pw_check_msg").html("비밀번호가 일치합니다.").css('color', 'green');
+                return true;
+            } else {
+                $("#pw_check_msg").html("입력하신 비밀번호와 확인란의 비밀번호가 일치하지 않습니다.").css('color', '#d83d3d');
+                return false;
+            }
+        }
     </script>
 }
+

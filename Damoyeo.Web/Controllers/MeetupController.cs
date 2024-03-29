@@ -19,7 +19,6 @@ using System.Web.Mvc;
 using Damoyeo.Model.ViewModel;
 using System.Globalization;
 using Damoyeo.DataAccess.Repository;
-using static Dapper.SqlMapper;
 
 namespace Damoyeo.Web.Controllers
 {
@@ -295,7 +294,7 @@ namespace Damoyeo.Web.Controllers
             
         }
 
-            public async Task<ActionResult> SearchLocationDataAsunc(string searchData) 
+        public async Task<ActionResult> SearchLocationDataAsunc(string searchData) 
         {
 
             // 요청할 URL

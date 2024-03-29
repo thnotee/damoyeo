@@ -30,7 +30,7 @@
     <!-- header -->
     <header>
         <div class="inner">
-            <a href="" class="logo">
+            <a href="/" class="logo">
                 <img src="~/Content/images/logo.png" alt="" />
             </a>
             <nav>
@@ -50,11 +50,11 @@
                 </ul>
             </nav>
             <div class="user_wrap">
-                <a href="" class="mypage">
-                    <img src="~/Content/images/user.svg" alt="" />
-                </a>
                 @if (Damoyeo.Util.Manager.UserManager.IsLogin())
                 {
+                    <a href="/User/index" class="mypage">
+                        <img src="~/Content/images/user.svg" alt="" />
+                    </a>
                     <a href="/auth/logout" class="login">로그아웃</a>
                 }
                 else

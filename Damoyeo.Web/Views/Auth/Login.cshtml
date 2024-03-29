@@ -11,13 +11,12 @@
 <form id="myform" action="/auth/login" method="post">
     <input type="hidden" value="@returnUrl">
     <div class="section_wrap login_wrap">
-
         <div class="inner sub_inner">
             <div class="login_box">
                 <h3 class="section_title">로그인</h3>
                 <div class="l_input_wrap">
                     <span>아이디</span>
-                    <input type="email"
+                    <input type="text"
                            name="email"
                            id="email"
                            placeholder="아이디를 입력해주세요." />
@@ -33,19 +32,22 @@
                     <a href="">아이디 찾기</a>
                     <a href="">비밀번호 찾기</a>
                 </div>
-                <span class="login_btn" onclick="login()">로그인</span>
+                <span class="damoyeo_btn login_btn" onclick="login();">로그인</span>
+                <span class="kakao_btn login_btn" onclick="loginKakao();">
+                    <img src="images/kakao.svg" alt="">
+                    카카오로 3초만에 시작하기
+                </span>
                 <div class="mem_join">
                     <span>우리의 소소한 즐거움,</span>
-                    <a href="/auth/signup">다모여 가입하기</a>
+                    <a href="/Auth/Signup">다모여 가입하기</a>
                 </div>
             </div>
         </div>
     </div>
 </form>
 
-<a href="https://kauth.kakao.com/oauth/authorize?client_id=6fdb7adf5e19747b49b3d6585e26de48&redirect_uri=https://localhost:44369/Auth/CallBack&response_type=code" >
-    카카오톡으로 로그인
-</a>
+
+
 @section scripts{
     @Html.Partial("~/Views/Shared/_Partial/_SweetAlert.cshtml")
 
@@ -61,6 +63,11 @@
                 return false;
             }
             $("#myform").submit();
+        }
+
+
+        function loginKakao() {
+            location.href = "https://kauth.kakao.com/oauth/authorize?client_id=6fdb7adf5e19747b49b3d6585e26de48&redirect_uri=@Damoyeo.Util.StringUtil.GetAppSetting("BaseUrl")/Auth/CallBack&response_type=code";
         }
     </script>
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -9,6 +10,12 @@ namespace Damoyeo.Util
 {
     public static class StringUtil
     {
+
+        public static string GetAppSetting(string appSettingKey)
+        {
+            return !string.IsNullOrEmpty(ConfigurationManager.AppSettings[appSettingKey]) ? ConfigurationManager.AppSettings[appSettingKey].ToString() : string.Empty;
+        }
+
         public static string GetSHA256(string strPlain)
         {
 

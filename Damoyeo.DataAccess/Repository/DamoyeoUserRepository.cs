@@ -37,6 +37,7 @@ SELECT * FROM Damoyeo_User
         {
             var sql = @"
 INSERT INTO Damoyeo_User (email, password, profile_image, slf_Intro, nickname, use_tf, signup_type, reg_date)
+OUTPUT INSERTED.user_id
 VALUES (@email, @password, @profile_image, @slf_Intro, @nickname, @use_tf, @signup_type, @reg_date);
 ";
            return await _connection.QuerySingleAsync<int>(sql, entity, transaction: _transaction);
@@ -86,9 +87,33 @@ Z.row_num BETWEEN @startRange AND @endRange;
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(DamoyeoUser entity)
+        public async Task UpdateAsync(DamoyeoUser entity)
         {
-            throw new NotImplementedException();
+
+            var sql = @"
+UPDATE Damoyeo_User
+SET profile_image = @profile_image,
+    password = @password,
+    slf_Intro = @slf_Intro,
+    nickname = @nickname,
+    use_tf = @use_tf,
+    signup_type = @signup_type
+WHERE user_id = @user_id;
+
+";
+            await _connection.ExecuteAsync(sql, entity, _transaction);
+        }
+
+        public async Task<DamoyeoUser> GetNicknameAsync(DamoyeoUser entity)
+        {
+            var sql = @"
+SELECT * FROM Damoyeo_User
+WHERE 
+use_tf = '1'
+And nickname = @nickname
+";
+
+            return await _connection.QueryFirstOrDefaultAsync<DamoyeoUser>(sql, entity, transaction: _transaction);
         }
     }
 }

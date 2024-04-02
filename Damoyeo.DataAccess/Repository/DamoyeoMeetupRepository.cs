@@ -149,6 +149,7 @@ SELECT A.meetup_id
           
         }
 
+
         public Task<PagedList<DamoyeoMeetup>> GetPagedListAsync(int page, int pageSize, string searchString = "")
         {
 
@@ -163,11 +164,21 @@ SELECT A.meetup_id
             var whereSql = "";
             var orderby = "";
 
-            if (!string.IsNullOrEmpty(option.searchString)) 
+
+            //신청일자 존재시
+            if (!string.IsNullOrEmpty(option.applicationSdate) && !string.IsNullOrEmpty(option.applicationEdate))
             {
-                whereSql += "AND meetup_name LIKE '%'+@searchString+'%'";
+                whereSql += " AND @applicationSdate BETWEEN A.application_sdate AND A.application_edate ";
             }
 
+
+            //검색어 존재시
+            if (!string.IsNullOrEmpty(option.searchString)) 
+            {
+                whereSql += "AND A.meetup_name LIKE '%'+@searchString+'%'";
+            }
+
+            //검색지역 존재시
             if (!string.IsNullOrEmpty(option.searchArea))
             {
 
@@ -176,25 +187,34 @@ SELECT A.meetup_id
                     var tempArr = option.searchArea.Trim().Split('/');
                     option.temp1 = tempArr[0];
                     option.temp2 = tempArr[1];
-                    whereSql += "AND (post_name LIKE '%'+@temp1+'%' OR post_name LIKE '%'+@temp2+'%')";
+                    whereSql += "AND (A.post_name LIKE '%'+@temp1+'%' OR A.post_name LIKE '%'+@temp2+'%')";
                 }
                 else 
                 {
-                    whereSql += "AND post_name LIKE '%'+@searchArea+'%'";
+                    whereSql += "AND A.post_name LIKE '%'+@searchArea+'%'";
                 }
               
             }
 
+            //카테고리 검색 시 
             if (option.searchCategory != 0) 
             {
-                whereSql += "AND category_id = @searchCategory";
+                whereSql += "AND A.category_id = @searchCategory";
             }
-            
 
 
-            if (option.searchOrder == 1) { orderby = "order by reg_date desc"; }
-            else if (option.searchOrder == 2) { orderby = "order by view_count desc"; }
-            else { orderby = "order by meeting_edate desc"; }
+            //모임 마스터 검색
+            if (option.userId != 0)
+            {
+                whereSql += "AND  A.meetup_master_id = @userId";
+            }
+
+
+
+
+            if (option.searchOrder == 1) { orderby = "order by A.reg_date desc"; }
+            else if (option.searchOrder == 2) { orderby = "order by A.view_count desc"; }
+            else { orderby = "order by A.meeting_edate desc"; }
 
 
             option.startRange = ((page - 1) * pageSize) + 1;
@@ -204,39 +224,40 @@ SELECT A.meetup_id
 SELECT * FROM (
 	SELECT  
 			ROW_NUMBER() over({orderby}) as row_num
-		   , COUNT(meetup_id) over() total_count
-		  ,meetup_id
-		  ,meetup_name
-		  ,meetup_master_id
-		  ,view_count
-		  ,user_count
-		  ,max_user_count
-		  ,use_tf
-		  ,reg_date
-		  ,meetup_image
-		  ,meetup_description
-		  ,category_id
-		  ,phone_number
-		  ,email
-		  ,meeting_intro
-		  ,person_name
-		  ,meeting_sdate
-		  ,meeting_edate
-		  ,application_sdate
-		  ,application_edate
-		  ,kakao_openchat_link
-		  ,post_code
-		  ,post_name
-		  ,post_detail
-		  ,over_capacity
-		  ,meetup_display
-		  ,bname
-          ,longitude
-          ,latitude
-	  FROM Damoyeo_Meetup
+		   , COUNT(A.meetup_id) over() total_count
+		  ,A.meetup_id
+		  ,A.meetup_name
+		  ,A.meetup_master_id
+		  ,A.view_count
+		  ,A.user_count
+		  ,A.max_user_count
+		  ,A.use_tf
+		  ,A.reg_date
+		  ,A.meetup_image
+		  ,A.meetup_description
+		  ,A.category_id
+		  ,A.phone_number
+		  ,A.email
+		  ,A.meeting_intro
+		  ,A.person_name
+		  ,A.meeting_sdate
+		  ,A.meeting_edate
+		  ,A.application_sdate
+		  ,A.application_edate
+		  ,A.kakao_openchat_link
+		  ,A.post_code
+		  ,A.post_name
+		  ,A.post_detail
+		  ,A.over_capacity
+		  ,A.meetup_display
+		  ,A.bname
+          ,A.longitude
+          ,A.latitude
+          ,(SELECT COUNT(application_id) FROM Damoyeo_Applications where meetup_id = A.meetup_id ) as applications_count
+          ,B.category_name
+	  FROM Damoyeo_Meetup A INNER JOIN Damoyeo_Category B on A.category_id = b.category_id
 	  where 
-        use_tf = 1
-        AND @applicationSdate BETWEEN application_sdate AND application_edate
+        A.use_tf = 1
         {whereSql}
 ) X
 WHERE 
@@ -245,7 +266,13 @@ WHERE
 
 
 
-            var items = await _connection.QueryAsync<DamoyeoMeetup>(sql, option, transaction: _transaction);
+            var items = await _connection.QueryAsync<DamoyeoMeetup, DamoyeoCategory, DamoyeoMeetup>(sql,
+                (meetup, category) =>
+                {
+                     meetup.Category = category;
+                     return meetup;
+                },
+                option, transaction: _transaction, splitOn: "category_name");
             if (items.Any())
             {
                 return new PagedList<DamoyeoMeetup>(items, items.FirstOrDefault().total_count, page, pageSize);

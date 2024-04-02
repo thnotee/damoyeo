@@ -9,6 +9,7 @@ using Dapper;
 using Damoyeo.Model.Model;
 using Damoyeo.Model.Model.Pager;
 using static Dapper.SqlMapper;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Damoyeo.DataAccess.Repository
 {
@@ -34,13 +35,55 @@ VALUES (@user_id, @meetup_id, @application_date)
 
         public async Task<IEnumerable<DamoyeoApplications>> GetAllAsync(DamoyeoApplications entity)
         {
-            var sql = @"
-SELECT application_id, user_id, meetup_id, application_date  FROM Damoyeo_Applications
+
+            var whereSql = "";
+            if (entity.meetup_id != 0) 
+            {
+                whereSql = "AND A.meetup_id = @meetup_id";            
+            }
+
+            if (entity.user_id != 0)
+            {
+                whereSql = "AND A.user_id = @user_id";
+            }
+
+            var sql = $@"
+SELECT A.application_id
+      ,A.user_id
+      ,A.meetup_id
+      ,A.application_date
+	  ,B.nickname
+      ,B.email
+	  ,B.profile_image
+      ,C.max_user_count
+	  ,C.meetup_id 
+	  ,C.meetup_name
+	  ,C.meetup_image
+	  ,C.kakao_openchat_link
+	  ,C.bname
+      ,C.application_edate
+      ,(select count(application_id) from Damoyeo_Applications where meetup_id = A.meetup_id) as user_count
+	  ,D.category_name
+FROM Damoyeo_Applications A INNER JOIN  Damoyeo_User  B ON (A.user_id = B.user_id)
+INNER JOIN 
+Damoyeo_Meetup C ON (A.meetup_id = C.meetup_id)
+INNER JOIN 
+Damoyeo_Category D ON (C.category_id = D.category_id)
 WHERE 
-meetup_id = @meetup_id
+B.use_tf = 1
+{whereSql}
 ";
 
-            return await _connection.QueryAsync<DamoyeoApplications>(sql, entity, _transaction);
+            return await _connection.QueryAsync<DamoyeoApplications, DamoyeoUser, DamoyeoMeetup, DamoyeoCategory, DamoyeoApplications>(sql, 
+                (applications, user, meetup, category) => 
+                {
+                    applications.application_user = user;
+                    meetup.Category = category;
+                    applications.damoyeo_meetup = meetup;
+                    return applications;
+                }
+                ,entity, _transaction
+                ,splitOn : "nickname,max_user_count,category_name");
         }
 
         public async Task<DamoyeoApplications> GetAsync(DamoyeoApplications entity)

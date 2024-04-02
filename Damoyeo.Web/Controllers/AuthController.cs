@@ -168,12 +168,12 @@ namespace Damoyeo.Web.Controllers
                     // 쿠키 생성
                     HttpCookie userCookie = new HttpCookie("UserCookie");
                     // 값 추가
-                    userCookie.Values["user_id"] = userObj.user_id.ToString();
-                    userCookie.Values["email"] = userObj.email;
-                    userCookie.Values["nickname"] = userObj.nickname;
-                    userCookie.Values["profile_image"] = userObj.profile_image;
-                    userCookie.Values["slf_Intro"] = userObj.slf_Intro;
-                    userCookie.Values["signup_type"] = userObj.signup_type.ToString();
+                    userCookie.Values["user_id"] = HttpUtility.UrlEncode(userObj.user_id.ToString());
+                    userCookie.Values["email"] = HttpUtility.UrlEncode(userObj.email);
+                    userCookie.Values["nickname"] = HttpUtility.UrlEncode(userObj.nickname);
+                    userCookie.Values["profile_image"] = HttpUtility.UrlEncode(userObj.profile_image);
+                    userCookie.Values["slf_Intro"] = HttpUtility.UrlEncode(userObj.slf_Intro);
+                    userCookie.Values["signup_type"] = HttpUtility.UrlEncode(userObj.signup_type.ToString());
                     
 
                     // 쿠키 만료 시간 설정
@@ -343,12 +343,12 @@ namespace Damoyeo.Web.Controllers
                 {
                     HttpCookie userCookie = new HttpCookie("UserCookie");
                     // 값 추가
-                    userCookie.Values["user_id"] = userObj.user_id.ToString();
-                    userCookie.Values["email"] = userObj.email;
-                    userCookie.Values["nickname"] = userObj.nickname;
-                    userCookie.Values["profile_image"] = userObj.profile_image;
-                    userCookie.Values["slf_Intro"] = userObj.slf_Intro;
-                    userCookie.Values["signup_type"] = userObj.signup_type.ToString();
+                    userCookie.Values["user_id"] = HttpUtility.UrlEncode(userObj.user_id.ToString());
+                    userCookie.Values["email"] = HttpUtility.UrlEncode(userObj.email);
+                    userCookie.Values["nickname"] = HttpUtility.UrlEncode(userObj.nickname);
+                    userCookie.Values["profile_image"] = HttpUtility.UrlEncode(userObj.profile_image);
+                    userCookie.Values["slf_Intro"] = HttpUtility.UrlEncode(userObj.slf_Intro);
+                    userCookie.Values["signup_type"] = HttpUtility.UrlEncode(userObj.signup_type.ToString());
                     
 
                     // 쿠키 만료 시간 설정

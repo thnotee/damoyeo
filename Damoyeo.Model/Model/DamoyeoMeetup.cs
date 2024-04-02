@@ -116,6 +116,10 @@ namespace Damoyeo.Model.Model
         /// </summary>
         public string latitude { get; set; }
 
-        public DamoyeoCategory Category { get; set; }
+        ///신청자 카운트
+        public int applications_count  { get; set; }
+    
+
+    public DamoyeoCategory Category { get; set; }
     }
 }

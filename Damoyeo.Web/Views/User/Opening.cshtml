@@ -1,4 +1,5 @@
-﻿
+﻿@using Damoyeo.Model.ViewModel
+@model  MeetupListVm
 @{
     ViewBag.Title = "Opening";
 }
@@ -19,82 +20,75 @@
 
             <div class="my_common_list">
                 <ul>
-                    <li>
-                        <div class="left">
-                            <img src="images/test.jpg" alt="" class="mc_main_img">
-                            <a href="" class="mcl_txt">
-                                <p class="mlist_tit">[맛집/취미] 치킨 같이 먹기 모임 모임 모임 모임모임 모임</p>
-                                <span class="mlist_txt">치킨 먹고 술을 사랑하는 모임이에요 치킨 먹고 술을 사랑하는 모임이에요 치킨 먹고 술을 사랑하는 모임이에요</span>
-                                <span class="m_mark"><img src="images/marker.svg" alt=""> 회기동</span>
-                            </a>
-                        </div>
-                        <div class="right">
-                            <ul>
-                                <li>
-                                    <img src="images/mini_heart.svg" alt="">
-                                    <span>찜</span>
-                                    <p>280명</p>
-                                </li>
 
-                                <!-- 지원자 클릭시 지원자리스트 페이지 이동 -->
-                                <li>
-                                    <img src="images/mini_user.svg" alt="">
-                                    <span>지원자</span>
-                                    <a href="my_open_detail.html" class="ml_people">2명 <img src="images/move_arrow.svg" alt=""></a>
-                                </li>
-                                <li>
-                                    <img src="images/mini_calendar.svg" alt="">
-                                    <span>마감날짜</span>
-                                    <p>24.03.14</p>
-                                </li>
-                                <li>
-                                    <a href="" class="ml_modify ml_btn">수정하기</a>
-                                    <a href="" class="ml_del ml_btn">삭제하기</a>
-                                </li>
-                            </ul>
+                    @if (!Model.list.Any())
+                    {
+
+
+                        <!-- 개설한 소모임 없을때 -->
+                        <div class="no_list_wrap">
+                            <img src="~/Content/images/no_list.svg" alt="">
+                            <p>개설한 소모임이 없습니다.</p>
                         </div>
-                    </li>
-                    <li>
-                        <div class="left">
-                            <img src="images/test.jpg" alt="" class="mc_main_img">
-                            <a href="" class="mcl_txt">
-                                <p class="mlist_tit">[맛집/취미] 치킨 같이 먹기 모임 모임 모임 모임모임 모임</p>
-                                <span class="mlist_txt">치킨 먹고 술을 사랑하는 모임이에요 치킨 먹고 술을 사랑하는 모임이에요 치킨 먹고 술을 사랑하는 모임이에요</span>
-                                <span class="m_mark"><img src="images/marker.svg" alt=""> 회기동</span>
-                            </a>
-                        </div>
-                        <div class="right">
-                            <ul>
-                                <li>
-                                    <img src="images/mini_heart.svg" alt="">
-                                    <span>찜</span>
-                                    <p>280명</p>
-                                </li>
-                                <!-- 지원자 클릭시 지원자리스트 페이지 이동 -->
-                                <li>
-                                    <img src="images/mini_user.svg" alt="">
-                                    <span>지원자</span>
-                                    <a href="my_open_detail.html" class="ml_people">2명 <img src="images/move_arrow.svg" alt=""></a>
-                                </li>
-                                <li>
-                                    <img src="images/mini_calendar.svg" alt="">
-                                    <span>마감날짜</span>
-                                    <p>24.03.14</p>
-                                </li>
-                                <li>
-                                    <a href="" class="ml_modify ml_btn">수정하기</a>
-                                    <a href="" class="ml_del ml_btn">삭제하기</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                    }
+                    else
+                    {
+                        foreach (var item in Model.list)
+                        {
+
+                            <li>
+                                <div class="left">
+
+                                    @if (!string.IsNullOrEmpty(item.meetup_image))
+                                    {
+                                        <img src="@item.meetup_image" alt="" class="mc_main_img" />
+                                    }
+                                    else
+                                    {
+                                        <!--<img src="~/Content/images/test.jpg" alt="" class="mc_main_img">-->
+                                        <img src="https://placeholder.com/308x269/png" alt="" class="mc_main_img" />
+                                    }
+
+                                    <a href="/Meetup/Detail?meetup_id=@item.meetup_id" class="mcl_txt">
+                                        <p class="mlist_tit">[@item.Category.category_name] @item.meetup_name</p>
+                                        <span class="mlist_txt">@item.meeting_intro</span>
+                                        <span class="m_mark"><img src="~/Content/images/marker.svg" alt=""> @item.bname</span>
+                                    </a>
+                                </div>
+                                <div class="right">
+                                    <ul>
+                                        <li>
+                                            <img src="~/Content/images/mini_heart.svg" alt="">
+                                            <span>찜</span>
+                                            <p>280명</p>
+                                        </li>
+
+                                        <!-- 지원자 클릭시 지원자리스트 페이지 이동 -->
+                                        <li>
+                                            <img src="~/Content/images/mini_user.svg" alt="">
+                                            <span>지원자</span>
+                                            <a href="/User/OpeningDetail?meetup_id=@item.meetup_id" class="ml_people">@(item.applications_count)명 <img src="~/Content/images/move_arrow.svg" alt=""></a>
+                                        </li>
+                                        <li>
+                                            <img src="~/Content/images/mini_calendar.svg" alt="">
+                                            <span>마감날짜</span>
+                                            <p>@item.application_edate</p>
+                                        </li>
+                                        <li>
+                                            <a href="/Meetup/Edit?meetup_id=@item.meetup_id" class="ml_modify ml_btn">수정하기</a>
+                                            <a href="" class="ml_del ml_btn">삭제하기</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                        }
+                    }
+
+
                 </ul>
 
-                <!-- 개설한 소모임 없을때 -->
-                <div class="no_list_wrap">
-                    <img src="images/no_list.svg" alt="">
-                    <p>개설한 소모임이 없습니다.</p>
-                </div>
+            
             </div>
         </div>
     </div>

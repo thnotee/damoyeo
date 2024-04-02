@@ -53,5 +53,11 @@ namespace Damoyeo.Model.Model.option
 
         public string temp2 { get; set; }
 
+        
+        /// <summary>
+        /// 마스터 id 가져오기위해
+        /// 내가 open한 소모임 판단여부
+        /// </summary>
+        public int userId { get; set; }
     }
 }

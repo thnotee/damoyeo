@@ -1,4 +1,8 @@
 ﻿
+@{ 
+
+   var name =  HttpUtility.UrlDecode(Damoyeo.Util.Manager.UserManager.GetCookie().Nickname);
+}
 <div class="my_left">
     <div class="my_sticky">
         <div class="my_profile my_box">
@@ -9,22 +13,22 @@
                 </p>
                 <span><img src="~/Content/images/camera.svg" alt=""></span>
             </div>
-            <p><span>박수정님</span><br>환영합니다.</p>
+            <p><span>@name</span><br>환영합니다.</p>
         </div>
         <div class="my_move my_box">
             <p class="move_tit">마이페이지</p>
             <ul>
                 <li>
-                    <a href="/User/mypage.html" class="on">회원정보수정</a>
+                    <a href="/User/Index" class="on">회원정보수정</a>
                 </li>
                 <li>
-                    <a href="/User/my_open.html">개설한 소모임</a>
+                    <a href="/User/Opening">개설한 소모임</a>
                 </li>
                 <li>
-                    <a href="/User/my_join.html">참여한 소모임</a>
+                    <a href="/User/Join">참여한 소모임</a>
                 </li>
                 <li>
-                    <a href="/User/my_heart.html">찜 목록</a>
+                    <a href="/User/Wish">찜 목록</a>
                 </li>
             </ul>
         </div>

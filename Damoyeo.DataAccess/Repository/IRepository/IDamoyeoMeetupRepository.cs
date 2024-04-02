@@ -13,6 +13,6 @@ namespace Damoyeo.DataAccess.Repository.IRepository
     {
 
         Task<PagedList<DamoyeoMeetup>> GetPagedListAsync(int page, int pageSize, MeetupSearchOpt option);
-        
+
     }
 }

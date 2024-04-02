@@ -14,6 +14,10 @@ namespace Damoyeo.Model.Model
         public int meetup_id { get; set; }
 
         public DateTime application_date { get; set;}
+
+        public DamoyeoUser application_user { get; set; }   
+
+        public DamoyeoMeetup damoyeo_meetup { get; set; }
     }
 
 }

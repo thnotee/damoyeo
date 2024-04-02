@@ -12,6 +12,8 @@ using Damoyeo.Util.Manager;
 using Damoyeo.Model.ViewModel;
 using Damoyeo.Util;
 using Microsoft.IdentityModel.Tokens;
+using Damoyeo.Model.Model.option;
+using System.Globalization;
 
 namespace Damoyeo.Web.Controllers
 {
@@ -69,7 +71,7 @@ namespace Damoyeo.Web.Controllers
             //회원정보를 가져옵니다.
             var userInfoFromDb = await _unitOfWork.Users.GetAsync(userParameter);
 
-            if (StringUtil.GetSHA256(userInfo.password) == userInfoFromDb.password) 
+            if (StringUtil.GetSHA256(userInfo.password) != userInfoFromDb.password) 
             {
                 TempData["errorMsg"] = "비밀번호가 틀립니다.";
                 return RedirectToAction("Index");
@@ -80,10 +82,15 @@ namespace Damoyeo.Web.Controllers
             {
                 userInfoFromDb.password = StringUtil.GetSHA256(newPassword);
             }
-            userInfoFromDb.nickname = userInfo.nickname;
-            userInfoFromDb.slf_Intro = userInfo.slf_Intro;
-            
 
+            //닉네임 변경시 
+            if (!string.IsNullOrEmpty(userInfo.nickname)) 
+            {
+                userInfoFromDb.nickname = userInfo.nickname;
+            }
+            
+            userInfoFromDb.slf_Intro = userInfo.slf_Intro;
+            await _unitOfWork.Users.UpdateAsync(userInfoFromDb);
             //관심 카테고리 삭제
             await _unitOfWork.UserInterestCategory.RemoveAsync(userCookie.UserId);
             //관심카테고리 추가
@@ -105,20 +112,45 @@ namespace Damoyeo.Web.Controllers
         }
 
 
-        public ActionResult Opening()
+        public async Task<ActionResult> Opening()
         {
-            return View();
+            MeetupListVm viewModel = new MeetupListVm();
+
+            viewModel.MeetupSearchOpt = new MeetupSearchOpt();
+            viewModel.MeetupSearchOpt.userId = UserManager.GetCookie().UserId;
+
+            viewModel.list = await _unitOfWork.Meetup.GetPagedListAsync(1, 100, viewModel.MeetupSearchOpt);
+            viewModel.categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
+            return View(viewModel);
+            
         }
 
-        public ActionResult OpeningDetail()
+        /// <summary>
+        /// 신청자 상세
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ActionResult> OpeningDetail(int meetup_id)
         {
-            return View();
+
+            DamoyeoApplications parameter = new DamoyeoApplications();
+
+            parameter.meetup_id = meetup_id;
+            IEnumerable<DamoyeoApplications> viewModel = await _unitOfWork.Applications.GetAllAsync(parameter);
+
+            return View(viewModel);
         }
 
-        public ActionResult Join()
+        public async Task<ActionResult> Join()
         {
 
-            return View();
+            DamoyeoApplications parameter = new DamoyeoApplications();
+            parameter.user_id = UserManager.GetCookie().UserId;
+
+            IEnumerable<DamoyeoApplications> viewModel =  await _unitOfWork.Applications.GetAllAsync(parameter);
+
+            //GetAllAsync
+            return View(viewModel);
+
         }
 
 
@@ -129,6 +161,37 @@ namespace Damoyeo.Web.Controllers
         }
 
 
+        /////////////////////
+        /// API CALL
+        /////////////////////
+
+        /// <summary>
+        /// 회원정보를 가져옵니다.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult> GetUserInfo(string email)
+        {
+            if (string.IsNullOrEmpty(email)) 
+            {
+                return Json(new { success = false });
+            }
+
+            var userParameter = new DamoyeoUser();
+            userParameter.email = email;
+
+            //회원정보를 가져옵니다.
+            var userInfoFromDb = await _unitOfWork.Users.GetAsync(userParameter);
+
+            var interestCategoryParameter = new DamoyeoUserInterestCategory();
+            interestCategoryParameter.user_id = userInfoFromDb.user_id;  
+            var interestCategoryFromDb = await _unitOfWork.UserInterestCategory.GetAsync(interestCategoryParameter);
+            
+            var returnDict = new Dictionary<string, object>();
+            returnDict.Add("userInfo", userInfoFromDb);
+            returnDict.Add("interestCategory", interestCategoryFromDb);
+            return Json(new { success = true, data = returnDict });
+        }
 
     }
 }

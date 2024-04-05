@@ -106,8 +106,18 @@
                                             @item.meeting_intro
                                         </p>
                                     </a>
-                                    <span class="heart_click">
-                                        <img src="~/Content/images/heart.svg" alt="" />
+
+                                    <span class="heart_click" data-meetup_id="@item.meetup_id">
+
+                                        @if (Model.WishList.Any(x => x.meetup_id == item.meetup_id))
+                                        {
+                                            <img src="~/Content/images/heart_on.svg" alt="" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Content/images/heart.svg" alt="" />
+                                        }
+
                                     </span>
                                     <div class="apply_wrap">
                                         <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>

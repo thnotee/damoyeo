@@ -16,11 +16,34 @@ namespace Damoyeo.Model.Model
         /// 토탈카운트
         /// </summary>
         public int total_count { get; set; }
+        /// <summary>
+        /// 소모임 id
+        /// </summary>
         public int meetup_id { get; set; }
+        /// <summary>
+        /// 소모임이름
+        /// </summary>
         public string meetup_name { get; set; }
+
+        /// <summary>
+        /// 마스터 user_id
+        /// </summary>
         public int meetup_master_id { get; set; }
+        /// <summary>
+        /// 조회수
+        /// </summary>
         public int view_count { get; set; }
+        /// <summary>
+        /// 신청자수
+        /// </summary>
         public int user_count { get; set; }
+        /// <summary>
+        /// 좋아요 수
+        /// </summary>
+        public int wish_count { get; set; }
+        /// <summary>
+        /// 최대 정원
+        /// </summary>
         public int max_user_count { get; set; }
         public int use_tf { get; set; }
         public DateTime reg_date { get; set; }

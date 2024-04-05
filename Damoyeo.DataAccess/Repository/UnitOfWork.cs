@@ -36,6 +36,7 @@ namespace Damoyeo.DataAccess.Repository
 
         public IDamoyeoUserInterestCategoryRepository UserInterestCategory { get; private set; }
 
+        public IDamoyeoWishlistRepository Wishlist { get; private set;  }
 
         public UnitOfWork(IDbConnection connection)
         {
@@ -53,6 +54,8 @@ namespace Damoyeo.DataAccess.Repository
             MeetupTagsMapping = new DamoyeoMeetupTagsRepository(_transaction);
             Applications = new DamoyeoApplicationsRepository(_transaction);
             UserInterestCategory = new DamoyeoUserInterestCategoryRepository(_transaction);
+            Wishlist = new DamoyeoWishlistRepository(_transaction);
+
         }
 
    

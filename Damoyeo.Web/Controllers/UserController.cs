@@ -17,8 +17,7 @@ using System.Globalization;
 
 namespace Damoyeo.Web.Controllers
 {
-    [Auth]
-    [AuthUserinfo]
+    
     public class UserController : Controller
     {
 
@@ -29,6 +28,9 @@ namespace Damoyeo.Web.Controllers
             _unitOfWork = unitOfWork;
         }
         // GET: User
+
+        [Auth]
+        [AuthUserinfo]
         public async Task<ActionResult> Index()
         {
             PagedList<DamoyeoCategory> categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
@@ -58,7 +60,8 @@ namespace Damoyeo.Web.Controllers
             return View(viewModel);
         }
 
-
+        [Auth]
+        [AuthUserinfo]
         [HttpPost]
         public async Task<ActionResult> Index(DamoyeoUser userInfo, List<int> interest, string newPassword)
         {
@@ -111,7 +114,8 @@ namespace Damoyeo.Web.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [Auth]
+        [AuthUserinfo]
         public async Task<ActionResult> Opening()
         {
             MeetupListVm viewModel = new MeetupListVm();
@@ -129,6 +133,9 @@ namespace Damoyeo.Web.Controllers
         /// 신청자 상세
         /// </summary>
         /// <returns></returns>
+        
+        [Auth]
+        [AuthUserinfo]
         public async Task<ActionResult> OpeningDetail(int meetup_id)
         {
 
@@ -139,7 +146,8 @@ namespace Damoyeo.Web.Controllers
 
             return View(viewModel);
         }
-
+        [Auth]
+        [AuthUserinfo]
         public async Task<ActionResult> Join()
         {
 
@@ -153,11 +161,19 @@ namespace Damoyeo.Web.Controllers
 
         }
 
-
-        public ActionResult Wish()
+        [Auth]
+        [AuthUserinfo]
+        public async Task<ActionResult> Wish()
         {
+            MeetupListVm viewModel = new MeetupListVm();
 
-            return View();
+            viewModel.MeetupSearchOpt = new MeetupSearchOpt();
+            viewModel.MeetupSearchOpt.userId = UserManager.GetCookie().UserId;
+
+            viewModel.list = await _unitOfWork.Meetup.GetPagedListAsync(1, 100, viewModel.MeetupSearchOpt);
+            viewModel.categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
+
+            return View(viewModel);
         }
 
 
@@ -169,6 +185,8 @@ namespace Damoyeo.Web.Controllers
         /// 회원정보를 가져옵니다.
         /// </summary>
         /// <returns></returns>
+        [Auth]
+        [AuthUserinfo]
         [HttpPost]
         public async Task<ActionResult> GetUserInfo(string email)
         {
@@ -191,6 +209,38 @@ namespace Damoyeo.Web.Controllers
             returnDict.Add("userInfo", userInfoFromDb);
             returnDict.Add("interestCategory", interestCategoryFromDb);
             return Json(new { success = true, data = returnDict });
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> UpsertWish(int meetup_id)
+        {
+            if (UserManager.IsLogin())
+            {
+                var entity = new DamoyeoWishlist();
+                entity.meetup_id = meetup_id;
+                entity.user_id = UserManager.GetCookie().UserId;
+                entity.wish_date = DateTime.Now;
+                var data = await _unitOfWork.Wishlist.GetAsync(entity);
+                if (data == null)
+                {
+                    await _unitOfWork.Wishlist.AddAsync(entity);
+                    _unitOfWork.Commit();
+                    return Json(new { success = true, code = 1 }); //추가
+                }
+                else
+                {
+                    await _unitOfWork.Wishlist.RemoveAsync(data.wish_id);
+                    _unitOfWork.Commit();
+                    return Json(new { success = true, code = 2 }); //삭제
+                }
+
+            }
+            else
+            {
+                return Json(new { success = false, code = 3 });
+            }
+
         }
 
     }

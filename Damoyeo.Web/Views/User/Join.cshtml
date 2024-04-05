@@ -38,7 +38,7 @@
                                         <!--<img src="~/Content/images/test.jpg" alt="" class="mc_main_img">-->
                                         <img src="https://placeholder.com/308x269/png" alt="" class="mc_main_img" />
                                     }
-                                    <a href="" class="mcl_txt">
+                                    <a href="/Meetup/Detail?meetup_id=@item.meetup_id" class="mcl_txt">
                                         <p class="mlist_tit">[@item.damoyeo_meetup.Category.category_name] @item.damoyeo_meetup.meetup_name</p>
                                         <span class="mlist_txt">@item.damoyeo_meetup.meeting_intro</span>
                                         <span class="m_mark"><img src="~/Content/images/marker.svg" alt=""> @item.damoyeo_meetup.bname</span>
@@ -57,7 +57,7 @@
                                             <p>@item.damoyeo_meetup.application_edate</p>
                                         </li>
                                         <li>
-                                            <a href="" class="ml_can ml_btn">지원취소하기</a>
+                                            <a href="javascript:Application(@item.meetup_id)" class="ml_can ml_btn">지원취소하기</a>
                                             <a href="@item.damoyeo_meetup.kakao_openchat_link" class="ml_kakao ml_btn"><img src="~/Content/images/kakao.svg" alt=""></a>
                                         </li>
                                     </ul>
@@ -92,7 +92,7 @@
             $(".ml_kakao").click(function () {
                 var link = $(this).attr('href');
                 copyToClipboard(link);
-                alert('링크가 복사되었습니다: ' + link);
+                alertBox('링크가 복사되었습니다: ' + link);
                 return false; // Prevent default link behavior
             });
 
@@ -104,5 +104,29 @@
                 $temp.remove();
             }
         });
+
+        function Application(meetup_id) {
+
+          $.ajax({
+             type: "POST",
+             url: "/Meetup/Application",
+              data: { meetup_id: meetup_id },
+             success: function (response) {
+                 if (response.success)
+                 {
+                     if (response.code == 1)
+                     {
+                         alertBox("모임참여 완료 하였습니다!! \n 마이페이지에 > 참여 소모임 \n 카카오톡 오픈채팅을 이용해주세요.", reloadPage)
+                     }
+                     else if (response.code == 2) {
+                         alertBox("모임참여 취소 하였습니다.", reloadPage)
+                     }
+                 }
+             },
+             error: function (xhr, status, error) {
+                 console.error("실패: ", error);
+             }
+         });
+ }
     </script>
 }

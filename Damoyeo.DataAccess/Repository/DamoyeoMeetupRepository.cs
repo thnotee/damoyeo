@@ -229,7 +229,6 @@ SELECT * FROM (
 		  ,A.meetup_name
 		  ,A.meetup_master_id
 		  ,A.view_count
-		  ,A.user_count
 		  ,A.max_user_count
 		  ,A.use_tf
 		  ,A.reg_date
@@ -254,6 +253,7 @@ SELECT * FROM (
           ,A.longitude
           ,A.latitude
           ,(SELECT COUNT(application_id) FROM Damoyeo_Applications where meetup_id = A.meetup_id ) as applications_count
+          ,(select count(wish_id) from Damoyeo_Wishlist where meetup_id = A.meetup_id ) as wish_count
           ,B.category_name
 	  FROM Damoyeo_Meetup A INNER JOIN Damoyeo_Category B on A.category_id = b.category_id
 	  where 
@@ -299,8 +299,7 @@ UPDATE Damoyeo_Meetup
 SET 
     meetup_name = @meetup_name, 
     meetup_master_id = @meetup_master_id,
-    view_count = @view_count, 
-    user_count = @user_count, 
+    view_count = @view_count,     
     max_user_count = @max_user_count, 
     use_tf = @use_tf, 
     reg_date = @reg_date, 

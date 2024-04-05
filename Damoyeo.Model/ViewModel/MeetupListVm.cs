@@ -15,5 +15,7 @@ namespace Damoyeo.Model.ViewModel
         public MeetupSearchOpt MeetupSearchOpt { get; set; }
 
         public PagedList<DamoyeoCategory> categoryList { get; set; }
+
+        public IEnumerable<DamoyeoWishlist> WishList { get; set; } = new List<DamoyeoWishlist>();
     }
 }

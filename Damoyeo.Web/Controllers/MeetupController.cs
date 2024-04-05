@@ -60,6 +60,13 @@ namespace Damoyeo.Web.Controllers
             viewModel.list = await _unitOfWork.Meetup.GetPagedListAsync(1, 100, viewModel.MeetupSearchOpt);
             viewModel.categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
 
+            if (UserManager.IsLogin())
+            {
+                var entity = new DamoyeoWishlist();
+                entity.user_id = UserManager.GetCookie().UserId;
+                viewModel.WishList = await _unitOfWork.Wishlist.GetAllAsync(entity);
+            }
+                
             
             return View(viewModel);
         }

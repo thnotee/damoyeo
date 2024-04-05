@@ -44,16 +44,58 @@ function alertFocus(text, obj) {
     });
 }
 
+
+/**
+ * 
+ * @param {any} meetup_id 소모임 ID
+ */
+function SetWishList(heart_btn, meetup_id) {
+
+    console.log(heart_btn);
+    
+    $.ajax({
+        type: "POST",
+        url: "/User/UpsertWish",
+        data: { meetup_id: meetup_id },
+        success: function (response) {
+            console.log(response)
+            if (response.success) {
+                if (response.code == 1) {
+                    alertBox("찜목록 추가 되었습니다.");
+                    $(heart_btn).find("img").attr("src", "/Content/images/heart_on.svg");
+                }
+                else if (response.code == 2) {
+                    alertBox("찜목록에서 삭제하였습니다.");
+                    $(heart_btn).find("img").attr("src", "/Content/images/heart.svg");
+                }
+                
+            }
+            else
+            {
+                alertBox("로그인이 필요한 서비스입니다.");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr);
+            
+        }
+    });
+    
+}
+
 //하트 클릭시 버튼 색 변함
 $(document).ready(function () {
     $(".heart_click").click(function () {
-        $(this)
-            .find("img")
-            .attr("src", function (_, attr) {
+
+        var meetup_id = $(this).data("meetup_id");
+        //console.log(meetup_id);
+        SetWishList($(this), meetup_id);
+        /*
+        $(this).find("img").attr("src", function (_, attr) {
                 return attr === "/Content/images/heart.svg"
                     ? "/Content/images/heart_on.svg"
                     : "/Content/images/heart.svg";
-            });
+            });*/
     });
 
     $(".top_fixed").click(function () {
@@ -61,3 +103,5 @@ $(document).ready(function () {
         return false;
     });
 });
+
+

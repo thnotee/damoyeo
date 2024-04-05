@@ -31,6 +31,8 @@ namespace Damoyeo.DataAccess.Repository.IRepository
 
         IDamoyeoUserInterestCategoryRepository UserInterestCategory { get; }
 
+        IDamoyeoWishlistRepository Wishlist { get; }
+
 
         void Commit();
     }

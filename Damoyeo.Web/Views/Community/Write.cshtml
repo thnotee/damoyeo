@@ -1,50 +1,40 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "글쓰기";
 }
-
-<script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-
-
-<div class="contents_wrap">
-    <form id="myform" action="/Community/Write" method="post" enctype="multipart/form-data">
-        <div class="max-w-sm mx-auto m-5">
-
-            <div class="mb-5">
-                <label for="title"
-                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">제목을 입력해주세요.</label>
-                <input type="text"
-                       id="title"
-                       name="title"
-                       maxlength="10"
-                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
-            </div>
-
-            <div class="mb-5">
-                <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">내용을 입력해주세요.</label>
-                <textarea id="tiny_content"></textarea>
-                <textarea id="content" name="content" style="display:none;"></textarea>
-            </div>
-
-
-
-            <button type="button"
-                    id="submitBtn"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                작성하기
-            </button>
+@section Style{
+    <link rel="stylesheet" href="~/Content//css/community.css" />
+}
+<div class="section_wrap cw_wrap">
+    <div class="inner sub_inner">
+        <h3 class="section_title">커뮤니티 글쓰기</h3>
+        <div class="cw_box">
+            <input type="text" placeholder="제목을 입력해주세요">
+            <textarea name="" id="" cols="30" rows="10" placeholder="내용을 입력하세요."></textarea>
         </div>
-    </form>
 
-
+        <div class="cw_btn">
+            <span class="big_btn">등록하기</span>
+        </div>
+    </div>
 </div>
 
 @section scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
 
-  <script>
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
 
-  </script>
+        });
+    </script>
 
 }

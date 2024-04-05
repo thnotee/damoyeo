@@ -67,8 +67,7 @@ function SetWishList(heart_btn, meetup_id) {
                 else if (response.code == 2) {
                     alertBox("찜목록에서 삭제하였습니다.");
                     $(heart_btn).find("img").attr("src", "/Content/images/heart.svg");
-                }
-                
+                }   
             }
             else
             {
@@ -90,17 +89,54 @@ $(document).ready(function () {
         var meetup_id = $(this).data("meetup_id");
         //console.log(meetup_id);
         SetWishList($(this), meetup_id);
-        /*
-        $(this).find("img").attr("src", function (_, attr) {
-                return attr === "/Content/images/heart.svg"
-                    ? "/Content/images/heart_on.svg"
-                    : "/Content/images/heart.svg";
-            });*/
     });
 
     $(".top_fixed").click(function () {
         $("html, body").animate({ scrollTop: 0 }, 1000);
         return false;
+    });
+
+
+    /**
+     * 선택 이미지 프리뷰
+     */
+    $("#file_upload").on("change", function () {
+
+        var file = this.files[0]; // 선택된 파일 가져오기
+
+        // 파일 타입 확인 (이미지인지)
+        if (file && file.type.match('image.*')) {
+            var formData = new FormData();
+            formData.append('file', file); // 'file'은 서버에서 해당 파일을 식별하는 키입니다.
+
+            // AJAX 요청
+            $.ajax({
+                url: '/User/ChangeProfileImage', // 서버 엔드포인트 URL
+                type: 'POST',
+                data: formData,
+                processData: false, // processData와 contentType을 false로 설정해야 합니다.
+                contentType: false,
+                success: function (response) {
+                    //console.log('업로드 성공', response);
+                    // 업로드 성공 시 로직
+                    if (response.success) {
+                        //console.log(response.data);
+                        $('#preview').attr('src', response.data);
+                    }
+                    else
+                    {
+                        alertBox(response.data)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('업로드 실패', error);
+                    // 업로드 실패 시 로직
+                }
+            });
+        } else {
+            alertBox('이미지 파일만 업로드 가능합니다.');
+        }
+
     });
 });
 

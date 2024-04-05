@@ -14,6 +14,7 @@ using Damoyeo.Util;
 using Microsoft.IdentityModel.Tokens;
 using Damoyeo.Model.Model.option;
 using System.Globalization;
+using System.IO;
 
 namespace Damoyeo.Web.Controllers
 {
@@ -33,6 +34,7 @@ namespace Damoyeo.Web.Controllers
         [AuthUserinfo]
         public async Task<ActionResult> Index()
         {
+            ViewBag.TabIndex = 1;
             PagedList<DamoyeoCategory> categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
 
             var userCookie = UserManager.GetCookie();
@@ -65,8 +67,8 @@ namespace Damoyeo.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Index(DamoyeoUser userInfo, List<int> interest, string newPassword)
         {
-            
 
+            ViewBag.TabIndex = 1;
             var userCookie = UserManager.GetCookie();
             var userParameter = new DamoyeoUser();
             userParameter.email = userCookie.Email;
@@ -118,6 +120,7 @@ namespace Damoyeo.Web.Controllers
         [AuthUserinfo]
         public async Task<ActionResult> Opening()
         {
+            ViewBag.TabIndex = 2;
             MeetupListVm viewModel = new MeetupListVm();
 
             viewModel.MeetupSearchOpt = new MeetupSearchOpt();
@@ -138,9 +141,8 @@ namespace Damoyeo.Web.Controllers
         [AuthUserinfo]
         public async Task<ActionResult> OpeningDetail(int meetup_id)
         {
-
+            ViewBag.TabIndex = 2;
             DamoyeoApplications parameter = new DamoyeoApplications();
-
             parameter.meetup_id = meetup_id;
             IEnumerable<DamoyeoApplications> viewModel = await _unitOfWork.Applications.GetAllAsync(parameter);
 
@@ -150,7 +152,7 @@ namespace Damoyeo.Web.Controllers
         [AuthUserinfo]
         public async Task<ActionResult> Join()
         {
-
+            ViewBag.TabIndex = 3;
             DamoyeoApplications parameter = new DamoyeoApplications();
             parameter.user_id = UserManager.GetCookie().UserId;
 
@@ -165,6 +167,7 @@ namespace Damoyeo.Web.Controllers
         [AuthUserinfo]
         public async Task<ActionResult> Wish()
         {
+            ViewBag.TabIndex = 4;
             MeetupListVm viewModel = new MeetupListVm();
 
             viewModel.MeetupSearchOpt = new MeetupSearchOpt();
@@ -185,8 +188,9 @@ namespace Damoyeo.Web.Controllers
         /// 회원정보를 가져옵니다.
         /// </summary>
         /// <returns></returns>
+
+
         [Auth]
-        [AuthUserinfo]
         [HttpPost]
         public async Task<ActionResult> GetUserInfo(string email)
         {
@@ -209,6 +213,60 @@ namespace Damoyeo.Web.Controllers
             returnDict.Add("userInfo", userInfoFromDb);
             returnDict.Add("interestCategory", interestCategoryFromDb);
             return Json(new { success = true, data = returnDict });
+        }
+
+
+        [Auth]
+        [HttpPost]
+        public async Task<ActionResult> ChangeProfileImage(HttpPostedFileBase file)
+        {
+            if (!UserManager.ConfirmationPw()) 
+            {
+                return Json(new { success = false, data = "비밀번호를 다시 한번 입력해 주세요." });
+            }
+
+            var userCookie = UserManager.GetCookie();
+            var userParameter = new DamoyeoUser();
+            userParameter.email = userCookie.Email;
+            var user  = await _unitOfWork.Users.GetAsync(userParameter);
+
+            var savePath = "/Content/upload/profile_image";
+
+            if (file != null)
+            {
+                string originFileName = Path.GetFileName(file.FileName);
+
+               
+                var savefileName = Guid.NewGuid().ToString()
+                               + Path.GetExtension(file.FileName);
+
+                // 파일을 저장할 경로를 지정
+                var path = Path.Combine(Server.MapPath(savePath), savefileName);
+
+                // 해당 경로에 폴더가 없으면 폴더를 생성합니다.
+                var directory = Path.GetDirectoryName(path);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                file.SaveAs(path);
+                var finalPath = savePath + "/" + savefileName;
+                user.profile_image = finalPath;
+
+                // db 저장
+                await _unitOfWork.Users.UpdateAsync(user);
+                _unitOfWork.Commit();
+
+                // 기존 쿠키 수정
+                HttpCookie UserCookie = HttpContext.Request.Cookies["UserCookie"];
+                UserCookie.Values["profile_image"] = finalPath;
+                HttpContext.Response.Cookies.Add(UserCookie);
+
+                return Json(new { success = true, data = finalPath });
+            }
+
+            return Json(new { success = false, data = "관리자에게 문의해주세요."});
         }
 
 
@@ -242,6 +300,10 @@ namespace Damoyeo.Web.Controllers
             }
 
         }
+
+
+
+
 
     }
 }

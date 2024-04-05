@@ -22,6 +22,18 @@ namespace Damoyeo.Util.Manager
             return true;
         }
 
+
+        public static bool ConfirmationPw()
+        {
+            var cookieValue = HttpContext.Current.Request.Cookies["UserInfoCookie"]?.Value;
+            if (string.IsNullOrEmpty(cookieValue))
+            {
+                return false;
+            }
+            return true;
+        }
+
+
         public static AuthMdoel GetCookie()
         {
             AuthMdoel authModel = new AuthMdoel();

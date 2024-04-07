@@ -46,12 +46,12 @@ namespace Damoyeo.Util.Manager
             }
 
             // 쿠키에 값이 있는 경우 AuthModel에 저장
-            authModel.UserId = int.Parse(HttpUtility.UrlDecode(authCookie.Values["user_id"]));
-            authModel.Email = HttpUtility.UrlDecode((authCookie.Values["email"]));
-            authModel.Nickname = HttpUtility.UrlDecode(authCookie.Values["nickname"]);
-            authModel.ProfileImage = HttpUtility.UrlDecode(authCookie.Values["profile_image"]);
-            authModel.SlfIntro = HttpUtility.UrlDecode(authCookie.Values["slf_Intro"]);
-            authModel.SignupType = HttpUtility.UrlDecode((authCookie.Values["signup_type"]));
+            authModel.UserId = int.Parse(HttpUtility.UrlDecode(authCookie.Values["user_id"] ?? "0")) ;
+            authModel.Email = HttpUtility.UrlDecode((authCookie.Values["email"])) ?? "";
+            authModel.Nickname = HttpUtility.UrlDecode(authCookie.Values["nickname"]) ?? "";
+            authModel.ProfileImage = HttpUtility.UrlDecode(authCookie.Values["profile_image"]) ?? "";
+            authModel.SlfIntro = HttpUtility.UrlDecode(authCookie.Values["slf_Intro"]) ?? "";
+            authModel.SignupType = HttpUtility.UrlDecode((authCookie.Values["signup_type"])) ?? "";
             return authModel;
 
         }

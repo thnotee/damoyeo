@@ -15,6 +15,8 @@ using Microsoft.IdentityModel.Tokens;
 using Damoyeo.Model.Model.option;
 using System.Globalization;
 using System.IO;
+using System.Web.UI;
+using Damoyeo.Model.Model.Procedure;
 
 namespace Damoyeo.Web.Controllers
 {
@@ -179,6 +181,36 @@ namespace Damoyeo.Web.Controllers
             return View(viewModel);
         }
 
+        [Auth]
+        [AuthUserinfo]
+        public async Task<ActionResult> Post(int page =1)
+        {
+
+            ViewBag.TabIndex = 5;
+            var entity = new CommunitySearchOpt();
+            entity.user_id = UserManager.GetCookie().UserId;
+            PagedList<DamoyeoCommunity> list = await _unitOfWork.Community.GetPagedListAsync(page, 10, entity);
+            list.pagerOptions.Path = "/User/Post";
+            return View(list);
+        }
+
+        [Auth]
+        [AuthUserinfo]
+        public async Task<ActionResult> Comment(int page = 1)
+        {
+
+            ViewBag.TabIndex = 5;
+            var entity = new CommunitySearchOpt();
+            entity.user_id = UserManager.GetCookie().UserId;
+            PagedList<GetCommentTree> list = await _unitOfWork.CommunityComment.GetUserCommentPagedListAsync(page, 10, entity);
+            list.pagerOptions.Path = "/User/Comment";
+            return View(list);
+        }
+
+
+
+
+
 
         /////////////////////
         /// API CALL
@@ -300,6 +332,7 @@ namespace Damoyeo.Web.Controllers
             }
 
         }
+
 
 
 

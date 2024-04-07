@@ -116,7 +116,12 @@ namespace Damoyeo.Web.Controllers
 
         [HttpPost]
         [Auth]
-        public async Task<ActionResult> Write(DamoyeoMeetup meetup, HttpPostedFileBase main_image, IEnumerable<HttpPostedFileBase> files, List<string> tags)
+        public async Task<ActionResult> Write(DamoyeoMeetup meetup, HttpPostedFileBase main_image
+            , HttpPostedFileBase file1
+            , HttpPostedFileBase file2
+            , HttpPostedFileBase file3
+            , HttpPostedFileBase file4
+            , List<string> tags)
         {
             PagedList<DamoyeoCategory> categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
             ViewData["categoryList"] = categoryList;
@@ -133,12 +138,21 @@ namespace Damoyeo.Web.Controllers
             
             var insertId = await _unitOfWork.Meetup.AddAsync(meetup);
 
-            foreach (var item in files) 
+            if (file1 != null)
             {
-                if (item != null) 
-                {
-                    await FileUpload(item, savePath, "Damoyeo_Meetup", insertId);
-                }   
+                await FileUpload(file1, savePath, "Damoyeo_Meetup", insertId, "일");
+            }
+            if (file2 != null)
+            {
+                await FileUpload(file2, savePath, "Damoyeo_Meetup", insertId, "이");
+            }
+            if (file3 != null)
+            {
+                await FileUpload(file3, savePath, "Damoyeo_Meetup", insertId, "삼");
+            }
+            if (file4 != null)
+            {
+                await FileUpload(file4, savePath, "Damoyeo_Meetup", insertId, "사");
             }
 
             /*태그 처리*/
@@ -167,8 +181,9 @@ namespace Damoyeo.Web.Controllers
 
             _unitOfWork.Commit();
 
+            TempData["successMsg"] = "모임 등록 성공!!";
+            return RedirectToAction("Index");
 
-            return View();
         }
 
         
@@ -203,34 +218,57 @@ namespace Damoyeo.Web.Controllers
 
         [HttpPost]
         [Auth]
-        public async Task<ActionResult> Edit(DamoyeoMeetup meetup, HttpPostedFileBase main_image, IEnumerable<HttpPostedFileBase> files, List<string> tags)
+        public async Task<ActionResult> Edit(DamoyeoMeetup meetup, HttpPostedFileBase main_image
+            , HttpPostedFileBase file1
+            , HttpPostedFileBase file2
+            , HttpPostedFileBase file3
+            , HttpPostedFileBase file4
+            , List<string> tags)
         {
             PagedList<DamoyeoCategory> categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
             ViewData["categoryList"] = categoryList;
-            meetup.reg_date = DateTime.Now;
-            meetup.use_tf = 1;
-            meetup.meetup_master_id = UserManager.GetCookie().UserId;
+            var oriMeetup = await _unitOfWork.Meetup.GetAsync(meetup);
+            meetup.reg_date = oriMeetup.reg_date;
+            meetup.use_tf = oriMeetup.use_tf;
+            meetup.meetup_master_id = oriMeetup.meetup_master_id;
             var savePath = "/Content/upload/meetup";
 
+            
             //메인이미지가 존재하면 파일 업로드 해준다.
             if (main_image != null)
             {
                 meetup.meetup_image = await FileUpload(main_image, savePath);
             }
+            else 
+            {
+                meetup.meetup_image = oriMeetup.meetup_image;
+            }
 
             await _unitOfWork.Meetup.UpdateAsync(meetup);
 
-            //DB에서 이미지삭제
+            //DB에서 이미지삭제 하기위한 파라메타
             var imageParameta = new DamoyeoImage { table_name = "Damoyeo_Meetup", table_id = meetup.meetup_id };
-            await _unitOfWork.Image.RemoveTableIdAsync(imageParameta);
-            foreach (var item in files)
+            
+            if (file1 != null) 
             {
-                if (item != null)
-                {
-                    await FileUpload(item, savePath, "Damoyeo_Meetup", meetup.meetup_id);
-                }
+                await _unitOfWork.Image.RemoveTableIdAsync(imageParameta,"일");
+                await FileUpload(file1, savePath, "Damoyeo_Meetup", meetup.meetup_id, "일");
             }
-
+            if (file2 != null)
+            {
+                await _unitOfWork.Image.RemoveTableIdAsync(imageParameta, "이");
+                await FileUpload(file2, savePath, "Damoyeo_Meetup", meetup.meetup_id, "이");
+            }
+            if (file3 != null)
+            {
+                await _unitOfWork.Image.RemoveTableIdAsync(imageParameta, "삼");
+                await FileUpload(file3, savePath, "Damoyeo_Meetup", meetup.meetup_id, "삼");
+            }
+            if (file4 != null)
+            {
+                await _unitOfWork.Image.RemoveTableIdAsync(imageParameta, "사");
+                await FileUpload(file4, savePath, "Damoyeo_Meetup", meetup.meetup_id, "사");
+            }
 
             await _unitOfWork.MeetupTagsMapping.RemoveAsync(meetup.meetup_id);
             /*태그 처리*/
@@ -258,9 +296,9 @@ namespace Damoyeo.Web.Controllers
             }
 
             _unitOfWork.Commit();
-            ///리다이렉트
 
-            return View();
+            TempData["successMsg"] = "모임 수정 성공!!";
+            return RedirectToAction("Detail", new { meetup_id = meetup.meetup_id });
         }
 
         /////////////
@@ -301,36 +339,36 @@ namespace Damoyeo.Web.Controllers
             
         }
 
-        public async Task<ActionResult> SearchLocationDataAsunc(string searchData) 
+
+        [HttpPost]
+        public async Task<ActionResult> RemoveImg(int id, string type = "sub")
         {
-
-            // 요청할 URL
-            string url = "https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_ADEMD_INFO&key=E9B5C916-7952-30C4-810A-E79B531155F7&domain=https://localhost:44369&attrFilter=emd_kor_nm:=:수택동";
-
-
-            try {
-                using (var client = new HttpClient())
-                {
-
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    response.EnsureSuccessStatusCode();
-                    string responseBody = await response.Content.ReadAsStringAsync(); // 응답 본문을 읽기
-              
-
-                    return Json(new { seccess = true, data = responseBody }, JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (Exception ex)
+            if (UserManager.IsLogin())
             {
-
-                return Json(new { seccess = false, data = "" }, JsonRequestBehavior.AllowGet);
+                if (type == "sub")
+                {
+                    await _unitOfWork.Meetup.RemoveAsync(id);
+                    _unitOfWork.Commit();
+                    return Json(new { success = true, code = 1 });
+                }
+                else 
+                {
+                    DamoyeoMeetup parameter = new DamoyeoMeetup();
+                    parameter.meetup_id = id;   
+                    var oriMeetup = await _unitOfWork.Meetup.GetAsync(parameter);
+                    oriMeetup.meetup_image = null;
+                    await _unitOfWork.Meetup.UpdateAsync(oriMeetup);
+                    _unitOfWork.Commit();
+                    return Json(new { success = true, code = 2 });
+                }
+                
             }
-       
-          
+            else
+            {
+                return Json(new { success = false, code = 3 });
+            }
+
         }
-
-
-
 
         /// <summary>
         /// 지정된 경로에 file upload를 합니다.
@@ -338,13 +376,13 @@ namespace Damoyeo.Web.Controllers
         /// <param name="file"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        private async Task<string> FileUpload(HttpPostedFileBase file, string savePath, string tableSaveName = "", int tableId = 0)
+        private async Task<string> FileUpload(HttpPostedFileBase file, string savePath, string tableSaveName = "", int tableId = 0, string separationValue= "")
         {
 
             string originFileName = Path.GetFileName(file.FileName);
 
             // 파일 이름에 GUID를 추가하여 중복을 방지합니다.
-            var savefileName = Guid.NewGuid().ToString()
+            var savefileName = separationValue + Guid.NewGuid().ToString()
                            + Path.GetExtension(file.FileName);
 
             var saveDetailfileName = savefileName.Split('.')[0]

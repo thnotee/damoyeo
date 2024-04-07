@@ -49,5 +49,8 @@ namespace Damoyeo.Model.Model
         /// 작성일 
         /// </summary>
         public DateTime comment_date { get; set; }
+
+  
+        public DamoyeoUser User { get; set; }
     }
 }

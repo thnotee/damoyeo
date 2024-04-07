@@ -52,12 +52,12 @@ namespace Damoyeo.Model.Model
         /// <summary>
         /// 댓글수
         /// </summary>
-        public int comment_count { get; set; }
+        public int comment_count { get; set; } 
 
         /// <summary>
         /// User
         /// </summary>
-        public DamoyeoUser User { get; set; }
+        public DamoyeoUser User { get; set; } = new DamoyeoUser();
 
 
     }

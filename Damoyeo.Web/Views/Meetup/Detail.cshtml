@@ -154,6 +154,7 @@
 
 
 @section scripts{
+    @Html.Partial("~/Views/Shared/_Partial/_SweetAlert.cshtml")
     <!--다음 주소찾기 팝업-->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2c03537489f069ffcb99fac73dd5028f&libraries=services"></script>
@@ -186,7 +187,7 @@
 
 
         function Application() {
-            
+
                  $.ajax({
                     type: "POST",
                     url: "/Meetup/Application",

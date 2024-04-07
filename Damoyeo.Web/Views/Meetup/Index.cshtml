@@ -1,7 +1,7 @@
 ﻿@using Damoyeo.Model.ViewModel
 @model  MeetupListVm
 @{
-    
+
     int totalCount = 0;
     if (Model.list.Any()) { totalCount = Model.list.FirstOrDefault().total_count; }
     ViewBag.Title = "Index";
@@ -129,124 +129,7 @@
 
                         }
 
-                        @*
 
-                            <div class="meet_box">
-                                <a href="">
-                                    <img src="~/Content/images/main/test_img1.png" alt="" />
-                                </a>
-                                <div class="meet_flex">
-                                    <a href="" class="new_text_wrap">
-                                        <span class="m_mark">
-                                            <img src="~/Content/images/marker.svg" alt="" />
-                                            회기동
-                                        </span>
-                                        <p class="m_tit">
-                                            요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                                        </p>
-                                        <p class="m_txt">
-                                            요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                                            서브텍스트
-                                        </p>
-                                    </a>
-                                    <span class="heart_click">
-                                        <img src="~/Content/images/heart.svg" alt="" />
-                                    </span>
-                                    <div class="apply_wrap">
-                                        <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
-                                        <!-- 모집기간 -->
-                                        <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="meet_box">
-                                <a href="">
-                                    <img src="~/Content/images/main/test_img2.png" alt="" />
-                                </a>
-                                <div class="meet_flex">
-                                    <a href="" class="new_text_wrap">
-                                        <span class="m_mark">
-                                            <img src="~/Content/images/marker.svg" alt="" />
-                                            회기동
-                                        </span>
-                                        <p class="m_tit">
-                                            요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                                        </p>
-                                        <p class="m_txt">
-                                            요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                                            서브텍스트
-                                        </p>
-                                    </a>
-                                    <span class="heart_click">
-                                        <img src="~/Content/images/heart.svg" alt="" />
-                                    </span>
-                                    <div class="apply_wrap">
-                                        <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
-                                        <!-- 모집기간 -->
-                                        <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="meet_box">
-                                <a href="">
-                                    <img src="~/Content/images/main/test_img3.png" alt="" />
-                                </a>
-                                <div class="meet_flex">
-                                    <a href="" class="new_text_wrap">
-                                        <span class="m_mark">
-                                            <img src="~/Content/images/marker.svg" alt="" />
-                                            회기동
-                                        </span>
-                                        <p class="m_tit">
-                                            요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                                        </p>
-                                        <p class="m_txt">
-                                            요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                                            서브텍스트
-                                        </p>
-                                    </a>
-                                    <span class="heart_click">
-                                        <img src="~/Content/images/heart.svg" alt="" />
-                                    </span>
-                                    <div class="apply_wrap">
-                                        <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
-                                        <!-- 모집기간 -->
-                                        <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="meet_box">
-                                <a href="">
-                                    <img src="~/Content/images/main/test_img3.png" alt="" />
-                                </a>
-                                <div class="meet_flex">
-                                    <a href="" class="new_text_wrap">
-                                        <span class="m_mark">
-                                            <img src="~/Content/images/marker.svg" alt="" />
-                                            회기동
-                                        </span>
-                                        <p class="m_tit">
-                                            요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                                        </p>
-                                        <p class="m_txt">
-                                            요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                                            서브텍스트
-                                        </p>
-                                    </a>
-                                    <span class="heart_click">
-                                        <img src="~/Content/images/heart.svg" alt="" />
-                                    </span>
-                                    <div class="apply_wrap">
-                                        <p class="apply_p"><img src="~/Content/images/mini_user.svg" alt=""> 20/100</p>
-                                        <!-- 모집기간 -->
-                                        <p class="apply_d"><img src="~/Content/images/mini_calendar.svg" alt=""> ~ 2024.03.12</p>
-                                    </div>
-                                </div>
-                            </div>
-                        *@
                     </div>
                 </div>
             </section>
@@ -256,7 +139,7 @@
 
 </form>
 @section scripts{
-
+    @Html.Partial("~/Views/Shared/_Partial/_SweetAlert.cshtml")
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 

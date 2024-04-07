@@ -1,0 +1,58 @@
+﻿@using Damoyeo.Model.Model
+@model DamoyeoCommunity
+@{
+    ViewBag.Title = "수정하기";
+}
+@section Style{
+    <link rel="stylesheet" href="~/Content//css/community.css" />
+}
+
+<form id="myform" action="/Community/Edit" method="post">
+    <input type="hidden" value="@Model.board_id" name="board_id">
+    <div class="section_wrap cw_wrap">
+        <div class="inner sub_inner">
+            <h3 class="section_title">커뮤니티 글쓰기</h3>
+            <div class="cw_box">
+                <input type="text" placeholder="제목을 입력해주세요" name="title" value="@Model.title">
+                <textarea name="content" id="" cols="30" rows="10" placeholder="내용을 입력하세요.">@Html.Raw(Server.HtmlDecode(Model.content))</textarea>
+            </div>
+
+            <div class="cw_btn">
+                <span class="big_btn" onclick="myformSubmit()">수정하기</span>
+            </div>
+        </div>
+    </div>
+</form>
+@section scripts{
+
+    <script src="https://cdn.tiny.cloud/1/ipga39m0e4iub3da2spb4imu9p4gc3w1yf36io9n0lsitrpf/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+            paste_data_images: true,
+            images_upload_url: '/Community/UploadImage',  // 서버의 이미지 업로드 URL
+        });
+
+
+        function myformSubmit()
+        {
+            if ($("#title").val() == "") {
+                alertFocus("제목을 입력해주세요", $('#title'));
+                return false;
+            }
+
+            if ($("#content").val() == "") {
+                alertFocus("내용을 입력해주세요", $('#content'));
+                return false;
+            }
+            $("#myform").submit();
+
+        }
+
+    </script>
+
+}

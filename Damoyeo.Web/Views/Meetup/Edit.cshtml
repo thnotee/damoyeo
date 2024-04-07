@@ -3,6 +3,7 @@
 @model  MeetupDetailVm
 @{
 
+
     var categoryList = ViewData["categoryList"] as PagedList<DamoyeoCategory>;
     bool mainImgTf = !string.IsNullOrEmpty(Model.detail.meetup_image);
 
@@ -15,6 +16,15 @@
         emailId = emailArr[0];
         emailDomain = emailArr[1];
     }
+
+
+    var images = new Dictionary<int, DamoyeoImage>()
+    {
+      {0, Model.image.FirstOrDefault(x => x.save_filename.StartsWith("일"))},
+      {1, Model.image.FirstOrDefault(x => x.save_filename.StartsWith("이"))},
+      {2, Model.image.FirstOrDefault(x => x.save_filename.StartsWith("삼"))},
+      {3, Model.image.FirstOrDefault(x => x.save_filename.StartsWith("사"))}
+    };
 
 }
 @section style{
@@ -153,11 +163,12 @@
                             <p class="open_tit">상세 이미지 업로드</p>
                             <div class="dimg_up">
 
+                                
 
                                 @for (var i = 0; i < 4; i++)
                                 {
-                                    var img = Model.image.ElementAtOrDefault(i);
 
+                                    var img = images[i];
                                     if (img != null)
                                     {
 
@@ -168,14 +179,14 @@
                                             </div>
                                             <label for="d_file_upload@(i+1)" class="dimg_up_btn img_up_btn" id="d_img_up@(i+1)" style="display: none;">
                                                 <img src="/Content/images/upload.svg" alt="">
-                                                <input type="file" id="d_file_upload@(i+1)" name="files" style="display: none;">
+                                                <input type="file" id="d_file_upload@(i+1)" name="file@(i+1)" style="display: none;">
                                             </label>
                                             <div class="after_btn">
                                                 <label>
                                                     사진 변경
                                                     <input type="file" class="file_upload_new" style="display: none;">
                                                 </label>
-                                                <span class="delete_photo">사진 삭제</span>
+                                                <span class="delete_photo" data-img_id="@img.Id">사진 삭제</span>
                                             </div>
                                         </div>
 
@@ -187,7 +198,7 @@
                                             <div class="img_box_sub img_common_box"></div>
                                             <label for="d_file_upload@(i+1)" class="dimg_up_btn img_up_btn" id="d_img_up@(i+1)">
                                                 <img src="/Content/images/upload.svg" alt="">
-                                                <input type="file" id="d_file_upload@(i+1)" name="files" style="display: none;">
+                                                <input type="file" id="d_file_upload@(i+1)" name="file@(i+1)" style="display: none;">
                                             </label>
                                         </div>
                                     }
@@ -328,26 +339,7 @@
                     <p class="open_tit">모임 알리기</p>
 
                     <ul class="open_info interest_wrap">
-                        <!-- 카테고리테이블을 2개 관리하는건 이상함.. 기획 잘못 삭제
-                        <li>
-                            <span class="open_stit">모임 카테고리</span>
-                            <div class="open_txt">
-                                <div class="inter_box">
-                                    <div class="inter_check">
-
-                                        @for(int i=0; i<categoryList.Count; i++)
-                                        {
-                                            <label for="interest_@i" class="check_box">
-                                                <input type="checkbox" id="interest_@i" name="interest" value="@categoryList[i].category_id">@categoryList[i].category_name
-                                            </label>
-                                        }
-
-                                    </div>
-                                    <p class="open_notice">＊ 선택한 항목에 해당하는 사용자들에게 모임이 추천됩니다. (다중 선택 가능)</p>
-                                </div>
-                            </div>
-                        </li>
-                            -->
+                
                         <li>
                             <span class="open_stit">모임 태그</span>
                             <div class="open_txt">
@@ -448,11 +440,35 @@
         //사진 삭제
         $(document).on('click', '.delete_photo', function (e) {
             //console.log(this);
-
+            //data-img_id="@@img.Id
+            
             var imgBoxMainToDelete = $(this).closest('.after_btn').prevAll('.img_common_box').first();
             imgBoxMainToDelete.empty();
             $(this).closest('.after_btn').prev('.img_up_btn').show();
             $(this).parent('.after_btn').remove();
+
+            console.log($(this).data("img_id"));
+            var imgId= $(this).data("img_id");
+            if (imgId) {
+                // AJAX
+                var data =
+                {
+                    id: imgId,
+                    type : "sub"
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/Meetup/RemoveImg', // 요청을 보낼 서버 측 URL
+                    data: data, // 전송할 데이터
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (xhr, status, error) {
+                        // 요청이 실패했을 때 실행할 코드
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
         });
 
         //사진변경
@@ -615,7 +631,7 @@
      marker.setMap(map);
      markers.push(marker);
 
- 
+
 
 
         $("#maker_btn").on("click", function () {

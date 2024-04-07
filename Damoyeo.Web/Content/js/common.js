@@ -100,7 +100,7 @@ $(document).ready(function () {
     /**
      * 선택 이미지 프리뷰
      */
-    $("#file_upload").on("change", function () {
+    $("#user_img").on("change", function () {
 
         var file = this.files[0]; // 선택된 파일 가져오기
 

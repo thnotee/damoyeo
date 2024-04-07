@@ -1,0 +1,333 @@
+﻿@using Damoyeo.Model.Model
+@using Damoyeo.Model.ViewModel
+@model CommunityDetailVm
+@{
+    ViewBag.Title = "Detail";
+}
+@section style{
+
+
+    <link rel="stylesheet" href="~/Content/css/community.css" />
+
+
+    <style>
+        /*
+        .editor_content {
+            all: unset;
+        }*/
+    </style>
+}
+<div class="section_wrap cdetail_wrap">
+    <div class="inner sub_inner">
+        @if(Damoyeo.Util.Manager.UserManager.IsLogin() && Model.detail.user_id ==Damoyeo.Util.Manager.UserManager.GetCookie().UserId) 
+        {
+            <div class="common_btn">
+                <a href="/Community/Edit?board_id=@Model.detail.board_id">수정</a>
+                <a href="/Community/Remove?board_id=@Model.detail.board_id">삭제</a>
+            </div>
+        }
+        
+        <div class="cd_box">
+            <div class="cd_tit">
+                <p>
+                    @Server.HtmlDecode(Model.detail.title)
+                </p>
+                <ul class="cd_info">
+                    <li>
+                        <p class="cd_profile">
+
+                            @if (string.IsNullOrEmpty(Model.detail.User.profile_image))
+                            {
+                                <img src="~/Content/images/camera.svg" alt="">
+                            }
+                            else
+                            {
+                                <img src="@Model.detail.User.profile_image" alt="">
+                            }
+
+                        </p>
+                        <span class="cd_id">
+
+                            @Model.detail.User.nickname
+                        </span>
+                    </li>
+                    <li>
+                        <span>@Model.detail.post_date.ToString("yyyy.MM.dd")</span>
+                        <span class="cd_before">
+                            조회수
+                            @(Model.detail.view_count)
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="cd_txt">
+                <div id="editor_content" style="text-align: left;">
+
+                </div>
+
+            </div>
+
+            <div class="cd_comment">
+                <p>댓글</p>
+                <div class="cd_co_box">
+                    <ul id="comment_section">
+
+                    </ul>
+                </div>
+                <div class="cd_co_txt">
+                    @if (Damoyeo.Util.Manager.UserManager.IsLogin())
+                    {
+                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                        <p class="cd_nick">@Damoyeo.Util.Manager.UserManager.GetCookie().Nickname</p>
+                        <div class="cd_enroll_div">
+                            <span class="cd_enroll addCommentBtn" data-parent="0">등록</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <textarea name="" id="" cols="30" rows="10" readonly></textarea>
+                        <p class="cd_nick">로그인 후 이용 가능합니다.</p>
+                        <div class="cd_enroll_div">
+                            <span class="cd_enroll">등록</span>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+        <div class="list_btn_wrap">
+            <a href="/Community" class="list_btn">목록</a>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Html.Partial("~/Views/Shared/_Partial/_SweetAlert.cshtml")
+<script>
+
+        ///쉐도우 돔을 사용해 css 격리
+        const editorContent = document.getElementById('editor_content');
+        const shadowRoot = editorContent.attachShadow({ mode: 'open' });
+        shadowRoot.innerHTML = `
+          @Html.Raw(Server.HtmlDecode(Model.detail.content))
+        `
+
+
+
+        var page = 1;
+        //수정 삭제 버튼
+    $(function () {
+
+            $(document).on('click', '.cd_more_btn', function (event) {
+                event.stopPropagation();
+                $('.cd_del_btn').not($(this).siblings('.cd_del_btn')).hide();
+                $(this).siblings('.cd_del_btn').toggle();
+            });
+
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.cd_more_btn, .cd_del_btn').length) {
+                    $('.cd_del_btn').hide();
+                }
+            });
+
+
+            $(document).on('click', '.cd_del_btn', function (event) {
+                event.stopPropagation();
+            });
+
+
+            //수정 클릭시 textarea로 변경
+
+            $(document).on('click', '.cd_modify', function (event) {
+                //부모댓글 ID
+                var commentId = $(this).data("commentId");
+                console.log(commentId);
+
+                var originalText = $(this).closest('li').find('.cd_text').text();
+
+                var nickname = "";
+                @if (Damoyeo.Util.Manager.UserManager.IsLogin())
+                {
+                    @:nickname = "@Damoyeo.Util.Manager.UserManager.GetCookie().Nickname"
+                }
+                
+
+                 templete = `
+                 <div class="cd_co_txt">
+                    <textarea name="" id="" cols="30" rows="10">${originalText}</textarea>
+                    <p class="cd_nick">${nickname}</p>
+                    <div class="cd_enroll_div">
+                        <span class="cd_enroll editCommentBtn">수정</span>
+                        <span class="cd_cancel">취소</span>
+                     </div>
+                </div>
+
+                `;
+
+                $(this).closest('li').find('.cd_text').replaceWith(templete);
+                $(this).closest('li').find('.cd_del_btn').hide();
+                $(this).closest('li').find('.cd_date').hide();
+                $(this).closest('li').find('.comment_id').hide();
+                $(this).closest('li').find('.reply_btn').hide();
+            });
+
+            //답글쓰기 버튼 클릭시 동작
+            $('.reply_btn').click(function () {
+                $(this).closest('li').next('.reply_wrap').css({ 'display': 'flex' });
+            });
+
+            //답글쓰기 버튼 클릭시 동작
+            $(document).on('click', '.reply_btn', function () {
+                $(this).closest('li').next('.reply_wrap').css({ 'display': 'flex' });
+            });
+
+
+
+            $(document).on('click', '.addCommentBtn', function () {
+                console.log($(this).closest('.cd_enroll_div').siblings("textarea").val())
+
+                //댓글내용
+                var commentText = $(this).closest('.cd_enroll_div').siblings("textarea").val();
+
+                //부모 댓글 id
+                var parentCommentId = $(this).data("parent");
+                console.log(commentText);
+                if (commentText != "")
+                {
+                    AddComment(commentText, parentCommentId)
+                }
+            });
+
+            $(document).on('click', '.editCommentBtn', function () {
+                //console.log($(this).closest('.cd_enroll_div').siblings("textarea").val())
+                //console.log($(this).closest('.right'));
+                //console.log($(this).closest('.right').data("comment_id"));
+
+                //댓글내용
+                var commentText = $(this).closest('.cd_enroll_div').siblings("textarea").val();
+
+                //댓글 id
+                var commentId = $(this).closest('.right').data("comment_id");
+
+
+                if (commentText != "") {
+                    EditComment(commentId, commentText)
+                }
+            });
+
+        });
+
+
+        GetComment();
+
+        //댓글을 가져옵니다.
+        function GetComment() {
+            var data = {
+                board_id: "@Model.detail.board_id",
+                page: page,
+            }
+
+            $.ajax({
+                type: "Get",
+                url: "/Community/GetCommentPartialView",
+                data: data,
+                success: function (response) {
+                    $("#comment_section").html(response);
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr);
+
+                }
+            });
+
+        }
+
+        //댓글을 추가합니다.
+        function AddComment(commentText, parentCommentId) {
+
+            var data = {
+                board_id : "@Model.detail.board_id",
+                content : commentText,
+                parent_commentid : parentCommentId
+
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/Community/AddComment",
+                data: data,
+                success: function (response) {
+                    console.log(response)
+                    if (response.success) {
+                        alertBox("댓글 추가 되었습니다.");
+                        GetComment();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr);
+
+                }
+            });
+
+        }
+
+
+        //댓글을 수정합니다.
+        function EditComment(commentId,commentText) {
+
+            var data = {
+                comment_id: commentId,
+                content : commentText,
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/Community/EditComment",
+                data: data,
+                success: function (response) {
+                    console.log(response)
+                    if (response.success) {
+                        alertBox("댓글 수정 되었습니다.");
+                        GetComment();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr);
+
+                }
+            });
+
+        }
+
+
+        //댓글을 수정합니다.
+        function RemoveComment(commentId) {
+            var data = {
+                comment_id: commentId,
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/Community/RemoveComment",
+                data: data,
+                success: function (response) {
+                    console.log(response)
+                    if (response.success) {
+                        alertBox("댓글 삭제 되었습니다.");
+                        GetComment();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr);
+
+                }
+            });
+
+        }
+</script>
+
+
+}

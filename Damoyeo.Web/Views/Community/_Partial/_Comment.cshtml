@@ -1,0 +1,95 @@
+﻿@using Damoyeo.Model.Model.Procedure
+@model PagedList<GetCommentTree>
+
+@if (Model.Any())
+{
+    foreach (var item in Model)
+    {
+
+      
+            bool reply = item.level > 1;
+            <li @(reply ? "class=reply_text" : "")>
+                @if (reply)
+                {
+                    <div class="reply_mark">
+
+                        <img src="~/Content/images/reply_mark.svg" alt="">
+                    </div>
+                }
+                <div class="left">
+                    <p class="cd_profile">
+
+                        @if (string.IsNullOrEmpty(item.profile_image))
+                        {
+                            <img src="~/Content/images/camera.svg" alt="">
+                        }
+                        else
+                        {
+                            <img src="@item.profile_image" alt="">
+                        }
+                    </p>
+                </div>
+                <div class="right" data-comment_id="@item.comment_id">
+                    @if (item.comment_use_tf == "0" || item.user_use_tf == "0")
+                    {
+                        if (item.comment_use_tf == "0")
+                        {
+                            <span class="cd_id comment_id">@item.nickname</span>
+                            <p class="cd_text">삭제된 글입니다.</p>
+                            <div class="dr_wrap">
+                                <p class="cd_date">@item.comment_date.ToString("yyyy.MM.dd HH:mm")</p>
+                                <span class="reply_btn">답글쓰기</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <span class="cd_id comment_id">삭제된 회원입니다.</span>
+                            <p class="cd_text">삭제된 회원의 글입니다.</p>
+                            <div class="dr_wrap">
+                                <p class="cd_date">@item.comment_date.ToString("yyyy.MM.dd HH:mm")</p>
+                                <span class="reply_btn">답글쓰기</span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <span class="cd_id comment_id">@item.nickname</span>
+                        <p class="cd_text">@item.content</p>
+                        <div class="dr_wrap">
+                            <p class="cd_date">@item.comment_date.ToString("yyyy.MM.dd HH:mm")</p>
+                            <span class="reply_btn">답글쓰기 @item.comment_use_tf</span>
+                        </div>
+                    }
+
+                </div>
+
+
+                @if (Damoyeo.Util.Manager.UserManager.IsLogin() && Damoyeo.Util.Manager.UserManager.GetCookie().UserId == item.user_id)
+                {
+                    <div class="cd_del">
+                        <img src="~/Content/images/more_btn.svg" alt="" class="cd_more_btn">
+                        <div class="cd_del_btn">
+                            <!-- 작성자만 보이게 -->
+                            <span class="cd_modify">수정</span>
+                            <span class="cd_del" onclick="RemoveComment(@item.comment_id)" >삭제</span>
+                        </div>
+                    </div>
+                }
+
+            </li>
+
+        <!-- 답글버튼 클릭시 동작 -->
+        <li class="reply_wrap">
+            <div class="cd_blank"></div>
+            <div class="cd_co_txt">
+                <textarea name="" id="" cols="30" rows="10"></textarea>
+                <p class="cd_nick">@item.nickname</p>
+                <div class="cd_enroll_div">
+                    <span class="cd_enroll addCommentBtn" data-parent="@item.comment_id">등록</span><span class="cd_cancel">취소</span>
+                </div>
+            </div>
+        </li>
+    }
+
+
+}

@@ -1,0 +1,84 @@
+﻿@using Damoyeo.Model.Model.Procedure
+@model PagedList<GetCommentTree>
+@{
+    ViewBag.Title = "나의 작성 댓글";
+}
+
+@section style
+{
+    <link rel="stylesheet" href="~/Content/css/mypage.css" />
+}
+<div class="section_wrap mypage_wrap">
+    <div class="inner sub_inner">
+        <!-- 래프트 고정 -->
+        @Html.Partial("_Partial/_Left")
+
+        <div class="my_right my_box my_write">
+            <!-- 개설한 소모임 -->
+            <p class="my_title">나의 활동</p>
+
+            <div class="write_box">
+                <ul class="write_tabmenu">
+                    <li  data-tab="tab_1" onclick="location.href='/User/Post'">작성 글</li>
+                    <li class="on" data-tab="tab_2" onclick="location.href='/User/Comment'">내 댓글</li>
+  
+                </ul>
+
+                <div class="detail_tab">
+                    <div class="tab_content" id="tab_1">
+                    </div>
+                    @if (Model.Any())
+                    {
+                        <div class="tab_content on" id="tab_2">
+                            <p class="write_amount">총 <span>@Model.FirstOrDefault().total_count</span>건의 댓글이 있습니다.</p>
+                            <div class="write_list">
+                                <ul class="list_tit list_common">
+                                    <li>내용</li>
+                                    <li>작성일</li>
+                                </ul>
+                                @foreach (var item in Model)
+                                {
+                                    <ul class="list_txt list_common">
+                                        <li><a href="/Community/Detail?board_id=@item.board_id">@item.content</a></li>
+
+                                        <li>2024.04.01</li>
+                                    </ul>
+                                }
+                            </div>
+
+                            @Html.Partial("~/Views/Shared/_Partial/_Paging.cshtml", Model.pagerOptions);
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="no_list_wrap">
+                            <img src="images/no_list.svg" alt="">
+                            <p>작성한 댓글이 없습니다.</p>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        /*
+        $(document).ready(function () {
+            $('.write_tabmenu li').click(function () {
+                var tab_id = $(this).attr('data-tab');
+
+                $('.write_box .tab_content').removeClass('on');
+                $("#" + tab_id).addClass('on');
+
+                //꾸며주는 요소
+                $('.write_tabmenu li').removeClass('on');
+                $(this).addClass('on');
+            });
+        });
+        */
+    </script>
+}

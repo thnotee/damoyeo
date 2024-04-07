@@ -94,12 +94,13 @@
 }
 .customer_wrap .event_wrap .ev_box a {
   display: inline-block;
-  width: 100%;
+  width: 100%; 
+}
+.customer_wrap .event_wrap .ev_box a.close {
+  cursor: inherit;
 }
 .customer_wrap .event_wrap .ev_box a img {
-  border-radius: 15px;
   display: block;
-  margin-bottom: 20px;
 }
 .customer_wrap .event_wrap .ev_box a .ev_tit {
   font-size: 24px;
@@ -111,3 +112,14 @@
 .customer_wrap .event_wrap .ev_box a .ev_date {
   color: #888;
 }
+.customer_wrap .event_wrap .ev_box a p {position: relative;overflow: hidden;border-radius: 15px;margin-bottom: 20px;}
+.customer_wrap .event_wrap .ev_box a p .ev_dim {position: absolute;top: 0;left: 0;right: 0;bottom: 0;background-color: rgba(0, 0, 0, 0.6);}
+
+/* 공지사항 디테일 */
+.notice_wrap .inner {width: 1000px;}
+.notice_wrap .notice_top {border-bottom: 1px solid #ededed;padding-bottom: 50px;}
+.notice_wrap .notice_top .notice_mark {color: #0064ff;border-bottom: 1px solid #0064ff;font-size: 14px;font-family: "Pretendard-SemiBold";display: inline-block;margin-bottom: 50px;}
+.notice_wrap .notice_top .notice_tit {font-size: 28px;font-family: "Pretendard-SemiBold";margin-bottom: 30px;}
+.notice_wrap .notice_top .n_date_watch span {font-size: 15px; color: #888; font-family: "Pretendard-Light";}
+.notice_wrap .notice_top .n_date_watch .notice_before::before {content: ""; width: 1px; height: 10px; display: inline-block; background-color: #ddd; margin: 0 10px;}
+.notice_wrap .noice_txt {padding: 50px;line-height: 26px;margin-bottom: 20px;}

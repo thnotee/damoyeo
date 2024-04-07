@@ -60,17 +60,25 @@ SELECT Id
             throw new NotImplementedException();
         }
 
-        public Task RemoveAsync(int id)
+        public async Task RemoveAsync(int id)
         {
-            throw new NotImplementedException();
+            var sql = " delete from Damoyeo_Image where  Id = @id";
+            await _connection.ExecuteAsync(sql, new { id }, _transaction);
         }
 
-        public async Task<int> RemoveTableIdAsync(DamoyeoImage entity)
+        public async Task<int> RemoveTableIdAsync(DamoyeoImage entity, string separationValue = "")
         {
-            var sql = @"
+            var whereSql = "";
+            if (!string.IsNullOrEmpty(separationValue)) 
+            {
+                whereSql += " AND save_filename LIKE @separationValue+'%'";
+            }
+
+            var sql = $@"
     delete from Damoyeo_Image where  table_id = @table_id and table_name = @table_name
+{whereSql}
 ";
-            return await _connection.ExecuteAsync(sql, entity, _transaction); 
+            return await _connection.ExecuteAsync(sql, new { table_id = entity.table_id, table_name = entity.table_name , separationValue = separationValue }, _transaction); 
         }
 
         public Task UpdateAsync(DamoyeoImage entity)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace Damoyeo.DataAccess.Repository.IRepository
 {
@@ -12,6 +13,6 @@ namespace Damoyeo.DataAccess.Repository.IRepository
         Task<IEnumerable<DamoyeoImage>> GetAllAsync(DamoyeoImage entity);
 
        
-        Task<int> RemoveTableIdAsync(DamoyeoImage entity);
+        Task<int> RemoveTableIdAsync(DamoyeoImage entity, string separationValue = "");
     }
 }

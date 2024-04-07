@@ -303,6 +303,11 @@
     <Content Include="Views\Meetup\Edit.cshtml" />
     <Content Include="Views\Auth\CreatePassword.cshtml" />
     <Content Include="Views\Auth\CheckPassword.cshtml" />
+    <Content Include="Views\Community\Detail.cshtml" />
+    <Content Include="Views\Community\_Partial\_Comment.cshtml" />
+    <Content Include="Views\Community\Edit.cshtml" />
+    <Content Include="Views\User\Post.cshtml" />
+    <Content Include="Views\User\Comment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Damoyeo.DataAccess\Damoyeo.DataAccess.csproj">

@@ -11,21 +11,19 @@
         <div class="my_profile my_box">
             <div class="my_photo">
                 <p>
-                    <img src="~/Content/images/profile.png" id="preview" alt="">
+                    @if (string.IsNullOrEmpty(profileImage))
+                    {
+                        <img src="~/Content/images/camera.svg" alt="" id="preview">
+                    }
+                    else
+                    {
+                        <img src="@profileImage" alt="" id="preview">
+                    }
                 </p>
                 <span>
-                    <label for="file_upload">
-                        @if (string.IsNullOrEmpty(profileImage))
-                        {
-                            <img src="~/Content/images/camera.svg" alt="">
-                        }
-                        else
-                        {
-                            <img src="@profileImage" alt="">
-                        }
-
-
-                        <input type="file" id="file_upload" style="display: none;">
+                    <label for="user_img">
+                        <img src="~/Content/images/camera.svg" alt="">
+                        <input type="file" id="user_img" style="display: none;">
                     </label>
                 </span>
             </div>
@@ -37,7 +35,7 @@
                 <li>
                     <a href="/User/Index" @(ViewBag.TabIndex == 1 ? "class=on" : "")>회원정보수정</a>
                 </li>
-                
+
                 <li>
                     <a href="/User/Opening" @(ViewBag.TabIndex == 2 ? "class=on" : "")>개설한 소모임</a>
                 </li>
@@ -46,6 +44,9 @@
                 </li>
                 <li>
                     <a href="/User/Wish" @(ViewBag.TabIndex == 4 ? "class=on" : "")>찜 목록</a>
+                </li>
+                <li>
+                    <a href="/User/Post" @(ViewBag.TabIndex == 5 ? "class=on" : "")>나의 활동</a>
                 </li>
             </ul>
         </div>

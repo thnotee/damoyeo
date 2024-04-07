@@ -1,0 +1,6 @@
+.find_wrap {background-color: #f9fafb;}
+.find_wrap .find_box {padding: 100px 100px 80px;border-radius: 5px;width: 1000px;margin: 0 auto;background-color: #fff;}
+
+.find_wrap .find_box .find_notice {line-height: 22px; margin-bottom: 30px;}
+.find_wrap .find_box .find_notice span {font-family: "Pretendard-SemiBold";}
+.find_wrap .big_btn {margin: 50px 0 40px;}

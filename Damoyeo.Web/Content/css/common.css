@@ -27,7 +27,7 @@ table {border-collapse: collapse; border-spacing: 0;}
 ::selection {background-color: #dbf0ff; color: #000;}
 
 
-select {border: 1px solid #ebebeb; padding: 0px 15px; display: inline-block; width: 150px; height: 40px; outline: none; border-radius: 4px; -webkit-appearance: none; -moz-appearance: none; appearance: none; background: #fff url(/Content/images/select_arrow.svg) no-repeat 95% 50%; background-size: 20px; font-size: 14px; color: #737373;}
+select {border: 1px solid #ebebeb; padding: 0px 15px; display: inline-block; width: 150px; height: 40px; outline: none; border-radius: 4px; -webkit-appearance: none; -moz-appearance: none; appearance: none; background: #fff url(file:///C:/Users/2305201/Desktop/공부/images/select_arrow.svg) no-repeat 95% 50%; background-size: 20px; font-size: 14px; color: #737373;}
 
 
 input {appearance: none; -webkit-appearance: none; -webkit-border-radius: 0; border-radius: 4px; padding: 14px; outline: none; font-size: 16px; border: 1px solid #ebebeb; color: #737373; width: 100%;}
@@ -49,7 +49,7 @@ input[type="radio"]:checked {background-color: #fff; color: #fff; border: 0.4em 
 
 /* 체크박스 커스텀 */
 input[type="checkbox"] {width: 20px; height: 20px; padding: 0; border-radius: 3px; vertical-align: middle; margin-right: 10px; border: 1px solid #e5e5e5;}
-input[type="checkbox"]:checked {background: url(/Content/images/check.svg) no-repeat; background-color: #0064ff; background-position: center; border: 1px solid #0064ff; background-size: 18px;}
+input[type="checkbox"]:checked {background: url(file:///C:/Users/2305201/Desktop/공부/images/check.svg) no-repeat; background-color: #0064ff; background-position: center; border: 1px solid #0064ff; background-size: 18px;}
 .check_box {margin-right: 20px;}
 
 /* 스크롤바 커스텀 */
@@ -105,6 +105,9 @@ input[type="checkbox"]:checked {background: url(/Content/images/check.svg) no-re
 .back_btn a {background-color: #f6f6f6; width: 35px; height: 35px; border-radius: 10px; text-align: center; display: flex; align-items: center; justify-content: center;}
 .back_btn a:hover {background-color: #dbdbdb; transition: 0.3s;}
 
+.list_btn_wrap {text-align: center; margin: 100px 0 50px;}
+.list_btn_wrap .list_btn {display: inline-block; background: #333d4b; color: #fff;  padding: 20px; width: 250px; text-align: center; border-radius: 5px; cursor: pointer;}
+
 /* 소모임 리스트 */
 .contents_wrap .meet_box {border: 1px solid #ededed; border-radius: 15px; overflow: hidden;}
 .contents_wrap .meet_box:hover {box-shadow: 0 15px 15px #f2f2f2; transition: 0.3s;}
@@ -130,7 +133,7 @@ input[type="checkbox"]:checked {background: url(/Content/images/check.svg) no-re
 
 
 /* 리스트 없을때 */
-.no_list_wrap {display: inline-block; width: 100%; padding: 100px 0;}
+.no_list_wrap {display: inline-block; width: 100%; padding: 100px 0; text-align: center;}
 .no_list_wrap img {width: 70px; margin-bottom: 30px;}
 .no_list_wrap p {font-size: 14px; color: #aeb3c2; font-family: "Pretendard-Light";}
 
@@ -164,6 +167,23 @@ input[type="checkbox"]:checked {background: url(/Content/images/check.svg) no-re
 .meminput_box ul li .inter_check label:nth-child(8) {margin-bottom: 0;}
 .meminput_box ul li textarea {width: 100%; font-size: 14px;}
 i.ab {font-style: normal;font-size: 12px;vertical-align: super;color: #0064ff;}
+
+/* 에러페이지 */
+.error_wrap {position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;}
+.error_wrap i {font-size: 53px;border-radius: 50%;border: 3px solid #0064ff;font-style: normal;width: 100px;height: 100px;display: inline-block;line-height: 100px;color: #0064ff;font-family: "Pretendard-Bold";margin-bottom: 30px;}
+.error_wrap span {display: block;font-size: 40px;font-family: "Pretendard-SemiBold";margin-bottom: 20px;}
+.error_wrap p {line-height: 24px;}
+.error_wrap a {display: inline-block;}
+
+/* 리스트 */
+.list_common {display: flex; text-align: center;}
+.list_common li {padding: 15px; flex: 1; font-size: 14px;}
+.list_common li:nth-of-type(1) {text-align: left;}
+.list_tit {border-bottom: 1px solid #181818;}
+.list_tit li {color: #888;}
+.list_txt {border-bottom: 1px solid #ededed;}
+.list_txt a:hover {text-decoration: underline;}
+.list_txt:last-of-type {border-bottom: none;}
 
 @media screen and (max-width: 1200px) {
 }

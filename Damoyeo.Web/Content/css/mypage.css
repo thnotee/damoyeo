@@ -74,9 +74,10 @@
 .join_list .join_p_tit {border-bottom: 1px solid #333d4b; margin-bottom: 20px; padding: 0 10px 10px; text-align: left;}
 .join_list .join_p_tit span {font-family: "Pretendard-Bold"; }
 .join_list .join_p_tit img {vertical-align: middle;width: 12px;margin-left: 5px;}
-.join_list ul {display: grid;grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;grid-gap: 30px;overflow-x: auto;max-height: 300px;padding: 0 20px;}
+.join_list ul {display: grid;grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;grid-gap: 30px;padding: 0 20px;}
 .join_list ul li .join_img_name {display: flex; align-items: center;}
-.join_list ul li img {width: 35px; border: 1px solid #ededed; border-radius: 50%; margin-right: 10px;}
+.join_list ul li span {width: 35px; height: 35px; margin-right: 10px; border-radius: 50%; border: 1px solid #ededed; overflow: hidden; position: relative;}
+.join_list ul li img {width: 100%; height: 100%; object-fit: cover; min-width: 100%; min-height: 100%; position: absolute; transform: translate(-50%, -50%); top: 50%; left: 50%; border-radius: 50%;}
 .join_list ul li p {display: inline-block; font-size: 14px;}
 
 .join_list .join_img_name {cursor: pointer;}
@@ -100,3 +101,25 @@
 .my_heart .my_common_list > ul > li {position: relative;}
 .my_heart .heart_cbox {position: absolute;top: 10px;right: 10px;text-align: right;z-index: 1;}
 .my_heart .right ul li:last-of-type {margin-top: 0;}
+
+
+/* 나의 활동 ****************************************************/ 
+.my_write .notify {position: relative;}
+.my_write .notify .noti_mark {position: absolute; width: 6px;height: 6px;border-radius: 50%;background-color: #ff6767;display: inline-block;top: -6px;right: -6px;}
+.my_write .write_box .write_tabmenu {display: flex; margin-bottom: 40px;}
+.my_write .write_box .write_tabmenu li {cursor: pointer; padding: 0 0 5px; margin-right: 20px;}
+.my_write .write_box .write_tabmenu li.on {border-bottom: 1px solid #0064ff; color: #0064ff;}
+.my_write .write_box .tab_content {display: none; width: 100%; text-align: left;}
+.my_write .write_box .tab_content.on {display: inline-block;}
+
+.my_write .write_box .write_amount {font-family: "Pretendard-Medium"; margin-bottom: 20px;}
+.my_write .write_box .write_amount span {font-family: "Pretendard-Bold"; color: #0064ff;}
+.my_write .write_box .list_common li:nth-of-type(1) {flex: 0 0 calc(100% - 300px);}
+
+.my_write .my_reply_box li {border-bottom: 1px solid #ededed; padding-bottom: 15px; margin-bottom: 15px;}
+.my_write .my_reply_box li {display: flex;width: 100%;align-items: center;}
+.my_write .my_reply_box li .mr_mark {display: inline-block;border-radius: 20px;border: 1px solid #0064ff;color: #0064ff;font-size: 12px;width: 45px;text-align: center;padding: 4px 0;margin-right: 35px;}
+.my_write .my_reply_box li .mr_tit {width: calc(100% - 170px); font-size: 14px;} 
+.my_write .my_reply_box li .mr_tit:hover {text-decoration: underline;}
+.my_write .my_reply_box li .mr_tit span {font-family: "Pretendard-SemiBold";}
+.my_write .my_reply_box li .mr_date {color: #888;font-size: 14px;width: 100px;text-align: right;} 

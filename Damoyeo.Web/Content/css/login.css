@@ -29,14 +29,6 @@
   color: #888;
   font-family: "Pretendard-Light";
 }
-.login_wrap .login_box .id_pw_find a:last-of-type::before {
-  content: "";
-  background-color: #e4e4e4;
-  width: 1px;
-  height: 10px;
-  display: inline-block;
-  margin: 0 10px;
-}
 .login_wrap .login_box .login_btn {
   text-align: center;
   display: inline-block;

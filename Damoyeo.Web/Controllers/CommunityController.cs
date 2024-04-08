@@ -33,7 +33,7 @@ namespace Damoyeo.Web.Controllers
 
             var entity = new CommunitySearchOpt();
             entity.searchString = searchString;
-            PagedList<DamoyeoCommunity> list = await _unitOfWork.Community.GetPagedListAsync(page, 2, entity);
+            PagedList<DamoyeoCommunity> list = await _unitOfWork.Community.GetPagedListAsync(page, 10, entity);
             list.pagerOptions.Path = "/Community/Index";
             list.pagerOptions.AddQueryString = "searchString=" + searchString;
             return View(list);

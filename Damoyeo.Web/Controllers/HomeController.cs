@@ -1,19 +1,58 @@
-﻿using System;
+﻿using Damoyeo.DataAccess.Repository.IRepository;
+using Damoyeo.Model.Model.option;
+using Damoyeo.Model.Model;
+using Damoyeo.Model.ViewModel;
+using Damoyeo.Util.Manager;
+using System;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Web;
 using System.Web.Mvc;
+using System.Threading.Tasks;
 
 namespace Damoyeo.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IUnitOfWork _unitOfWork;
 
- 
-        public ActionResult Index()
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            
-            return View();
+            _unitOfWork = unitOfWork;
+        }
+
+
+        public async Task<ActionResult> Index()
+        {
+            MainVm viewModel = new MainVm();
+
+            viewModel.MeetupSearchOpt = new MeetupSearchOpt();
+            viewModel.MeetupSearchOpt.applicationSdate = DateTime.Now.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture); 
+            viewModel.MeetupSearchOpt.searchOrder = 2; //최신순
+            //최신순리스트 가져온 뒤 인기순 리스트 가져온다.
+            viewModel.latestList = await _unitOfWork.Meetup.GetPagedListAsync(1, 3, viewModel.MeetupSearchOpt);
+            viewModel.MeetupSearchOpt.searchOrder = 1;
+
+            var popularityListTask = _unitOfWork.Meetup.GetPagedListAsync(1, 4, viewModel.MeetupSearchOpt);
+            var categoryTask =  _unitOfWork.Category.GetPagedListAsync(1, 10);
+
+            var communityentity = new CommunitySearchOpt();
+            var communityTask = _unitOfWork.Community.GetPagedListAsync(1, 3, communityentity);
+
+            await Task.WhenAll(popularityListTask, categoryTask, communityTask);
+            viewModel.popularityList = await popularityListTask;
+            viewModel.categoryList = await categoryTask;
+            viewModel.communityList = await communityTask;
+
+            if (UserManager.IsLogin())
+            {
+                var entity = new DamoyeoWishlist();
+                entity.user_id = UserManager.GetCookie().UserId;
+                viewModel.WishList =  await _unitOfWork.Wishlist.GetAllAsync(entity);
+            }
+
+            return View(viewModel);
         }
 
         public ActionResult About()

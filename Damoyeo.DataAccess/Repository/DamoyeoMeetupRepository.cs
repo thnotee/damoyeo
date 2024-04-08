@@ -166,7 +166,7 @@ SELECT A.meetup_id
 
 
             //신청일자 존재시
-            if (!string.IsNullOrEmpty(option.applicationSdate) && !string.IsNullOrEmpty(option.applicationEdate))
+            if (!string.IsNullOrEmpty(option.applicationSdate))
             {
                 whereSql += " AND @applicationSdate BETWEEN A.application_sdate AND A.application_edate ";
             }

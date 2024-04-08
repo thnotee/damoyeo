@@ -61,6 +61,7 @@
     <Compile Include="Model\Procedure\GetCommentTree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\CommunityDetailVm.cs" />
+    <Compile Include="ViewModel\MainVm.cs" />
     <Compile Include="ViewModel\UserInfoVm.cs" />
     <Compile Include="ViewModel\MeetupDetailVm.cs.cs" />
     <Compile Include="ViewModel\MeetupListVm.cs" />

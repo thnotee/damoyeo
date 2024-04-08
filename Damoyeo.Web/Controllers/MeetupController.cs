@@ -32,24 +32,21 @@ namespace Damoyeo.Web.Controllers
         }
 
         // GET: Meetup
-        public async Task<ActionResult> Index(int page =1, string applicationSdate ="", string applicationEdate = "", string searchString = ""
+        public async Task<ActionResult> Index(int page =1, string applicationSdate ="", string searchString = ""
             , string searchArea = "", int searchCategory = 0, int searchOrder = 1 )
         {
 
             MeetupListVm viewModel = new MeetupListVm();
 
-            if (applicationSdate == "" || applicationEdate == "") 
+            if (string.IsNullOrEmpty(applicationSdate)) 
             {
                 DateTime now = DateTime.Now; // 현재 날짜와 시간
-                //DateTime oneWeekAgo = now.AddDays(-7); // 일주일 전
                 DateTime oneWeekAgo = now; // 일주일 전
-                DateTime oneWeekLater = now.AddDays(7); // 일주일 후
                 applicationSdate = oneWeekAgo.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
-                applicationEdate = oneWeekLater.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
+              
             }
             viewModel.MeetupSearchOpt = new MeetupSearchOpt();
             viewModel.MeetupSearchOpt.applicationSdate = applicationSdate;
-            viewModel.MeetupSearchOpt.applicationEdate = applicationEdate;
             viewModel.MeetupSearchOpt.searchString = searchString;
             viewModel.MeetupSearchOpt.searchArea = searchArea;
             viewModel.MeetupSearchOpt.searchCategory = searchCategory;
@@ -205,9 +202,6 @@ namespace Damoyeo.Web.Controllers
             var meetupTagsMappingParameta = new DamoyeoMeetupTags { meetup_id = parameter.meetup_id };
             var tagsTask = _unitOfWork.MeetupTagsMapping.GetAllAsync(meetupTagsMappingParameta);
 
-            await Task.WhenAll(detailTask, applicationsTask, imagesTask, tagsTask);
-
-
             meetupDetailVm.detail = await detailTask;
             meetupDetailVm.applicationList = await applicationsTask;
             meetupDetailVm.image = await imagesTask;
@@ -341,27 +335,27 @@ namespace Damoyeo.Web.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> RemoveImg(int id, string type = "sub")
+        public async Task<ActionResult> RemoveImg(int id, string type)
         {
             if (UserManager.IsLogin())
             {
                 if (type == "sub")
                 {
-                    await _unitOfWork.Meetup.RemoveAsync(id);
+                    await _unitOfWork.Image.RemoveAsync(id);
                     _unitOfWork.Commit();
                     return Json(new { success = true, code = 1 });
+
                 }
                 else 
-                {
+                {   //메인이미지 삭제
                     DamoyeoMeetup parameter = new DamoyeoMeetup();
-                    parameter.meetup_id = id;   
+                    parameter.meetup_id = id;
                     var oriMeetup = await _unitOfWork.Meetup.GetAsync(parameter);
                     oriMeetup.meetup_image = null;
                     await _unitOfWork.Meetup.UpdateAsync(oriMeetup);
                     _unitOfWork.Commit();
-                    return Json(new { success = true, code = 2 });
+                    return Json(new { success = true, code = 1 });
                 }
-                
             }
             else
             {
@@ -369,6 +363,9 @@ namespace Damoyeo.Web.Controllers
             }
 
         }
+
+
+
 
         /// <summary>
         /// 지정된 경로에 file upload를 합니다.

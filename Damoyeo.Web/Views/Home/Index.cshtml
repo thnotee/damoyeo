@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Damoyeo.Model.ViewModel;
+@model MainVm
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -31,77 +33,55 @@
             <span class="con_stitle">다양한 소모임을 지금 바로 확인하세요!</span>
 
             <div class="new_wrap">
-                <div class="meet_box">
-                    <a href="">
-                        <img src="~/Content/images/main/test_img1.png" alt="" />
-                    </a>
-                    <div class="meet_flex">
-                        <a href="" class="new_text_wrap">
-                            <span class="m_mark">
-                                <img src="~/Content/images/marker.svg" alt="" />
-                                회기동
-                            </span>
-                            <p class="m_tit">
-                                요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                            </p>
-                            <p class="m_txt">
-                                요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                                서브텍스트
-                            </p>
-                        </a>
-                        <span class="heart_click">
-                            <img src="~/Content/images/heart.svg" alt="" />
-                        </span>
-                    </div>
-                </div>
 
-                <div class="meet_box">
-                    <a href="">
-                        <img src="~/Content/images/main/test_img2.png" alt="" />
-                    </a>
-                    <div class="meet_flex">
-                        <a href="" class="new_text_wrap">
-                            <span class="m_mark">
-                                <img src="~/Content/images/marker.svg" alt="" />
-                                회기동
-                            </span>
-                            <p class="m_tit">
-                                요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                            </p>
-                            <p class="m_txt">
-                                요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                                서브텍스트
-                            </p>
-                        </a>
-                        <span class="heart_click">
-                            <img src="~/Content/images/heart.svg" alt="" />
-                        </span>
-                    </div>
-                </div>
+                @if (Model.popularityList.Any())
+                {
+                    foreach (var item in Model.latestList)
+                    {
+                        <div class="meet_box">
+                            <a href="/Meetup/Detail?meetup_id=@item.meetup_id">
+                                @if (!string.IsNullOrEmpty(item.meetup_image))
+                                {
+                                    <img src="@item.meetup_image" alt="" />
+                                }
+                                else
+                                {
+                                    <img src="https://placeholder.com/308x269/png" alt="" />
+                                }
 
-                <div class="meet_box">
-                    <a href="">
-                        <img src="~/Content/images/main/test_img3.png" alt="" />
-                    </a>
-                    <div class="meet_flex">
-                        <a href="" class="new_text_wrap">
-                            <span class="m_mark">
-                                <img src="~/Content/images/marker.svg" alt="" />
-                                회기동
-                            </span>
-                            <p class="m_tit">
-                                요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                            </p>
-                            <p class="m_txt">
-                                요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                                서브텍스트
-                            </p>
-                        </a>
-                        <span class="heart_click">
-                            <img src="~/Content/images/heart.svg" alt="" />
-                        </span>
-                    </div>
-                </div>
+
+                            </a>
+                            <div class="meet_flex">
+                                <a href="/Meetup/Detail?meetup_id=@item.meetup_id" class="new_text_wrap">
+                                    <span class="m_mark">
+                                        <img src="~/Content/images/marker.svg" alt="" />
+                                        @item.bname
+                                    </span>
+                                    <p class="m_tit">
+                                        @item.meetup_name
+                                    </p>
+                                    <p class="m_txt">
+                                        @item.meeting_intro
+                                    </p>
+                                </a>
+                                <span class="heart_click" data-meetup_id="@item.meetup_id">
+
+                                    @if (Model.WishList.Any(x => x.meetup_id == item.meetup_id))
+                                    {
+                                        <img src="~/Content/images/heart_on.svg" alt="" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/images/heart.svg" alt="" />
+                                    }
+
+                                </span>
+                            </div>
+                        </div>
+
+                    }
+                }
+              
             </div>
         </div>
     </section>
@@ -123,101 +103,56 @@
             </span>
 
             <div class="pop_wrap">
-                <div class="meet_box">
-                    <a href="">
-                        <img src="~/Content/images/main/test_img1.png" alt="" />
-                    </a>
-                    <div class="meet_flex">
-                        <a href="" class="new_text_wrap">
-                            <span class="m_mark">
-                                <img src="~/Content/images/marker.svg" alt="" />
-                                회기동
-                            </span>
-                            <p class="m_tit">
-                                요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                            </p>
-                            <p class="m_txt">
-                                요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                                서브텍스트
-                            </p>
-                        </a>
-                        <span class="heart_click">
-                            <img src="~/Content/images/heart.svg" alt="" />
-                        </span>
-                    </div>
-                </div>
+                @if (Model.popularityList.Any())
+                {
+                    foreach (var item in Model.popularityList)
+                    {
+                        <div class="meet_box">
+                            <a href="/Meetup/Detail?meetup_id=@item.meetup_id">
+                                @if (!string.IsNullOrEmpty(item.meetup_image))
+                                {
+                                    <img src="@item.meetup_image" alt="" />
+                                }
+                                else
+                                {
+                                    <img src="https://placeholder.com/308x269/png" alt="" />
+                                }
 
-                <div class="meet_box">
-                    <a href="">
-                        <img src="~/Content/images/main/test_img2.png" alt="" />
-                    </a>
-                    <div class="meet_flex">
-                        <a href="" class="new_text_wrap">
-                            <span class="m_mark">
-                                <img src="~/Content/images/marker.svg" alt="" />
-                                회기동
-                            </span>
-                            <p class="m_tit">
-                                요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                            </p>
-                            <p class="m_txt">
-                                요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                                서브텍스트
-                            </p>
-                        </a>
-                        <span class="heart_click">
-                            <img src="~/Content/images/heart.svg" alt="" />
-                        </span>
-                    </div>
-                </div>
 
-                <div class="meet_box">
-                    <a href="">
-                        <img src="~/Content/images/main/test_img3.png" alt="" />
-                    </a>
-                    <div class="meet_flex">
-                        <a href="" class="new_text_wrap">
-                            <span class="m_mark">
-                                <img src="~/Content/images/marker.svg" alt="" />
-                                회기동
-                            </span>
-                            <p class="m_tit">
-                                요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                            </p>
-                            <p class="m_txt">
-                                요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                                서브텍스트
-                            </p>
-                        </a>
-                        <span class="heart_click">
-                            <img src="~/Content/images/heart.svg" alt="" />
-                        </span>
-                    </div>
-                </div>
+                            </a>
+                            <div class="meet_flex">
+                                <a href="/Meetup/Detail?meetup_id=@item.meetup_id" class="new_text_wrap">
+                                    <span class="m_mark">
+                                        <img src="~/Content/images/marker.svg" alt="" />
+                                        @item.bname
+                                    </span>
+                                    <p class="m_tit">
+                                        @item.meetup_name
+                                    </p>
+                                    <p class="m_txt">
+                                        @item.meeting_intro
+                                    </p>
+                                </a>
+                                <span class="heart_click" data-meetup_id="@item.meetup_id">
 
-                <div class="meet_box">
-                    <a href="">
-                        <img src="~/Content/images/main/test_img3.png" alt="" />
-                    </a>
-                    <div class="meet_flex">
-                        <a href="" class="new_text_wrap">
-                            <span class="m_mark">
-                                <img src="~/Content/images/marker.svg" alt="" />
-                                회기동
-                            </span>
-                            <p class="m_tit">
-                                요가 단련을 통해 바른자세를 어쩌고 저쩌고라고 쓰는 제목
-                            </p>
-                            <p class="m_txt">
-                                요가 수련을 21년한 강사와 함께하는 소모임입니다 라고 쓰는
-                                서브텍스트
-                            </p>
-                        </a>
-                        <span class="heart_click">
-                            <img src="~/Content/images/heart.svg" alt="" />
-                        </span>
-                    </div>
-                </div>
+                                    @if (Model.WishList.Any(x => x.meetup_id == item.meetup_id))
+                                    {
+                                        <img src="~/Content/images/heart_on.svg" alt="" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/images/heart.svg" alt="" />
+                                    }
+
+                                </span>
+                            </div>
+                        </div>
+
+                    }
+                }
+
+
+         
             </div>
         </div>
     </section>
@@ -231,24 +166,21 @@
             </span>
 
             <div class="cobox_wrap">
-                <a href="">
-                    <i>dkssudgktpdy</i>
-                    <p>제목 들어갑니다</p>
-                    <span>2024.02.15</span>
-                    <img src="~/Content/images/mark.png" alt="" />
-                </a>
-                <a href="">
-                    <i>dkssudgktpdy</i>
-                    <p>제목 들어갑니다 두줄일때는 쩜표시되는겁니다</p>
-                    <span>2024.02.15</span>
-                    <img src="~/Content/images/mark.png" alt="" />
-                </a>
-                <a href="">
-                    <i>dkssudgktpdy</i>
-                    <p>제목 들어갑니다</p>
-                    <span>2024.02.15</span>
-                    <img src="~/Content/images/mark.png" alt="" />
-                </a>
+                
+                @if (Model.communityList.Any())
+                {
+                    foreach (var item in Model.communityList)
+                    {
+                        <a href="/Community/Detail?board_id=@item.board_id">
+                            <i>@item.User.nickname</i>
+                            <p>@(item.title.Length > 16 ? item.title.Substring(0, 16) + "..." : item.title)</p>
+                            <span>@item.post_date.ToString("YYYY.MM.DD")</span>
+                            <img src="~/Content/images/mark.png" alt="" />
+                        </a>
+         
+                    }
+                }
+
             </div>
         </div>
     </section>

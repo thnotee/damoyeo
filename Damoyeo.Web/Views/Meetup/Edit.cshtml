@@ -71,7 +71,7 @@
                                         사진 변경
                                         <input type="file" class="file_upload_new" style="display: none;">
                                     </label>
-                                    <span class="delete_photo">사진 삭제</span>
+                                    <span class="delete_photo" data-meetup_id="@Model.detail.meetup_id">사진 삭제</span>
                                 </div>
                             }
                             else
@@ -447,19 +447,27 @@
             $(this).closest('.after_btn').prev('.img_up_btn').show();
             $(this).parent('.after_btn').remove();
 
-            console.log($(this).data("img_id"));
+            console.log();
+            var meetup_id = $(this).data("meetup_id");
             var imgId= $(this).data("img_id");
-            if (imgId) {
+            if (imgId || meetup_id ) {
                 // AJAX
-                var data =
-                {
-                    id: imgId,
-                    type : "sub"
+                var requestData = {};
+
+                if (imgId) {
+                    requestData.id = imgId;
+                    requestData.type = "sub";
                 }
+
+                if (meetup_id) {
+                    requestData.id = meetup_id;
+                    requestData.type = "main";
+                }
+
                 $.ajax({
                     type: 'POST',
                     url: '/Meetup/RemoveImg', // 요청을 보낼 서버 측 URL
-                    data: data, // 전송할 데이터
+                    data: requestData, // 전송할 데이터
                     success: function (response) {
                         console.log(response);
                     },
@@ -498,8 +506,6 @@
 
                 fileUpload(this);
             });
-
-
 
             //이메일 선택
             $('#selectEmail').change(function () {

@@ -145,28 +145,45 @@
 
     <script>
         //달력
+        //startDate: "@Model.MeetupSearchOpt.applicationSdate",
+        /*
         $('input[name="dates"]').daterangepicker({
-            startDate: "@Model.MeetupSearchOpt.applicationSdate",
-            endDate: "@Model.MeetupSearchOpt.applicationEdate",
             locale: {
+                singleDatePicker: true,
                 format: "YYYY/MM/DD",
-                separator: " ~ ",
                 daysOfWeek: ["일", "월", "화", "수", "목", "금", "토"],
                 monthNames: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
                 applyLabel: "확인",
                 cancelLabel: "취소",
             }
         });
+        */
+
+        
+          $('input[name="dates"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: "YYYY/MM/DD", // 원하는 날짜 포맷으로 설정
+                daysOfWeek: ["일", "월", "화", "수", "목", "금", "토"],
+                monthNames: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+                applyLabel: "확인",
+                cancelLabel: "취소",
+                startDate: "@Model.MeetupSearchOpt.applicationSdate",
+            },
+            minYear: 1901,
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        }, function(start, end, label) {
+            // 콜백 함수 내용
+        });
+
 
 
         function Search() {
             //날짜 셋팅
             var dates = $('input[name="dates"]');
             var applicationDate = dates[0].value;
-            var applicationDateArr = applicationDate.split('~');
-            $("#applicationSdate").val(applicationDateArr[0].trim());
-            $("#applicationEdate").val(applicationDateArr[1].trim());
-
+            $("#applicationSdate").val(applicationDate);
             $("#myform").submit();
         }
 

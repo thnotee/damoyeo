@@ -16,7 +16,9 @@ using System.Data.SqlClient;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -100,53 +102,7 @@ namespace Damoyeo.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        /*
-        [HttpPost]
-        public async Task<ActionResult> Signup(DamoyeoUser user, HttpPostedFileBase profile_image, string kakao_profile_image = "")
-        {
-
-
-            if (profile_image != null && profile_image.ContentLength > 0)
-            {
-                // 파일 이름에 GUID를 추가하여 중복을 방지합니다.
-                var fileName = Path.GetFileNameWithoutExtension(user.email)
-                               + "_"
-                               + Guid.NewGuid().ToString()
-                               + Path.GetExtension(profile_image.FileName);
-
-                // 파일을 저장할 경로를 지정합니다.
-                var path = Path.Combine(Server.MapPath("~/Content/upload/profile_image"), fileName);
-
-                // 해당 경로에 폴더가 없으면 폴더를 생성합니다.
-                var directory = Path.GetDirectoryName(path);
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-
-                // 파일을 지정한 경로에 저장합니다.
-                profile_image.SaveAs(path);
-                user.profile_image = Url.Content("~/Content/upload/profile_image/" + fileName);
-            }
-            else 
-            {
-                if (user.signup_type == 1 && !string.IsNullOrEmpty(kakao_profile_image)) 
-                {
-                    user.profile_image = kakao_profile_image;
-                }
-            }
-
-
-            user.reg_date = DateTime.Now;
-            user.use_tf = "1";
-            user.password = StringUtil.GetSHA256(user.password);
-            await _unitOfWork.Users.AddAsync(user);
-            _unitOfWork.Commit();
-
-            TempData["successMsg"] = user.nickname + "님 회원가입 되었습니다.";
-            return RedirectToAction("Index", "Home");
-        }
-        */
+   
         [HttpGet]
         public ActionResult Login(string returnUrl = "/Home/index")
         {
@@ -190,6 +146,69 @@ namespace Damoyeo.Web.Controllers
             }
 
             TempData["errorMsg"] = "아이디 또는 비밀번호를 확인해주세요.";
+            return View();
+        }
+
+        public ActionResult FindPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> FindPassword(string email = "")
+        {
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                var parameter = new DamoyeoUser();
+                parameter.email = email;
+                var userInfo = await _unitOfWork.Users.GetAsync(parameter);
+                if (userInfo != null)
+                {
+                    string fromAddress = "thlee5842@gmail.com";
+                    string password = "sbyj eoss vubl nbse";
+
+                    // SMTP 서버 설정
+                    SmtpClient smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com", // SMTP 서버 호스트명
+                        Port = 587, // SMTP 서버 포트 번호
+                        EnableSsl = true, // SSL 사용 여부
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(fromAddress, password)
+                    };
+
+                    Guid guid = Guid.NewGuid();
+                    string newPassword = guid.ToString().Substring(0, 4);
+
+                    // 이메일 보낼 정보 설정
+                    MailAddress from = new MailAddress(fromAddress);
+                    MailAddress to = new MailAddress(email);
+                    MailMessage message = new MailMessage(from, to)
+                    {
+                        Subject = "[다모여] 새로운 비밀번호를 전송해드립니다.",
+                        Body = $"새로운 비밀번호는 {newPassword} 입니다."
+                    };
+
+                    // 이메일 전송
+                    try
+                    {
+                        smtp.Send(message);
+                        userInfo.password = StringUtil.GetSHA256(newPassword);
+                        await _unitOfWork.Users.UpdateAsync(userInfo);
+                        _unitOfWork.Commit();
+                        TempData["successMsg"] = "이메일 전송완료!!";
+                        return View();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        var dd = ex;
+                    }
+                }
+            }
+            TempData["errorMsg"] = "이메일이 존재하지 않습니다!";
             return View();
         }
 

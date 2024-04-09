@@ -58,8 +58,43 @@ header .user_wrap .login {
   margin-left: 25px;
   color: #0064ff;
 }
+.mo_menu {display: none;}
 
 @media screen and (max-width: 1200px) {
+  header .user_wrap a {padding: 10px;}
+  .pc_menu {display: none;}
+  .mo_menu {display: inline-block; }
+  .hamburger {margin-left: 15px;}
+  .hamburger > img {width: 20px; vertical-align: middle;}
+
+  .mo_side_dim {position: fixed; top: 0; right: 0; bottom: 0; width: 100%; background-color: rgba(0, 0, 0, 0.5); display: none;}
+  .mo_side_menu {position: fixed; top: 0; right: -100%; bottom: 0; background-color: #fff; width: 80%; padding: 30px; transition: 0.5s;}
+  .mo_side_menu .side_top {display: flex; justify-content: space-between; align-items: center;}
+  .mo_side_menu .side_middle {padding: 40px 0;border-bottom: 1px solid #ededed;margin-bottom: 10px;}
+  .mo_side_menu .side_middle .welcome {font-size: 24px; line-height: 28px; margin-bottom: 20px;}
+  .mo_side_menu .side_middle .welcome span {font-family: "Pretendard-SemiBold";}
+  .mo_side_menu .side_middle .login_join {display: flex; justify-content: space-between; flex-wrap: wrap;}
+  .mo_side_menu .side_middle .login_join a {background-color: #0064ff;width: calc(50% - 5px);margin-right: 10px;padding: 12px 22px;text-align: center;border-radius: 5px;font-size: 14px;color: #fff;border: 1px solid #0064ff;}
+  .mo_side_menu .side_middle .login_join a.mjoin {margin-right: 0; background-color: #fff; color: #0064ff;}
+  .mo_side_menu .side_middle .login_join a.mlogout {width: 100%;}
+  .mo_side_menu .side_middle .login_join a:last-of-type {margin-right: 0;}
+  .mo_side_menu .mo_nav li a {display: flex; align-items: center; padding: 14px 0;}
+  .mo_side_menu .mo_nav li a.on span {color: #0064ff;}
+  .mo_side_menu .mo_nav li a img {margin-right: 20px;}
 }
 @media screen and (max-width: 787px) {
+  header {height: 60px;}
+  header .logo {flex-basis: auto;}
+  header .logo img {width: 120px;}
+  header .user_wrap {flex-basis: auto;}
+  header .inner {height: 60px;}
+  header .user_wrap .mypage img {width: 16px;}
+  .hamburger {margin-left: 5px;}
+  .hamburger > img {width: 16px;}
+  .mo_side_menu .side_top .m_logo img {width: 120px;}
+}
+
+@media screen and (max-width: 374px) {
+  .mo_side_menu {padding: 20px;}
+  .mo_side_menu .side_middle .login_join a {padding: 12px 0;}
 }

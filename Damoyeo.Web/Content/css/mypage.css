@@ -78,7 +78,7 @@
 .join_list ul li .join_img_name {display: flex; align-items: center;}
 .join_list ul li span {width: 35px; height: 35px; margin-right: 10px; border-radius: 50%; border: 1px solid #ededed; overflow: hidden; position: relative;}
 .join_list ul li img {width: 100%; height: 100%; object-fit: cover; min-width: 100%; min-height: 100%; position: absolute; transform: translate(-50%, -50%); top: 50%; left: 50%; border-radius: 50%;}
-.join_list ul li p {display: inline-block; font-size: 14px;}
+.join_list ul li p {display: inline-block;font-size: 14px;width: calc(100% - 45px);line-height: 18px; text-align: left;}
 
 .join_list .join_img_name {cursor: pointer;}
 
@@ -115,6 +115,7 @@
 .my_write .write_box .write_amount {font-family: "Pretendard-Medium"; margin-bottom: 20px;}
 .my_write .write_box .write_amount span {font-family: "Pretendard-Bold"; color: #0064ff;}
 .my_write .write_box .list_common li:nth-of-type(1) {flex: 0 0 calc(100% - 300px);}
+.my_write .write_box .list_common li a {overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;}
 
 .my_write .my_reply_box li {border-bottom: 1px solid #ededed; padding-bottom: 15px; margin-bottom: 15px;}
 .my_write .my_reply_box li {display: flex;width: 100%;align-items: center;}
@@ -123,3 +124,101 @@
 .my_write .my_reply_box li .mr_tit:hover {text-decoration: underline;}
 .my_write .my_reply_box li .mr_tit span {font-family: "Pretendard-SemiBold";}
 .my_write .my_reply_box li .mr_date {color: #888;font-size: 14px;width: 100px;text-align: right;} 
+
+
+@media screen and (max-width: 1200px) {
+    .mypage_wrap .inner {padding: 0 0 50px;}
+    .mypage_wrap .my_left {width: 30%;}
+    .mypage_wrap .my_right {width: 70%; padding: 50px 50px 20px;}
+    .meminput_box ul li {display: inline-block; width: 100%;}
+    .meminput_box ul li .mo_tit {width: 100%; margin-bottom: 10px;}
+    .meminput_box ul li .mo_txt {width: 100%;}
+    .meminput_box ul li .inter_check label {width: 33%;}
+    .meminput_box ul li.new_pw_wrap {flex-wrap: wrap;}
+
+    .my_common_list > ul > li {flex-wrap: wrap;}
+    .my_common_list .left {width: 100%; margin-bottom: 20px;}
+    .my_common_list .left .mc_main_img {width: 120px;}
+    .my_common_list .left .mcl_txt {width: calc(100% - 120px); padding: 0 0 0 20px; height: auto;}
+    .my_common_list .right {width: 100%; border-top: 1px dashed #ededed; padding-top: 20px;}
+    .my_common_list .right ul {display: flex; flex-wrap: wrap;}
+    .my_common_list .right ul li {margin-bottom: 0; width: 33.3333333%}
+    .my_common_list .right span {width: auto;}
+    .my_common_list .right p {width: auto;}
+    
+    .my_open .my_common_list .right ul li:last-of-type {display: flex; width: 100%;}
+    .my_join .my_common_list .right ul li:last-of-type {display: flex; width: 100%;}
+
+    .join_list ul {grid-template-columns: 1fr 1fr 1fr;}
+
+    .my_common_list .right ul {position: relative;}
+    .my_common_list .right ul .heart_cbox {width: auto; top: 0; right: 0;}
+}
+@media screen and (max-width: 787px) {
+    .mypage_wrap .inner {display: inline-block;}
+    .mypage_wrap .my_left {width: 100%;}
+    .mypage_wrap .my_left .my_sticky {position: inherit; display: flex; flex-direction: column-reverse;}
+    .mypage_wrap .my_left .my_move {padding: 20px 16px 0;}
+    .mypage_wrap .my_left .my_move .move_tit {display: none;}
+    .mypage_wrap .my_left .my_move ul {display: flex;width: 100%;overflow-x: scroll;-ms-overflow-style: none;scrollbar-width: none;margin-bottom: 10px;white-space: nowrap; justify-content: inherit;}
+    .mypage_wrap .my_left .my_move ul li {text-align: center;margin-bottom: 0;width: max-content;}
+    .mypage_wrap .my_left .my_move ul li a {padding: 10px; font-size: 15px; border-radius: 0;}
+    .mypage_wrap .my_left .my_move ul li a.on {background-color: inherit; border-bottom: 1px solid #0064ff;}
+
+
+    .mypage_wrap .my_left .my_profile {padding: 10px 30px 20px; display: flex; align-items: center;}
+    .mypage_wrap .my_left .my_profile .my_photo {margin-bottom: 0;}
+    .mypage_wrap .my_left .my_profile .my_photo p {width: 80px; height: 80px;}
+    .mypage_wrap .my_left .my_profile > p {padding-left: 30px; text-align: left; font-size: 20px; line-height: 26px;}
+
+    .mypage_wrap .my_right {width: calc(100% - 32px); margin: 0 auto; padding: 30px 20px;}
+
+    .lock_section .lock_icon {width: 100px; height: 100px;}
+    .lock_section .lock_icon img {padding: 30px;}
+    .lock_section .lock_notice {line-height: 20px;}
+
+    .mypage_wrap .inner .my_box .my_title {font-size: 22px; margin-bottom: 30px;} 
+    .meminput_box ul li .inter_check label {margin-bottom: 10px;}
+    .meminput_box ul li .mo_tit {font-size: 14px;}
+
+    .my_common_list .right ul {display: inline-block; width: 100%;}
+    .my_common_list .right ul li {width: 100%; margin-bottom: 10px;}
+    .my_common_list .right ul li::before {content: ""; display: inline-block; width: 5px; height: 5px; border-radius: 50%; background-color: #ebebf0; margin-right: 10px;}
+    .my_common_list .right ul li:last-of-type::before {display: none;}
+
+    .my_heart .my_common_list .right ul li:last-of-type::before {display: inline-block;} 
+    .my_heart .my_common_list .right ul .heart_cbox::before {display: none;}
+
+    .join_list ul {grid-template-columns: 1fr 1fr; grid-gap: 20px; padding: 0 10px;} 
+
+    .my_write .write_box .list_common li {padding: 0; flex: inherit; margin-right: 10px; color: #888; font-family: "Pretendard-Light";}
+    .my_write .write_box .list_tit {display: none;} 
+    .my_write .write_box .list_txt {flex-wrap: wrap; padding: 15px 10px;}
+
+    .my_write .write_box .list_common li:nth-of-type(1) {flex: 0 0 100%; margin-right: 0; margin-bottom: 5px;}
+    .my_write .write_box .list_common li:nth-of-type(1) a {font-size: 15px;   font-family: "Pretendard-Regular";}
+    .my_write .write_box .list_common li:nth-of-type(2)::before {content: "조회수"; display: inline-block; margin-right: 5px;}
+    .my_write .write_box .list_common li:nth-of-type(3)::before {content: "댓글"; display: inline-block; margin-right: 5px;}
+
+    .my_write .my_reply_box li {display: inline-block;}
+    .my_write .my_reply_box li .mr_mark {margin-right: 0; margin-bottom: 10px;}
+    .my_write .my_reply_box li .mr_tit {width: 100%; margin-bottom: 10px;}
+    .my_write .my_reply_box li .mr_tit a {line-height: 22px;}
+
+}
+@media screen and (max-width: 374px) {
+    .mypage_wrap .my_right {width: 100%;}
+
+    .lock_section {width: 100%;}
+
+    .meminput_box ul li.mcalc .mo_txt input {width: 100%; margin-right: 0; margin-bottom: 5px;}
+    .meminput_box ul li.mcalc .page_cbtn {width: 100%; height: 40px; line-height: 39px;}
+
+    .meminput_box ul li .inter_check label {width: 50%;}
+    .meminput_box ul li .inter_check label:nth-child(5), .meminput_box ul li .inter_check label:nth-child(6), .meminput_box ul li .inter_check label:nth-child(7), .meminput_box ul li .inter_check label:nth-child(8) {margin-bottom: 10px;}
+
+    .my_common_list .left {display: inline-block;}
+    .my_common_list .left .mc_main_img {width: 100%;}
+    .my_common_list .left .mcl_txt {padding: 0; margin-top: 10px; display: inline-block; width: 100%;}
+    .my_common_list .left .mcl_txt .mlist_txt {margin-bottom: 10px;}
+}

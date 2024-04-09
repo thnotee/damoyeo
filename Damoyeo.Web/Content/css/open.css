@@ -99,3 +99,60 @@ div.inquiry_email input, div.inquiry_email select {flex: 1;}
 .intro_wrap .tag_wrap .hash_tag {display: inline-flex; background-color: #f0f0f0; padding: 3px 6px; border-radius: 3px; margin-right: 5px; font-size: 14px;}
 .intro_wrap .tag_wrap .hash_tag img {width: 15px; margin-left: 5px; cursor: pointer;}
 
+
+
+@media screen and (max-width: 1200px) {
+  .open_wrap .img_box_main {width: 200px; height: 200px;}
+  .open_wrap .open_top .right {width: calc(100% - 200px); padding-left: 20px;}
+  .open_wrap .od_con .dtxt_box {padding-left: 20px;}
+  .open_wrap .open_date .open_info_con > ul {margin-right: 20px; width: calc(50% - 10px);}
+  .open_wrap .open_notice {line-height: 16px;}
+
+  .open_wrap .open_info li {display: inline-block; width: 100%;}
+  .open_wrap .open_info li .open_stit {width: 100%; margin-bottom: 10px; display: inline-block;}
+  .open_wrap .open_info li .open_txt {width: 100%;}
+  .open_wrap .open_info li .open_txt .check_box:nth-of-type(7),
+  .open_wrap .open_info li .open_txt .check_box:nth-of-type(8) {margin-top: 10px;}
+  .open_wrap .open_date .open_info li input[type="text"] {width: 100%;}
+  .open_wrap .open_info .expose_wrap {width: 100%;}
+
+  .open_wrap .open_info .ex_px_wrap {display: inline-block;}
+  .open_wrap .open_info .ex_px_wrap label {width: 100%;}
+  .open_wrap .open_info .ex_px_wrap input[type="text"].url_pw {width: 100%; margin-top: 5px;}
+  .open_wrap .open_map .map_right {width: 100%;}
+}
+@media screen and (max-width: 787px) {
+  .open_wrap .open_top {display: inline-block; width: 100%;}
+  .open_wrap .open_tit {margin-bottom: 5px; font-size: 18px;}
+  .open_wrap .open_box {padding: 30px 20px;}
+  .open_wrap .img_box_main {margin: 15px auto 0;}
+  .open_wrap .open_top .right {padding-left: 0; width: 100%; margin-top: 30px;}
+
+  .open_wrap .open_info li .open_stit {font-size: 14px;}
+  .open_wrap .open_top .o_box1 .open_txt {display: inline-block;}
+  .open_wrap .open_top .o_box1 .open_txt select {width: 100%; margin-right: 0;}
+  .open_wrap .open_top .o_box1 .open_txt input {width: 100%; margin-top: 5px;}
+  .open_wrap .open_top .o_box2 .open_txt {display: inline-block;}
+  .open_wrap .open_top .o_box2 .open_txt > div {margin-right: 0; width: 100%; margin-bottom: 5px;}
+  .open_wrap .open_top .o_box2 .open_txt > div.inquiry_email {flex-wrap: wrap;}
+  .open_wrap .open_top .o_box2 .open_txt > div.inquiry_email span {display: none;}
+  div.inquiry_email select {flex:  0 0 100%; margin-top: 5px;}
+  .open_wrap .open_top .o_box2 .open_txt > div.inquiry_email input {margin-right: 0; flex: 0 0 calc(50% - 10px); padding: 0 14px;}
+  .open_wrap .open_top .o_box2 .open_txt > div.inquiry_email .email_at {margin-right: 0; width: 20px;}
+
+  .open_wrap .od_con {display: inline-block; width: 100%;}
+  .open_wrap .od_con .dimg_up {margin: 15px auto 0;}
+  .open_wrap .od_con .dtxt_box {width: 100%; padding-left: 0; margin-top: 30px;}
+
+  .open_wrap .open_date .open_info_con {display: inline-block;}
+  .open_wrap .open_date .open_info_con > ul {margin-right: 0; width: 100%;}
+  .open_wrap .open_date .open_npadding {padding: 0;}
+  .open_wrap .open_map .open_info .map_section {height: 300px;}
+  .open_wrap .open_info li .open_txt .inter_check {display: flex; flex-wrap: wrap;}
+  .open_wrap .open_info li .open_txt .check_box {width: 50%; margin-right: 0; margin-bottom: 5px;}
+  .open_wrap .open_info li .open_txt .check_box:nth-of-type(7), .open_wrap .open_info li .open_txt .check_box:nth-of-type(8) {margin-top: 0; margin-bottom: 0;}
+}
+@media screen and (max-width: 374px) {
+  .open_wrap .od_con .dimg_up {width: 100%;}
+  .open_wrap .od_con .dimg_up .dimg_box {width: 100px; height: 100px;}
+}

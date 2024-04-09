@@ -141,3 +141,32 @@
 .cw_wrap .sub_inner {width: 1000px;}
 .cw_wrap .cw_box input {margin-bottom: 10px;}
 .cw_wrap .cw_box textarea {width: 100%; height: 400px;}
+
+@media screen and (max-width: 1200px) {
+  .community_box {width: 100%;}
+  .cdetail_wrap .inner {width: 100%;}
+}
+@media screen and (max-width: 787px) {
+  .community_box .com_tit .com_id {font-size: 12px;}
+  .community_box .com_tit a {font-size: 16px; margin-bottom: 15px;}
+  .community_box ul li {font-size: 15px}
+  
+  .cdetail_wrap .cd_box .cd_tit > p {font-size: 24px;}
+  .cdetail_wrap .cd_box .cd_info li span {font-size: 14px;}
+
+  .cdetail_wrap .cd_box ul li span.cd_id {font-size: 14px;}
+
+  .cdetail_wrap .cd_box .cd_comment .cd_co_box ul li .right {padding-right: 0px;}
+
+  .cdetail_wrap .cd_co_txt .cd_nick {font-size: 14px;}
+  .cdetail_wrap .cd_co_txt .cd_enroll_div span {padding: 6px 10px;}
+  .cdetail_wrap .cd_co_txt textarea {padding: 40px 15px 40px 15px; height: 140px;}
+
+}
+@media screen and (max-width: 374px) {
+  .cdetail_wrap .cd_box .cd_info {display: inline-block; width: 100%;}
+  .cdetail_wrap .cd_box .cd_info li:first-of-type {margin-bottom: 5px;}
+  .cdetail_wrap .cd_box .cd_info li:last-of-type {justify-content: flex-end;}
+  .cdetail_wrap .cd_box .cd_comment .cd_co_box ul li .dr_wrap {display: inline-block;}
+  .cdetail_wrap .cd_box .cd_comment .cd_co_box ul li .reply_btn {margin-left: 0; margin-top: 10px; display: inline-block;}
+}

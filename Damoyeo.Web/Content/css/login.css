@@ -63,3 +63,13 @@
   color: #0064ff;
   font-size: 14px;
 }
+
+@media screen and (max-width: 1200px) {}
+@media screen and (max-width: 787px) {
+  .login_wrap .login_box {width: 90%;}
+}
+@media screen and (max-width: 374px) {
+  .login_wrap .login_box {width: 100%;}
+  .login_wrap .login_box .login_btn {font-size: 14px;}
+  .login_wrap .login_box .kakao_btn img {width: 15px;}
+}

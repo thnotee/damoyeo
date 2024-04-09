@@ -10,18 +10,17 @@
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <a href="">
+                        <a href="/Meetup/Index">
                             <img src="~/Content/images/main/banner1.png" alt="" />
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="">
+                        <a href="/Meetup/Write">
                             <img src="~/Content/images/main/banner2.png" alt="" />
                         </a>
                     </div>
                 </div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
             </div>
         </div>
     </section>
@@ -81,21 +80,27 @@
 
                     }
                 }
-              
+
             </div>
         </div>
     </section>
 
+
     <!-- 이벤트 -->
     <section class="contents_wrap ev_con_wrap">
-        <a href="">
+        <a href="" class="pc_con">
             <img src="~/Content/images/main/event_banner.png" alt="" />
             <span class="ev_btn">이벤트 확인하기</span>
         </a>
+        <a href="" class="mo_con">
+            <img src="~/Content/images/main/event_banner_mo.png" alt="" />
+        </a>
     </section>
 
+
+
     <!-- 인기 소모임 -->
-    <section class="contents_wrap po_con_wrap">
+    <section class="contents_wrap po_con_wrap mo_con_wrap">
         <div class="inner">
             <p class="con_title">인기 소모임</p>
             <span class="con_stitle">
@@ -107,52 +112,47 @@
                 {
                     foreach (var item in Model.popularityList)
                     {
-                        <div class="meet_box">
-                            <a href="/Meetup/Detail?meetup_id=@item.meetup_id">
-                                @if (!string.IsNullOrEmpty(item.meetup_image))
+                    <div class="meet_box">
+                        <a href="/Meetup/Detail?meetup_id=@item.meetup_id">
+                            @if (!string.IsNullOrEmpty(item.meetup_image))
+                            {
+                                <img src="@item.meetup_image" alt="" />
+                            }
+                            else
+                            {
+                                <img src="https://placeholder.com/308x269/png" alt="" />
+                            }
+                        </a>
+                        <div class="meet_flex">
+                            <a href="/Meetup/Detail?meetup_id=@item.meetup_id" class="new_text_wrap">
+                                <span class="m_mark">
+                                    <img src="images/marker.svg" alt="" />
+                                    @item.bname
+                                </span>
+                                <p class="m_tit">
+                                    @item.meetup_name
+                                </p>
+                                <p class="m_txt">
+                                    @item.meeting_intro
+                                </p>
+                            </a>
+                            <span class="heart_click" data-meetup_id="@item.meetup_id">
+
+                                @if (Model.WishList.Any(x => x.meetup_id == item.meetup_id))
                                 {
-                                    <img src="@item.meetup_image" alt="" />
+                                    <img src="~/Content/images/heart_on.svg" alt="" />
                                 }
                                 else
                                 {
-                                    <img src="https://placeholder.com/308x269/png" alt="" />
+                                    <img src="~/Content/images/heart.svg" alt="" />
                                 }
 
-
-                            </a>
-                            <div class="meet_flex">
-                                <a href="/Meetup/Detail?meetup_id=@item.meetup_id" class="new_text_wrap">
-                                    <span class="m_mark">
-                                        <img src="~/Content/images/marker.svg" alt="" />
-                                        @item.bname
-                                    </span>
-                                    <p class="m_tit">
-                                        @item.meetup_name
-                                    </p>
-                                    <p class="m_txt">
-                                        @item.meeting_intro
-                                    </p>
-                                </a>
-                                <span class="heart_click" data-meetup_id="@item.meetup_id">
-
-                                    @if (Model.WishList.Any(x => x.meetup_id == item.meetup_id))
-                                    {
-                                        <img src="~/Content/images/heart_on.svg" alt="" />
-                                    }
-                                    else
-                                    {
-                                        <img src="~/Content/images/heart.svg" alt="" />
-                                    }
-
-                                </span>
-                            </div>
+                            </span>
                         </div>
-
+                    </div>
                     }
                 }
 
-
-         
             </div>
         </div>
     </section>
@@ -166,7 +166,7 @@
             </span>
 
             <div class="cobox_wrap">
-                
+
                 @if (Model.communityList.Any())
                 {
                     foreach (var item in Model.communityList)
@@ -177,7 +177,7 @@
                             <span>@item.post_date.ToString("YYYY.MM.DD")</span>
                             <img src="~/Content/images/mark.png" alt="" />
                         </a>
-         
+
                     }
                 }
 
@@ -215,10 +215,31 @@
         var swiper = new Swiper(".mySwiper", {
             slidesPerView: 2,
             spaceBetween: 18,
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
+            loop: true,
+            pagination: {
+                el: ".swiper-pagination",
             },
         });
+
+        function checkViewport() {
+            // 뷰포트 너비에 따라 slidesPerView 설정
+            var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+            if (viewportWidth < 1200) {
+                swiper.params.slidesPerView = 1;
+            } else {
+                swiper.params.slidesPerView = 2;
+            }
+
+            // Swiper 갱신
+            swiper.update();
+        }
+
+        // 창 크기가 변경될 때마다 checkViewport 함수 호출
+        window.addEventListener('resize', checkViewport);
+
+        // 초기 로딩 시에도 checkViewport 함수 호출하여 설정 적용
+        checkViewport();
+
+
     </script>
 }

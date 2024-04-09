@@ -12,3 +12,8 @@ footer .inner p {
   margin-top: 10px;
   color: #b8b8b8;
 }
+@media screen and (max-width: 787px) {
+  footer .inner {padding: 50px 0;}
+  footer .inner img {width: 120px;}
+  footer .inner p {font-size: 14px;}
+}

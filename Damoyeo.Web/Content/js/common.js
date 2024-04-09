@@ -141,3 +141,24 @@ $(document).ready(function () {
 });
 
 
+
+// 모바일 메뉴
+$(function () {
+    $(".hamburger").click(function () {
+        $(".mo_side_menu").css("right", "0");
+        $(".mo_side_dim").fadeIn();
+        $("body").addClass("hidden");
+    });
+    $(".mo_close").click(function () {
+        $(".mo_side_menu").css("right", "-100%");
+        $(".mo_side_dim").fadeOut();
+        $("body").removeClass("hidden");
+    });
+});
+
+//마이페이지 상단 메뉴명 on붙은 부분 보여지게
+$(document).ready(function () {
+    var activeItem = $('.my_move .on');
+    var activeItemOffset = activeItem.closest('li').position().left;
+    $('.my_move ul').scrollLeft(activeItemOffset - activeItem.width());
+});

@@ -4,3 +4,16 @@
 .find_wrap .find_box .find_notice {line-height: 22px; margin-bottom: 30px;}
 .find_wrap .find_box .find_notice span {font-family: "Pretendard-SemiBold";}
 .find_wrap .big_btn {margin: 50px 0 40px;}
+
+@media screen and (max-width: 1200px) {
+    .find_wrap .find_box {width: 90%;}
+}
+@media screen and (max-width: 787px) {
+    .find_wrap .find_box {padding: 30px;}
+    .find_wrap .find_box .find_notice {word-break: keep-all; line-height: 20px; margin-bottom: 20px;}
+}
+@media screen and (max-width: 374px) {
+    .find_wrap .find_box {width: 100%; padding: 20px}
+    .find_wrap .find_box .find_notice {font-size: 14px;}
+
+}

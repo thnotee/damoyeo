@@ -88,14 +88,18 @@ namespace Damoyeo.Web.Controllers
             }
             
             int userId = await _unitOfWork.Users.AddAsync(user);
-
-            foreach (var item in interest) 
+            if (interest != null) 
             {
-                var interestEntity = new DamoyeoUserInterestCategory();
-                interestEntity.user_id = userId;
-                interestEntity.category_id = item;     
-                await _unitOfWork.UserInterestCategory.AddAsync(interestEntity);
+                foreach (var item in interest)
+                {
+                    var interestEntity = new DamoyeoUserInterestCategory();
+                    interestEntity.user_id = userId;
+                    interestEntity.category_id = item;
+                    await _unitOfWork.UserInterestCategory.AddAsync(interestEntity);
+                }
             }
+
+         
             _unitOfWork.Commit();
 
             TempData["successMsg"] = user.nickname + "님 회원가입 되었습니다.";
@@ -119,7 +123,7 @@ namespace Damoyeo.Web.Controllers
 
             if (userObj != null)
             {
-                if (userObj.password == StringUtil.GetSHA256(password))
+                if (userObj.password == StringUtil.GetSHA256(password) && userObj.signup_type == 0)
                 {
                     // 쿠키 생성
                     HttpCookie userCookie = new HttpCookie("UserCookie");
@@ -330,7 +334,7 @@ namespace Damoyeo.Web.Controllers
             else
             {
                 //불가능
-                return Json(new { seccess = true, data = false }); ;
+                return Json(new { seccess = true, data = false });
             }
         }
 

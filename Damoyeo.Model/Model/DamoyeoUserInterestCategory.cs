@@ -15,6 +15,8 @@ namespace Damoyeo.Model.Model
         public int Interest_id { get; set; }
         public int user_id { get; set; }
         public int category_id { get; set; }
+
+        public DamoyeoCategory Category { get; set; }
     }
 }
 

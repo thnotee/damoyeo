@@ -1,0 +1,179 @@
+﻿@using Damoyeo.Model.Model
+@using Damoyeo.Model.ViewModel
+@model MeetupListVm
+@{
+    ViewBag.Title = "모임관리";
+}
+
+
+
+@section style{
+
+    <link rel="stylesheet" href="~/Content/css/meeting.css" />
+}
+
+<form action="/Meetup/Index" method="get" id="myform">
+
+    <div class="admin_contents">
+
+
+        @Html.Partial("_Partial/_Left")
+
+        <div class="right_con">
+            <div class="meeting_wrap">
+                <h3>
+                    <p>모임 관리</p>
+                    <span class="category_btn"><img src="~/Content/images/plus_btn.svg" alt="">모임 카테고리 추가</span>
+                </h3>
+
+                <div class="search_wrap">
+                    <input type="search" name="searchString" id="searchString" placeholder="검색어를 입력해주세요.">
+                    <span class="search_img" onclick="submitForm()">
+                        <img src="~/Content/images/search.svg" alt="">
+                    </span>
+                </div>
+
+
+                <ul class="list_tit list_common">
+                    <li>모임명</li>
+                    <li>카테고리</li>
+                    <li>모임장</li>
+                    <li>정원수</li>
+                    <li>지원자수</li>
+                    <li>개설일</li>
+                    <li>더보기</li>
+                </ul>
+                @if (Model.list.Any())
+                {
+                    foreach (var item in Model.list)
+                    {
+                        <ul class="list_txt list_common">
+                            <li>@item.meetup_name</li>
+                            <li>@item.Category.category_name</li>
+                            <li>@item.User.nickname</li>
+                            <li>@(item.max_user_count)명</li>
+                            <li>@(item.applications_count)명</li>
+                            <li>@item.reg_date.ToString("yyyy.MM.dd")</li>
+                            <li>
+                                <a href="/meetup/detail?meetup_id=@item.meetup_id" class="meet_more ad_btn">
+                                    <img src="~/Content/images/more_btn.svg" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                    }
+
+
+                    @Html.Partial("~/Views/Shared/_Partial/_Paging.cshtml", Model.list.pagerOptions);
+                }
+                else
+                {
+                    <div class="no_list_wrap">
+                        <img src="~/Content/images/no_list.svg" alt="">
+                        <p>리스트가 없습니다.</p>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 카테고리 추가 팝업 -->
+    <div class="ca_pop_dim common_pop_dim"></div>
+    <section class="ca_popup common_popup">
+        <span class="ca_close common_close">
+            <img src="~/Content/images/close.svg" alt="닫기">
+        </span>
+        <p class="popup_tit">모임 카테고리 추가</p>
+
+        <div class="ca_wrap">
+            <form action="">
+                <div class="ca_input_box">
+                    <input type="text" id="category" placeholder="입력란에 추가할 카테고리를 입력해주세요.">
+                    <span class="add_cbtn" onclick="alertBox('추후 구현 예정입니다.')">추가</span>
+                </div>
+                <ul class="ca_list_box">
+                </ul>
+            </form>
+        </div>
+    </section>
+
+</form>
+
+        <script>
+            //회원정보 더보기
+            $(function () {
+                $('.mem_more').click(function () {
+                    $(".member_popup").show();
+                    $(".mem_pop_dim").show();
+                });
+
+                $(".mem_close, .mem_pop_dim").click(function () {
+                    $(".member_popup").hide();
+                    $(".mem_pop_dim").hide();
+                });
+            });
+
+            //모임 카테고리 추가
+            $(function () {
+                $('.category_btn').click(function () {
+                    $(".ca_popup ").show();
+                    $(".ca_pop_dim").show();
+                });
+
+                $(".ca_close, .ca_pop_dim").click(function () {
+                    $(".ca_popup ").hide();
+                    $(".ca_pop_dim").hide();
+                });
+            });
+
+            //모임 카테고리 추가시 작동
+            $(document).ready(function () {
+                $('.add_cbtn').click(function () {
+                    var category = $('#category').val().trim();
+                    if (category) {
+                        $('.ca_list_box').append('<li><p>' + category + '</p><div class="ca_btn"><span class="ca_modify">수정</span><span class="ca_del">삭제</span></div></li>');
+                        $('#category').val(''); // 입력란 초기화
+                    }
+                });
+
+                // 수정과 적용 기능
+                $('.ca_list_box').on('click', '.ca_modify', function () {
+                    var $this = $(this);
+                    var isEditing = $this.closest('li').find('.edit_input').length > 0;
+
+                    if (!isEditing) {
+                        // 수정 모드로 전환
+                        var currentText = $this.closest('li').find('p').text();
+                        var inputHtml = '<input type="text" class="edit_input" value="' + currentText + '">';
+                        $this.closest('li').find('p').replaceWith(inputHtml);
+                        $this.text('적용'); // 버튼 텍스트를 '적용'으로 변경
+                    } else {
+                        // 변경사항 적용
+                        var updatedText = $this.closest('li').find('.edit_input').val().trim();
+                        var pHtml = '<p>' + updatedText + '</p>';
+                        $this.closest('li').find('.edit_input').replaceWith(pHtml);
+                        $this.text('수정'); // 버튼 텍스트를 원래대로 '수정'으로 변경
+                    }
+                });
+
+                // 삭제 기능
+                $('.ca_list_box').on('click', '.ca_del', function () {
+                    $(this).closest('li').remove();
+                });
+            });
+
+            $("#searchString").keydown(function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // 기본 엔터 키 동작을 막음
+                    submitForm();
+                }
+            });
+
+            function submitForm() {
+                // 여기에 서브밋하는 코드를 추가합니다.
+                $("#myform").submit();
+            }
+        </script>

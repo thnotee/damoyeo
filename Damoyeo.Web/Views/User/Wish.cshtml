@@ -1,7 +1,7 @@
-﻿@using Damoyeo.Model.ViewModel
-@model  MeetupListVm
+﻿@using Damoyeo.Model.Model
+@model  IEnumerable<DamoyeoWishlist>
 @{
-    ViewBag.Title = "Wish";
+    ViewBag.Title = "찜 목록";
 }
 
 @section style
@@ -20,17 +20,17 @@
 
             <div class="my_common_list">
                 <ul>
-                    @if (Model.list.Any())
+                    @if (Model.Any())
                     {
-                        foreach (var item in Model.list)
+                        foreach (var item in Model)
                         {
 
                             <li>
                                 <div class="left">
 
-                                    @if (!string.IsNullOrEmpty(item.meetup_image))
+                                    @if (!string.IsNullOrEmpty(item.damoyeo_meetup.meetup_image))
                                     {
-                                        <img src="@item.meetup_image" alt="" class="mc_main_img" />
+                                        <img src="@item.damoyeo_meetup.meetup_image" alt="" class="mc_main_img" />
                                     }
                                     else
                                     {
@@ -39,9 +39,9 @@
                                     }
 
                                     <a href="/Meetup/Detail?meetup_id=@item.meetup_id" class="mcl_txt">
-                                        <p class="mlist_tit">[@item.Category.category_name] @item.meetup_name</p>
-                                        <span class="mlist_txt">@item.meeting_intro</span>
-                                        <span class="m_mark"><img src="~/Content/images/marker.svg" alt=""> @item.bname</span>
+                                        <p class="mlist_tit">[@item.damoyeo_meetup.Category.category_name] @item.damoyeo_meetup.meetup_name</p>
+                                        <span class="mlist_txt">@item.damoyeo_meetup.meeting_intro</span>
+                                        <span class="m_mark"><img src="~/Content/images/marker.svg" alt=""> @item.damoyeo_meetup.bname</span>
                                     </a>
                                 </div>
                                 <div class="right">
@@ -49,19 +49,19 @@
                                         <li>
                                             <img src="~/Content/images/mini_heart.svg" alt="">
                                             <span>찜</span>
-                                            <p>@(item.wish_count)명</p>
+                                            <p>@(item.damoyeo_meetup.wish_count)명</p>
                                         </li>
 
                                         <!-- 지원자 클릭시 지원자리스트 페이지 이동 -->
                                         <li>
                                             <img src="~/Content/images/mini_user.svg" alt="">
                                             <span>지원자</span>
-                                            <a href="/User/OpeningDetail?meetup_id=@item.meetup_id" class="ml_people">@(item.applications_count)명 <img src="~/Content/images/move_arrow.svg" alt=""></a>
+                                            <a href="/User/OpeningDetail?meetup_id=@item.meetup_id" class="ml_people">@(item.damoyeo_meetup.applications_count)명 <img src="~/Content/images/move_arrow.svg" alt=""></a>
                                         </li>
                                         <li>
                                             <img src="~/Content/images/mini_calendar.svg" alt="">
                                             <span>마감날짜</span>
-                                            <p>@item.application_edate</p>
+                                            <p>@item.damoyeo_meetup.application_edate</p>
                                         </li>
 
                                     </ul>
@@ -73,7 +73,7 @@
 
 
                 </ul>
-                @if (!Model.list.Any())
+                @if (!Model.Any())
                 {
                     <!-- 개설한 소모임 없을때 -->
                     <div class="no_list_wrap">

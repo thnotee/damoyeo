@@ -69,3 +69,4 @@
   overflow: hidden;
   position: relative;
 }
+.admin_login_wrap .right img {position: absolute;bottom: 0;left: 0;right: 0;}

@@ -1,0 +1,63 @@
+.meeting_wrap .list_common li:nth-of-type(1) {width: 25%;}
+.meeting_wrap .list_common li:nth-of-type(2) {width: 25%;}
+.meeting_wrap .list_common li:nth-of-type(3) {width: 10%;}
+.meeting_wrap .list_common li:nth-of-type(4) {width: 10%;}
+.meeting_wrap .list_common li:nth-of-type(5) {width: 10%;}
+.meeting_wrap .list_common li:nth-of-type(6) {width: 10%;}
+.meeting_wrap .list_common li:nth-of-type(7) {width: 10%;}
+
+
+/* 모임관리 상세 ************************************************/
+.meeting_dwrap .md_box {display: flex;}
+.meeting_dwrap .md_box .md_left {width: 60%; margin-right: 50px;} 
+.meeting_dwrap .md_box .md_right {width: 40%;} 
+.meeting_dwrap .md_box > div:last-of-type {margin-right: 0;}
+.meeting_dwrap .md_box .md_con {padding: 30px;border-radius: 5px;border: 1px solid #ededed;}
+.meeting_dwrap .md_box .md_move {text-align: right; margin-bottom: 10px;}
+.meeting_dwrap .md_box .md_move a {display: inline-block; font-size: 14px; background-color: #333d4b; border-radius: 4px; color: #fff; padding: 12px 16px 12px 20px;}
+.meeting_dwrap .md_box .md_move img {vertical-align: middle; margin-left: 10px;}
+
+
+
+.meeting_dwrap .md_con .md_info li {margin-bottom: 20px;display: flex;font-size: 14px;}
+.meeting_dwrap .md_con .md_info li:last-of-type {margin-bottom: 0;}
+.meeting_dwrap .md_con .md_info li .left {width: 120px; font-family: "Pretendard-SemiBold";}
+.meeting_dwrap .md_con .md_info li .right {width: calc(100% - 120px);}
+.meeting_dwrap .md_con .md_info .md_title {font-size: 20px; font-family: "Pretendard-SemiBold";}
+.meeting_dwrap .md_con .md_info .md_text {font-size: 16px;}
+.meeting_dwrap .md_con .md_info .md_line {border-bottom: 1px dashed #ddd;padding-bottom: 20px;margin-bottom: 20px;}
+.meeting_dwrap .md_con .md_info .md_hash span {background-color: #f0f0f0; font-size: 13px; padding: 5px 10px; border-radius: 3px; margin-right: 5px;} 
+.meeting_dwrap .md_info .over_mark {background-color: #e9f5f5; display: inline-block; color: #14c1c9; padding: 6px 8px; border-radius: 3px; font-family: "Pretendard-Light"; font-size: 13px;}
+
+.meeting_dwrap .md_img_wrap {display: flex; margin-bottom: 30px;}
+.meeting_dwrap .md_img_wrap img {width: 20%;}
+
+.mdj_list .join_p_tit {border-bottom: 1px solid #333d4b; margin-bottom: 20px; padding: 0 10px 10px; text-align: left;}
+.mdj_list .join_p_tit span {font-family: "Pretendard-Bold";}
+.mdj_list .join_p_tit img {vertical-align: middle;width: 12px;margin-left: 5px;}
+.mdj_list ul {display: grid;grid-template-columns: 1fr 1fr 1fr 1fr;grid-gap: 30px;padding: 0 20px;}
+.mdj_list ul li .join_img_name {display: flex; align-items: center;}
+.mdj_list ul li span {width: 35px; height: 35px; margin-right: 10px; border-radius: 50%; border: 1px solid #ededed; overflow: hidden; position: relative;}
+.mdj_list ul li img {width: 100%; height: 100%; object-fit: cover; min-width: 100%; min-height: 100%; position: absolute; transform: translate(-50%, -50%); top: 50%; left: 50%; border-radius: 50%;}
+.mdj_list ul li p {display: inline-block;font-size: 14px;width: calc(100% - 45px);line-height: 18px;}
+.mdj_list .join_img_name {cursor: pointer;}
+
+
+
+/* 카테고리 추가 ************************************************/
+.ca_popup {width: 430px;}
+.ca_popup .ca_input_box {display: flex; align-items: center;}
+.ca_popup .ca_input_box input {width: calc(100% - 85px);margin-right: 5px;height: 45px;font-size: 14px;}
+.ca_popup .add_cbtn {width: 80px;background-color: #0064ff;color: #fff;border-radius: 5px;text-align: center;height: 45px;line-height: 45px;cursor: pointer;font-size: 14px;}  
+.ca_popup .ca_list_box {padding: 20px 0 0;}
+.ca_popup .ca_list_box li {display: flex;font-size: 14px;border-bottom: 1px dashed #ddd;padding: 0 10px 10px;margin-bottom: 10px;align-items: center;line-height: 22px;}
+.ca_popup .ca_list_box li:last-of-type {margin-bottom: 0; padding-bottom: 0; border: none;}
+
+.ca_popup .ca_list_box li p {width: calc(100% - 110px);}
+.ca_popup .ca_list_box li .edit_input {width: calc(100% - 110px); height: 45px;}
+.ca_popup .ca_list_box li .ca_btn {display: flex;align-items: center;margin-left: 5px;}
+.ca_popup .ca_list_box li .ca_btn > span {display: inline-block;padding: inherit;cursor: pointer;font-size: 13px;border-radius: 5px;height: 45px;line-height: 45px;width: 50px;text-align: center;}
+.ca_popup .ca_list_box li .ca_modify {color: #14c1c9;
+    background-color: #e9f5f5; margin-right: 5px;}
+.ca_popup .ca_list_box li .ca_del {color: #f47c7c;
+    background-color: #fce9ef;}

@@ -157,8 +157,10 @@ $(function () {
 });
 
 //마이페이지 상단 메뉴명 on붙은 부분 보여지게
+
+/*
 $(document).ready(function () {
     var activeItem = $('.my_move .on');
     var activeItemOffset = activeItem.closest('li').position().left;
     $('.my_move ul').scrollLeft(activeItemOffset - activeItem.width());
-});
+});*/

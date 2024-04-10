@@ -28,22 +28,25 @@
                             @foreach (var item in Model)
                             {
 
-
                                 <!-- 지원자명 클릭시 지원자 정보 팝업-->
                                 <li>
                                     <div class="join_img_name" onclick="GetUserInfo('@item.application_user.email')">
-                                        @if (string.IsNullOrEmpty(item.application_user.profile_image))
-                                        {
-                                            <img src="~/Content/images/profile.png" alt="">
-                                        }
-                                        else
-                                        {
-                                            <img src="@item.application_user.profile_image" alt="">
-                                        }
-
+                                        <span>
+                                            @if (string.IsNullOrEmpty(item.application_user.profile_image))
+                                            {
+                                                <img src="~/Content/images/profile.png" alt="">
+                                            }
+                                            else
+                                            {
+                                                <img src="@item.application_user.profile_image" alt="">
+                                            }
+                                        </span>
                                         <p>@item.application_user.nickname</p>
                                     </div>
                                 </li>
+
+
+
                             }
 
 
@@ -64,6 +67,8 @@
             </div>
         </div>
 
+
+
         <!-- 지원자 정보 팝업 -->
         <div class="meminfo_popup_dim common_pop_dim"></div>
         <section class="meminfo_popup common_popup">
@@ -74,18 +79,18 @@
 
             <ul class="meminfo_box">
                 <li>
-                    <span>닉네임</span>
-                    <p>두루치기</p>
+                    <span >닉네임</span>
+                    <p id="nickname"></p>
                 </li>
                 <li>
                     <span>자기소개</span>
-                    <p>
-                        안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요?안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요?안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요?안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요?안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요?안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요?
+                    <p id="slf_Intro">
+                       
                     </p>
                 </li>
                 <li>
                     <span>관심카테고리</span>
-                    <p>교육/어학, 교육/어학, 교육/어학, 교육/어학, 교육/어학, 교육/어학, 교육/어학, 교육/어학</p>
+                    <p id="categoty"></p>
                 </li>
             </ul>
         </section>
@@ -98,28 +103,27 @@
     <script>
 
         function GetUserInfo(email) {
-            console.log(email)
+            
             $.ajax({
                 type: 'POST',
-                url: '/User/GetUserInfo', // 요청을 보낼 서버 측 URL
-                data: { email: email }, // 전송할 데이터
+                url: '/User/GetUserInfo', 
+                data: { email: email }, 
                 success: function (response) {
-                    // 성공적으로 요청을 처리했을 때 실행할 코드
-                    console.log(response);
-                    if (response.seccess) {
+                    if (response.success) {
                         if (response.data) {
+                            $("#nickname").html(response.data.userInfo.nickname)
+                            $("#slf_Intro").html(response.data.userInfo.slf_Intro)
 
+                            if (response.data.interestCategory.length > 0)
+                            {
+                                var categoty = response.data.interestCategory.join(',');
+                                $("#categoty").html(categoty);
+                            }
                         }
-                        else {
-
-                        }
-
-
                     }
                 },
-                error: function (xhr, status, error) {
-                    // 요청이 실패했을 때 실행할 코드
-                    console.error(xhr.responseText);
+                error: function (xhr) {
+                    console.error(xhr);
                 }
             });
         }

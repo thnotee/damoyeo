@@ -142,13 +142,67 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\MeetupController.cs" />
+    <Compile Include="Controllers\CommunityController.cs" />
+    <Compile Include="Controllers\NoticeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filter\Auth.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\admin.css" />
+    <Content Include="Content\css\ad_common.css" />
+    <Content Include="Content\css\ad_header.css" />
+    <Content Include="Content\css\ad_login.css" />
+    <Content Include="Content\css\community.css" />
+    <Content Include="Content\css\event.css" />
+    <Content Include="Content\css\font.css" />
+    <Content Include="Content\css\meeting.css" />
+    <Content Include="Content\css\member.css" />
+    <Content Include="Content\css\notice.css" />
+    <Content Include="Content\images\arrow.svg" />
+    <Content Include="Content\images\close.svg" />
+    <Content Include="Content\images\del_btn.svg" />
+    <Content Include="Content\images\favicon.ico" />
+    <Content Include="Content\images\icon1.svg" />
+    <Content Include="Content\images\icon1_on.svg" />
+    <Content Include="Content\images\icon2.svg" />
+    <Content Include="Content\images\icon2_on.svg" />
+    <Content Include="Content\images\icon3.svg" />
+    <Content Include="Content\images\icon3_on.svg" />
+    <Content Include="Content\images\icon4.svg" />
+    <Content Include="Content\images\icon4_on.svg" />
+    <Content Include="Content\images\icon5.svg" />
+    <Content Include="Content\images\icon5_on.svg" />
+    <Content Include="Content\images\icon6.svg" />
+    <Content Include="Content\images\icon6_on.svg" />
+    <Content Include="Content\images\kakao.svg" />
+    <Content Include="Content\images\login_img.png" />
+    <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\mark.png" />
+    <Content Include="Content\images\mark_wh.png" />
+    <Content Include="Content\images\more_b.svg" />
+    <Content Include="Content\images\more_btn.svg" />
+    <Content Include="Content\images\more_w.svg" />
+    <Content Include="Content\images\move_arrow.svg" />
+    <Content Include="Content\images\no_list.svg" />
+    <Content Include="Content\images\page_end.svg" />
+    <Content Include="Content\images\page_left.svg" />
+    <Content Include="Content\images\page_right.svg" />
+    <Content Include="Content\images\page_start.svg" />
+    <Content Include="Content\images\plus_btn.svg" />
+    <Content Include="Content\images\profile.png" />
+    <Content Include="Content\images\search.svg" />
+    <Content Include="Content\images\setting.svg" />
+    <Content Include="Content\images\setting_on.svg" />
+    <Content Include="Content\images\test.jpg" />
+    <Content Include="Content\images\user.svg" />
+    <Content Include="Content\js\ad_common.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -173,6 +227,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Views\Auth\Index.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Shared\_Partial\_Left.cshtml" />
+    <Content Include="Views\Meetup\Index.cshtml" />
+    <Content Include="Views\Meetup\Detail.cshtml" />
+    <Content Include="Views\Community\Index.cshtml" />
+    <Content Include="Views\Notice\Detail.cshtml" />
+    <Content Include="Views\Notice\Index.cshtml" />
+    <Content Include="Views\Shared\_Partial\_SweetAlert.cshtml" />
+    <Content Include="Views\Shared\_Partial\_Paging.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Damoyeo.DataAccess\Damoyeo.DataAccess.csproj">

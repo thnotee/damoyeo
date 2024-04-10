@@ -1,0 +1,342 @@
+﻿@using Damoyeo.Model.ViewModel
+@model MeetupDetailVm
+@{
+    ViewBag.Title = "Detail";
+}
+
+
+@section style{
+    <link rel="stylesheet" href="~/Content/css/meeting.css" />
+}
+<div class="admin_contents">
+    <!-- 래프트 고정 -->
+    @Html.Partial("_Partial/_Left")
+
+    <div class="right_con">
+        <div class="meeting_dwrap">
+            <h3>모임 관리</h3>
+
+            <div class="md_box">
+                <div class="md_left">
+                    <p class="mini_tit">모임상세</p>
+
+                    <div class="md_con">
+                        <div class="md_move">
+                            <a href="https://damoyeo.thweb.shop/Meetup/Detail?meetup_id=@Model.detail.meetup_id" target="_blank">홈페이지 바로가기<img src="~/Content/images/move_arrow.svg" alt=""></a>
+                        </div>
+                        <div class="md_img_wrap">
+                            @if (!string.IsNullOrEmpty(Model.detail.meetup_image))
+                            {
+                                <img src="@Damoyeo.Util.StringUtil.ReplaceFilePath(Model.detail.meetup_image)" alt="">
+                            }
+
+                            @if (Model.image.Any())
+                            {
+                                foreach (var item in Model.image)
+                                {
+
+                                    var imgSrc = item.directory_path + "/" + item.save_filename;
+                                    <img src="@Damoyeo.Util.StringUtil.ReplaceFilePath(imgSrc)" alt="">
+                                }
+
+                            }
+
+                        </div>
+
+                        <ul class="md_info">
+                            <li class="md_title">
+                                [@Model.detail.Category.category_name] @Model.detail.meetup_name
+                            </li>
+                            <li class="md_text md_line">
+                                @Model.detail.meeting_intro
+                            </li>
+                            <li>
+                                <div class="left">모임 활동 기간</div>
+                                <div class="right">@Model.detail.meeting_sdate ~ @Model.detail.meeting_edate</div>
+                            </li>
+                            <li class="md_line">
+                                <div class="left">모임 신청 기간</div>
+                                <div class="right">@Model.detail.application_sdate ~ @Model.detail.meeting_edate</div>
+                            </li>
+                            <li>
+                                <div class="left">문의 연락처</div>
+                                <div class="right">@Model.detail.phone_number</div>
+                            </li>
+                            <li class="md_line">
+                                <div class="left">문의 이메일</div>
+                                <div class="right">@Model.detail.email</div>
+                            </li>
+                            <li>
+                                <div class="left">모임 정원</div>
+                                <div class="right">@(Model.detail.max_user_count)명</div>
+                            </li>
+                            <li class="md_line">
+                                <div class="left">현재 지원 인원</div>
+                                <div class="right">20명</div>
+                            </li>
+                            <!--
+                            <li>
+                                <div class="left">모임 카테고리</div>
+                                <div class="right">교육/어학, 취업/자격증</div>
+                            </li>
+                                -->
+                            <li>
+                                <div class="left">모임 상세정보</div>
+                                <div class="right">@Model.detail.meetup_description</div>
+                            </li>
+                            <li>
+                                <div class="left">모임 위치</div>
+                                <div class="right">@Model.detail.post_name @Model.detail.post_detail</div>
+                            </li>
+                            <li>
+                                <div class="left">모임 태그</div>
+                                <div class="right">
+                                    <div class="md_hash">
+                                        @foreach (var tag in Model.Tags)
+                                        {
+                                            <span>@tag.tag.tag_name</span>
+                                        }
+                                    </div>
+                                </div>
+                            </li>
+                            @if (Model.detail.over_capacity == "1")
+                            {
+                                <li>
+                                    <p class="over_mark">＊ 정원을 초과하여 모집할 수 있는 모임입니다.</p>
+                                </li>
+
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="md_right">
+                    <p class="mini_tit">신청자 리스트</p>
+                    <div class="md_con">
+                        <div class="mdj_list">
+                            <p class="join_p_tit"><span>지원자 @Model.applicationList.Count()</span> / @Model.detail.max_user_count</p>
+
+                            <ul>
+                                <!-- 지원자명 클릭시 지원자 정보 팝업-->
+                                @if (Model.applicationList.Any())
+                                {
+                                    foreach (var item in Model.applicationList)
+                                    {
+                                        <li>
+                                            <div class="join_img_name" onclick = "GetUserInfo('@item.application_user.email')">
+                                                <span>
+
+                                                    @if (!string.IsNullOrEmpty(item.application_user.profile_image))
+                                                    {
+
+                                                        <img src="@Damoyeo.Util.StringUtil.ReplaceFilePath(item.application_user.profile_image)" alt="" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="/Content/images/profile.png" alt="" />
+                                                    }
+                                                </span>
+                                                <p>@item.application_user.nickname</p>
+                                            </div>
+                                        </li>
+
+                                    }
+
+                                }
+
+                            </ul>
+                        </div>
+
+
+                        @if (!Model.applicationList.Any())
+                        {
+                            <!-- 소모임 신청자 없을때 -->
+                            <div class="no_list_wrap">
+                                <img src="~/Content/images/no_list.svg" alt="">
+                                <p>소모임 신청자가 없습니다.</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- 회원정보 팝업 -->
+<!-- 회원정보 팝업 -->
+<div class="mem_pop_dim common_pop_dim"></div>
+<section class="member_popup common_popup">
+    <span class="mem_close common_close">
+        <img src="~/Content/images/close.svg" alt="닫기">
+    </span>
+    <p class="popup_tit">회원 정보</p>
+
+    <div class="member_info" id="member_info">
+
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        //회원정보 더보기
+        $(function () {
+            $('.join_img_name').click(function () {
+                $(".member_popup").show();
+                $(".mem_pop_dim").show();
+            });
+
+            $(".mem_close, .mem_pop_dim").click(function () {
+                $(".member_popup").hide();
+                $(".mem_pop_dim").hide();
+            });
+        });
+
+
+        function GetUserInfo(email) {
+            console.log(email)
+            
+            $.ajax({
+                type: 'POST',
+                url: '/User/GetUserInfo', // 요청을 보낼 서버 측 URL
+                data: { email: email }, // 전송할 데이터
+                success: function (response) {
+                    // 성공적으로 요청을 처리했을 때 실행할 코드
+                    console.log(response);
+                    if (response.success) {
+                        if (response.data) {
+                            console.log(response.data);
+                            var html = UserDetailHtml(response.data);
+                            $("#member_info").html(html);
+
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // 요청이 실패했을 때 실행할 코드
+                    console.error(xhr.responseText);
+                }
+            });
+            
+        }
+
+
+        function SetUserState(email) {
+
+            $.ajax({
+                type: 'POST',
+                url: '/User/UpdateUserState', // 요청을 보낼 서버 측 URL
+                data: { email: email }, // 전송할 데이터
+                success: function (response) {
+                    // 성공적으로 요청을 처리했을 때 실행할 코드
+                    console.log(response);
+                    if (response.success) {
+                        if (response.data == 1) {
+                            alertBox("회원 정지되었습니다.", reloadPage);
+                        }
+                        else {
+                            alertBox("회원 정지 해제 되었습니다.", reloadPage);
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // 요청이 실패했을 때 실행할 코드
+                    console.error(xhr.responseText);
+                }
+            });
+
+        }
+
+        // Date 객체를 "yyyy.MM.dd" 형식의 문자열로 변환하는 함수
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = ("0" + (date.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 +1을 해주고, 2자리가 되도록 앞에 0을 붙임
+            const day = ("0" + date.getDate()).slice(-2); // 일도 2자리가 되도록 앞에 0을 붙임
+
+            return `${year}.${month}.${day}`;
+        }
+
+
+        function UserDetailHtml(data) {
+            var profile_image = "/Content/images/profile.png";
+            if (data.userInfo.profile_image) {
+                profile_image = data.userInfo.profile_image;
+            }
+
+            var categoty = "";
+            if (data.interestCategory.length > 0) {
+                categoty = data.interestCategory.join(',');
+            }
+
+            var signUpPath = `<img src="~/Content/images/kakao.svg" alt="">`;
+            if (data.userInfo.signup_type == 0) {
+                signUpPath = `<img src="/Content/images/mark_wh.png" alt="">`;
+            }
+
+            // 추출한 타임스탬프를 Date 객체로 변환
+            var timestamp = parseInt(data.userInfo.reg_date.match(/\d+/)[0]);
+            var regDate = new Date(timestamp);
+
+            var stopButton = `<span class="mem_stop_btn mi_btn" onclick="SetUserState('${data.userInfo.email}')">정지</span>`;
+            if (data.userInfo.stop_tf == "1") {
+                stopButton = ` <span class="mem_go_btn mi_btn" onclick="SetUserState('${data.userInfo.email}')">해제</span>`
+            }
+
+            //stop_tf
+
+            var html = `
+        <div class="mi_top">
+    <span class="mi_profile">
+        <img src="${profile_image}" alt="">
+    </span>
+    <ul>
+        <li>
+            <span class="damoyeo_mark join_mark">
+                ${signUpPath}
+            </span>
+            <p class="mi_email">${data.userInfo.email}</p>
+        </li>
+        <li>${data.userInfo.nickname}</li>
+    </ul>
+</div>
+
+<div class="mi_middle mi_con">
+    <ul>
+        <li>
+            <div class="left">관심카테고리</div>
+            <div class="right">${categoty}</div>
+        </li>
+        <li>
+            <div class="left">자기소개</div>
+            <div class="right">${data.userInfo.slf_Intro}</div>
+        </li>
+    </ul>
+</div>
+
+<div class="mi_bottom mi_con">
+    <ul>
+        <li>
+            <div class="left">가입일</div>
+            <div class="right">${formatDate(regDate)}</div>
+        </li>
+        <li>
+            <div class="left">회원정지</div>
+            <div class="right">
+              ${stopButton}
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div class="withdrawal" onclick="alertBox('추후 구현 예정입니다.')">
+    <span>회원탈퇴</span>
+</div>
+
+     `
+
+            return html;
+        }
+    </script>
+}

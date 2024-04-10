@@ -255,7 +255,9 @@ SELECT * FROM (
           ,(SELECT COUNT(application_id) FROM Damoyeo_Applications where meetup_id = A.meetup_id ) as applications_count
           ,(select count(wish_id) from Damoyeo_Wishlist where meetup_id = A.meetup_id ) as wish_count
           ,B.category_name
+          ,C.nickname
 	  FROM Damoyeo_Meetup A INNER JOIN Damoyeo_Category B on A.category_id = b.category_id
+           INNER JOIN Damoyeo_User C on A.meetup_master_id = C.user_id
 	  where 
         A.use_tf = 1
         {whereSql}
@@ -266,13 +268,14 @@ WHERE
 
 
 
-            var items = await _connection.QueryAsync<DamoyeoMeetup, DamoyeoCategory, DamoyeoMeetup>(sql,
-                (meetup, category) =>
+            var items = await _connection.QueryAsync<DamoyeoMeetup, DamoyeoCategory, DamoyeoUser, DamoyeoMeetup>(sql,
+                (meetup, category, user) =>
                 {
                      meetup.Category = category;
+                    meetup.User = user;
                      return meetup;
                 },
-                option, transaction: _transaction, splitOn: "category_name");
+                option, transaction: _transaction, splitOn: "category_name,nickname");
             if (items.Any())
             {
                 return new PagedList<DamoyeoMeetup>(items, items.FirstOrDefault().total_count, page, pageSize);
@@ -282,7 +285,6 @@ WHERE
                 return new PagedList<DamoyeoMeetup>(Enumerable.Empty<DamoyeoMeetup>(), 0, 0, 0);
             }
 
-            throw new NotImplementedException();
         }
 
         public Task RemoveAsync(int id)

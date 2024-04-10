@@ -56,6 +56,8 @@ SELECT A.wish_id
 	  ,C.kakao_openchat_link
 	  ,C.bname
       ,C.application_edate
+      ,(SELECT COUNT(application_id) FROM Damoyeo_Applications where meetup_id = A.meetup_id ) as applications_count
+      ,(select count(wish_id) from Damoyeo_Wishlist where meetup_id = A.meetup_id ) as wish_count
 	  ,D.category_name
 FROM Damoyeo_Wishlist A INNER JOIN  Damoyeo_User  B ON (A.user_id = B.user_id)
 INNER JOIN 

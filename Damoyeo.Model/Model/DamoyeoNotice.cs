@@ -40,9 +40,15 @@ namespace Damoyeo.Model.Model
         ///          0 : 삭제
         /// </summary>
         public string use_tf { get; set; }
+
+        public int view_count { get; set; }
+
         /// <summary>
         /// 작성일
         /// </summary>
         public DateTime DATETIME { get; set; }
+
+        public DamoyeoUser User { get; set; }
+        
     }
 }

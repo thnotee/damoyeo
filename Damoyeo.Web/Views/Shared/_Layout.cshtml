@@ -38,13 +38,13 @@
             <nav class="pc_menu">
                 <ul>
                     <li>
-                        <a href="">모임</a>
+                        <a href="/Meetup/index">모임</a>
                     </li>
                     <li>
-                        <a href="">모임개설하기</a>
+                        <a href="/Meetup/Write">모임개설하기</a>
                     </li>
                     <li>
-                        <a href="">커뮤니티</a>
+                        <a href="/Community/Index">커뮤니티</a>
                     </li>
                     <li>
                         <a href="">고객지원</a>
@@ -52,13 +52,24 @@
                 </ul>
             </nav>
             <div class="user_wrap">
-                <a href="" class="mypage">
-                    <img src="~/Content/images/user.svg" alt="" />
-                </a>
+                @if (Damoyeo.Util.Manager.UserManager.IsLogin())
+                {
+                    <a href="/User/" class="mypage">
+                        <img src="~/Content/images/user.svg" alt="" />
+                    </a>
+                    <!-- 로그인후 -->
+                    <a href="/auth/logout" class="login pc_menu">로그아웃</a>
+                }
+                else
+                {
+                    <!-- 로그인전 -->
+                    <a href="/auth/login" class="login pc_menu">로그인</a>
+                }
+
                 <a href="javascript:void(0);" class="mo_menu hamburger">
                     <img src="~/Content/images/menu_btn.svg" alt="">
                 </a>
-                <a href="" class="login pc_menu">로그인</a>
+
             </div>
         </div>
 

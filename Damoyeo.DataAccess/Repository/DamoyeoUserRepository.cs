@@ -36,9 +36,9 @@ SELECT * FROM Damoyeo_User
         public async Task<int> AddAsync(DamoyeoUser entity)
         {
             var sql = @"
-INSERT INTO Damoyeo_User (email, password, profile_image, slf_Intro, nickname, use_tf, signup_type, reg_date)
+INSERT INTO Damoyeo_User (email, password, profile_image, slf_Intro, nickname, use_tf, signup_type, reg_date, stop_tf)
 OUTPUT INSERTED.user_id
-VALUES (@email, @password, @profile_image, @slf_Intro, @nickname, @use_tf, @signup_type, @reg_date);
+VALUES (@email, @password, @profile_image, @slf_Intro, @nickname, @use_tf, @signup_type, @reg_date, @stop_tf);
 ";
            return await _connection.QuerySingleAsync<int>(sql, entity, transaction: _transaction);
         }
@@ -47,39 +47,7 @@ VALUES (@email, @password, @profile_image, @slf_Intro, @nickname, @use_tf, @sign
 
         public async Task<PagedList<DamoyeoUser>> GetPagedListAsync(int page, int pageSize, string searchString = "")
         {
-            int startRange = ((page - 1) * pageSize) + 1;
-            int endRange = startRange + pageSize - 1;
-
-            var sql = @"
-SELECT * FROM (
-	SELECT 
-		ROW_NUMBER() over(order by A.board_id) as row_num
-		, COUNT(A.board_id) over() total_count
-		, A.board_id
-		, A.user_id
-		, A.title
-		, A.content
-		, A.post_date 
-		, B.nickname
-		FROM Damoyeo_Community A INNER JOIN Damoyeo_User B ON A.user_id = B.user_id
-		WHERE 
-		A.use_tf = 1
-) Z
-WHERE 
-Z.row_num BETWEEN @startRange AND @endRange;
-";
-
-
-
-            var items = await _connection.QueryAsync<DamoyeoUser>(sql, new { startRange, endRange }, transaction: _transaction);
-            if (items.Any())
-            {
-                return new PagedList<DamoyeoUser>(items, items.FirstOrDefault().total_count, page, pageSize);
-            }
-            else
-            {
-                return new PagedList<DamoyeoUser>(Enumerable.Empty<DamoyeoUser>(), 0, 0, 0);
-            }
+            throw new NotImplementedException();
         }
 
         public Task RemoveAsync(int id)
@@ -97,7 +65,8 @@ SET profile_image = @profile_image,
     slf_Intro = @slf_Intro,
     nickname = @nickname,
     use_tf = @use_tf,
-    signup_type = @signup_type
+    signup_type = @signup_type,
+    stop_tf = @stop_tf
 WHERE user_id = @user_id;
 
 ";
@@ -114,6 +83,58 @@ And nickname = @nickname
 ";
 
             return await _connection.QueryFirstOrDefaultAsync<DamoyeoUser>(sql, entity, transaction: _transaction);
+        }
+
+        public async Task<PagedList<DamoyeoUser>> GetUserPagedListAsync(int page, int pageSize, string searchString = "", int type = 0)
+        {
+            int startRange = ((page - 1) * pageSize) + 1;
+            int endRange = startRange + pageSize - 1;
+            string whereSql = "AND A.signup_type != 3";
+            //관리자 목록 가져오기
+            if (type != 0) 
+            {
+                whereSql = "AND A.signup_type == 3";
+            }
+            if (!string.IsNullOrEmpty(searchString)) 
+            {
+                whereSql += "AND A.nickname Like '%'+@searchString+'%'";
+            }
+
+
+            var sql = $@"
+  SELECT * FROM (
+  	SELECT 
+		ROW_NUMBER() over(order by A.user_id) as row_num
+		,COUNT(A.user_id) over() total_count
+		,A.user_id
+		,A.email
+		,A.profile_image
+		,A.slf_Intro
+		,A.nickname
+		,A.use_tf
+		,A.reg_date
+		,A.signup_type
+		,A.stop_tf
+		FROM Damoyeo_User A 
+		WHERE 
+		A.use_tf = 1
+		{whereSql}
+		) Z
+WHERE 
+Z.row_num BETWEEN 1 AND 10;
+";
+
+
+
+            var items = await _connection.QueryAsync<DamoyeoUser>(sql, new { startRange, endRange, searchString }, transaction: _transaction);
+            if (items.Any())
+            {
+                return new PagedList<DamoyeoUser>(items, items.FirstOrDefault().total_count, page, pageSize);
+            }
+            else
+            {
+                return new PagedList<DamoyeoUser>(Enumerable.Empty<DamoyeoUser>(), 0, 0, 0);
+            }
         }
     }
 }

@@ -22,6 +22,8 @@ namespace Damoyeo.Model.Model
         public string nickname { get; set; } // '닉네임'
         public string use_tf { get; set; } // '사용여부'
 
+        public string stop_tf { get; set; } // '사용여부'
+
         /// <summary>
         /// 회원가입 타입 
         ///         1: 카카오톡 회원가입

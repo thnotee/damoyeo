@@ -1,0 +1,301 @@
+﻿
+@using Damoyeo.Model.Model
+@using Damoyeo.Model.Model.Pager;
+@model PagedList<DamoyeoUser>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section style{
+
+    <link rel="stylesheet" href="~/Content/css/member.css" />
+}
+
+<form action="/User/Index" method="get" id="myform">
+
+
+    <div class="admin_contents">
+
+        <!-- 래프트 고정 -->
+        @Html.Partial("_Partial/_Left")
+
+        <div class="right_con">
+            <div class="member_wrap">
+                <h3>회원 관리</h3>
+
+                <div class="search_wrap">
+                    <input type="search" name="searchString" id="search_community" placeholder="검색어를 입력해주세요.">
+                    <span class="search_img">
+                        <img src="~/Content/images/search.svg" alt="">
+                    </span>
+                </div>
+
+                <ul class="list_tit list_common">
+                    <li>#</li>
+                    <li>아이디</li>
+                    <li>닉네임</li>
+                    <li>가입경로</li>
+                    <li>가입일</li>
+                    <li>회원상태</li>
+                    <li>더보기</li>
+                </ul>
+
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+
+
+                        <ul class="list_txt list_common">
+                            <li>@item.user_id</li>
+                            <li class="ad_pwrap">
+                                <span class="ad_profile">
+
+                                    @if (!string.IsNullOrEmpty(item.profile_image))
+                                    {
+
+                                        <img src="@Damoyeo.Util.StringUtil.ReplaceFilePath(item.profile_image)" alt="" />
+
+                                    }
+                                    else
+                                    {
+                                        <img src="/Content/images/profile.png" alt="" />
+                                    }
+                                </span>
+                                <p>@item.email</p>
+                            </li>
+                            <li>@item.nickname</li>
+                            <li>
+                                @if (item.signup_type == 0)
+                                {
+                                    <!-- 홈페이지 가입자일 경우-->
+                                    <span class="damoyeo_mark join_mark">
+                                        <img src="~/Content/images/mark_wh.png" alt="">
+                                    </span>
+                                }
+                                else
+                                {
+                                    <!-- 카카오 가입자일 경우-->
+                                    <span class="kakao_mark join_mark">
+                                        <img src="~/Content/images/kakao.svg" alt="">
+                                    </span>
+                                }
+
+                            </li>
+                            <li>@item.reg_date.ToString("yyyy.MM.dd")</li>
+                            <li>
+                                @if (item.stop_tf == "1")
+                                {
+                                    <span class="mem_stop">정지 계정</span>
+                                }
+                                else
+                                {
+                                    <span class="mem_go">활동 계정</span>
+                                }
+
+                            </li>
+                            <li>
+                                <span class="mem_more ad_btn" onclick="GetUserInfo('@item.email')">
+                                    <img src="~/Content/images/more_btn.svg" alt="">
+                                </span>
+                            </li>
+                        </ul>
+                    }
+
+                    @Html.Partial("~/Views/Shared/_Partial/_Paging.cshtml", Model.pagerOptions);
+
+                }
+                else
+                {
+                    <div class="no_list_wrap">
+                        <img src="~/Content/images/no_list.svg" alt="">
+                        <p>리스트가 없습니다.</p>
+                    </div>
+                }
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 회원정보 팝업 -->
+    <div class="mem_pop_dim common_pop_dim"></div>
+    <section class="member_popup common_popup">
+        <span class="mem_close common_close">
+            <img src="~/Content/images/close.svg" alt="닫기">
+        </span>
+        <p class="popup_tit">회원 정보</p>
+
+        <div class="member_info" id="member_info">
+
+        </div>
+    </section>
+
+</form>
+@section scripts{
+
+
+    <script>
+        //회원정보 더보기
+        $(function () {
+
+
+            $('.mem_more').click(function () {
+                $(".member_popup").show();
+                $(".mem_pop_dim").show();
+
+            });
+
+            $(".mem_close, .mem_pop_dim").click(function () {
+                $(".member_popup").hide();
+                $(".mem_pop_dim").hide();
+            });
+        });
+
+        function GetUserInfo(email) {
+
+            $.ajax({
+                type: 'POST',
+                url: '/User/GetUserInfo', // 요청을 보낼 서버 측 URL
+                data: { email: email }, // 전송할 데이터
+                success: function (response) {
+                    // 성공적으로 요청을 처리했을 때 실행할 코드
+                    console.log(response);
+                    if (response.success) {
+                        if (response.data) {
+                            console.log(response.data);
+                            var html = UserDetailHtml(response.data);
+                            $("#member_info").html(html);
+
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // 요청이 실패했을 때 실행할 코드
+                    console.error(xhr.responseText);
+                }
+            });
+
+        }
+
+
+        function SetUserState(email) {
+
+            $.ajax({
+                type: 'POST',
+                url: '/User/UpdateUserState', // 요청을 보낼 서버 측 URL
+                data: { email: email }, // 전송할 데이터
+                success: function (response) {
+                    // 성공적으로 요청을 처리했을 때 실행할 코드
+                    console.log(response);
+                    if (response.success) {
+                        if (response.data == 1) {
+                            alertBox("회원 정지되었습니다.", reloadPage);
+                        }
+                        else {
+                            alertBox("회원 정지 해제 되었습니다.", reloadPage);
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // 요청이 실패했을 때 실행할 코드
+                    console.error(xhr.responseText);
+                }
+            });
+
+        }
+
+        // Date 객체를 "yyyy.MM.dd" 형식의 문자열로 변환하는 함수
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = ("0" + (date.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 +1을 해주고, 2자리가 되도록 앞에 0을 붙임
+            const day = ("0" + date.getDate()).slice(-2); // 일도 2자리가 되도록 앞에 0을 붙임
+
+            return `${year}.${month}.${day}`;
+        }
+
+
+        function UserDetailHtml(data) {
+            var profile_image = "/Content/images/profile.png";
+            if (data.userInfo.profile_image) {
+                profile_image = data.userInfo.profile_image;
+            }
+
+            var categoty = "";
+            if (data.interestCategory.length > 0) {
+                categoty = data.interestCategory.join(',');
+            }
+
+            var signUpPath = `<img src="~/Content/images/kakao.svg" alt="">`;
+            if (data.userInfo.signup_type == 0) {
+                signUpPath = `<img src="/Content/images/mark_wh.png" alt="">`;
+            }
+
+            // 추출한 타임스탬프를 Date 객체로 변환
+            var timestamp = parseInt(data.userInfo.reg_date.match(/\d+/)[0]);
+            var regDate = new Date(timestamp);
+
+            var stopButton = `<span class="mem_stop_btn mi_btn" onclick="SetUserState('${data.userInfo.email}')">정지</span>`;
+            if (data.userInfo.stop_tf == "1") {
+                stopButton = ` <span class="mem_go_btn mi_btn" onclick="SetUserState('${data.userInfo.email}')">해제</span>`
+            }
+
+            //stop_tf
+
+            var html = `
+               <div class="mi_top">
+           <span class="mi_profile">
+               <img src="${profile_image}" alt="">
+           </span>
+           <ul>
+               <li>
+                   <span class="damoyeo_mark join_mark">
+                       ${signUpPath}
+                   </span>
+                   <p class="mi_email">${data.userInfo.email}</p>
+               </li>
+               <li>${data.userInfo.nickname}</li>
+           </ul>
+       </div>
+
+       <div class="mi_middle mi_con">
+           <ul>
+               <li>
+                   <div class="left">관심카테고리</div>
+                   <div class="right">${categoty}</div>
+               </li>
+               <li>
+                   <div class="left">자기소개</div>
+                   <div class="right">${data.userInfo.slf_Intro}</div>
+               </li>
+           </ul>
+       </div>
+
+       <div class="mi_bottom mi_con">
+           <ul>
+               <li>
+                   <div class="left">가입일</div>
+                   <div class="right">${formatDate(regDate)}</div>
+               </li>
+               <li>
+                   <div class="left">회원정지</div>
+                   <div class="right">
+                     ${stopButton}
+                   </div>
+               </li>
+           </ul>
+       </div>
+
+       <div class="withdrawal" onclick="alertBox('추후 구현 예정입니다.')">
+           <span>회원탈퇴</span>
+       </div>
+
+            `
+
+            return html;
+        }
+    </script>
+}

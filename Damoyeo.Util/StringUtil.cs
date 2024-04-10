@@ -32,5 +32,12 @@ namespace Damoyeo.Util
             return strHex;
 
         } /* GetSHA256 */
+
+
+        public static string ReplaceFilePath(string filePath = "") 
+        {
+            var ReplacePath = filePath.Replace("/Content/upload", "/fileimages");
+            return ReplacePath;
+        }
     }
 }

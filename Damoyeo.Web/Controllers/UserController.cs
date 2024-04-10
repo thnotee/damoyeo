@@ -101,7 +101,7 @@ namespace Damoyeo.Web.Controllers
             //관심 카테고리 삭제
             await _unitOfWork.UserInterestCategory.RemoveAsync(userCookie.UserId);
             //관심카테고리 추가
-            if (interest.Any())
+            if (interest != null)
             {
                 foreach (var item in interest)
                 {
@@ -143,7 +143,7 @@ namespace Damoyeo.Web.Controllers
         [AuthUserinfo]
         public async Task<ActionResult> OpeningDetail(int meetup_id)
         {
-            ViewBag.TabIndex = 2;
+            ViewBag.TabIndex = 4;
             DamoyeoApplications parameter = new DamoyeoApplications();
             parameter.meetup_id = meetup_id;
             IEnumerable<DamoyeoApplications> viewModel = await _unitOfWork.Applications.GetAllAsync(parameter);
@@ -170,14 +170,12 @@ namespace Damoyeo.Web.Controllers
         public async Task<ActionResult> Wish()
         {
             ViewBag.TabIndex = 4;
-            MeetupListVm viewModel = new MeetupListVm();
+         
 
-            viewModel.MeetupSearchOpt = new MeetupSearchOpt();
-            viewModel.MeetupSearchOpt.userId = UserManager.GetCookie().UserId;
+            DamoyeoWishlist parameter = new DamoyeoWishlist();
+            parameter.user_id = UserManager.GetCookie().UserId;
 
-            viewModel.list = await _unitOfWork.Meetup.GetPagedListAsync(1, 100, viewModel.MeetupSearchOpt);
-            viewModel.categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
-
+            IEnumerable<DamoyeoWishlist> viewModel = await _unitOfWork.Wishlist.GetAllAsync(parameter);
             return View(viewModel);
         }
 
@@ -232,18 +230,27 @@ namespace Damoyeo.Web.Controllers
             }
 
             var userParameter = new DamoyeoUser();
+            List<string> categoryList = new List<string>();
             userParameter.email = email;
 
             //회원정보를 가져옵니다.
             var userInfoFromDb = await _unitOfWork.Users.GetAsync(userParameter);
 
             var interestCategoryParameter = new DamoyeoUserInterestCategory();
-            interestCategoryParameter.user_id = userInfoFromDb.user_id;  
-            var interestCategoryFromDb = await _unitOfWork.UserInterestCategory.GetAsync(interestCategoryParameter);
+            interestCategoryParameter.user_id = userInfoFromDb.user_id;
+            IEnumerable<DamoyeoUserInterestCategory> interestCategoryFromDb = await _unitOfWork.UserInterestCategory.GetAllAsync(interestCategoryParameter);
+            if (interestCategoryFromDb.Any()) 
+            {
+                categoryList = interestCategoryFromDb.Select(x => x.Category.category_name).ToList();
+            }
             
+
             var returnDict = new Dictionary<string, object>();
+
+            userInfoFromDb.password = "";
+
             returnDict.Add("userInfo", userInfoFromDb);
-            returnDict.Add("interestCategory", interestCategoryFromDb);
+            returnDict.Add("interestCategory", categoryList);
             return Json(new { success = true, data = returnDict });
         }
 

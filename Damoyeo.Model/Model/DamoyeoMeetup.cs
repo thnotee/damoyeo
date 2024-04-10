@@ -143,6 +143,7 @@ namespace Damoyeo.Model.Model
         public int applications_count  { get; set; }
     
 
-    public DamoyeoCategory Category { get; set; }
+        public DamoyeoCategory Category { get; set; }
+        public DamoyeoUser User { get; set; }
     }
 }

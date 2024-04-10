@@ -2,9 +2,11 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Damoyeo.DataAccess.Repository;
 using Damoyeo.DataAccess.Repository.IRepository;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -45,10 +47,50 @@ namespace Damoyeo.Admin
 
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
-
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+        }
+
+        protected void Application_Error()
+        {
+
+            Exception exception = Server.GetLastError();
+            HttpException httpException = exception as HttpException;
+            // 오류 상태 코드를 가져옵니다.
+            int statusCode = (httpException != null) ? httpException.GetHttpCode() : 500;
+
+            //404를 제외한 상태코드에 로그를 남깁니다.
+            if (statusCode != 404)
+            {
+                string errorMessage = $@"RawUrl[ {Request.RawUrl} ]
+                                     UrlReferrer[ {Request.UrlReferrer} ]
+                                     USER IP[ {Request.UserHostAddress} ]";
+
+                /*
+                Log.Logger.Error(errorMessage);
+                if (httpException != null)
+                {
+                    Log.Logger.Error(httpException.Message);
+                    Log.Logger.Error(httpException.StackTrace);
+                }
+                else
+                {
+                    Log.Logger.Error(exception.Message);
+                    Log.Logger.Error(exception.StackTrace);
+                }
+                */
+            }
+
+#if DEBUG
+
+#else
+            Response.Clear();
+            Server.ClearError();
+            HttpContext.Current.Server.TransferRequest($"/fileimages/Error/index.asp?code={statusCode}");
+#endif
         }
     }
 }

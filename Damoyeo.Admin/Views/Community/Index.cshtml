@@ -1,0 +1,99 @@
+﻿@using Damoyeo.Model.Model;
+@using Damoyeo.Model.Model.Pager;
+@model PagedList<DamoyeoCommunity>
+@{
+    ViewBag.Title = "Index";
+}
+
+@section style{
+
+    <link rel="stylesheet" href="~/Content/css/community.css" />
+}
+<form action="/Community/Index" method="get" id="myform">
+    <div class="admin_contents">
+        <!-- 래프트 고정 -->
+        @Html.Partial("_Partial/_Left")
+
+        <div class="right_con">
+            <div class="com_wrap">
+                <h3>커뮤니티</h3>
+
+                <div class="search_wrap">
+                    <input type="search" name="searchString" id="searchString" placeholder="검색어를 입력해주세요.">
+                    <span class="search_img">
+                        <img src="~/Content/images/search.svg" alt="" onclick="submitForm();">
+                    </span>
+                </div>
+
+
+                <ul class="list_tit list_common">
+                    <li>제목</li>
+                    <li>작성자</li>
+                    <li>댓글수</li>
+                    <li>조회수</li>
+                    <li>삭제</li>
+                </ul>
+
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <ul class="list_txt list_common">
+                            <li>
+                                <a href="https://damoyeo.thweb.shop/Community/Detail?board_id=@item.board_id" target="_blank">@item.title</a>
+                            </li>
+                            <li>@item.User.nickname</li>
+                            <li>@item.comment_count</li>
+                            <li>@item.view_count</li>
+                            <li>
+                                <span class="delete_btn" onclick="DelCommunity(@item.board_id)">
+                                    <img src="~/Content/images/del_btn.svg" alt="">
+                                </span>
+                            </li>
+                        </ul>
+                    }
+                }
+                else
+                {
+                    <div class="no_list_wrap">
+                        <img src="~/Content/images/no_list.svg" alt="">
+                        <p>리스트가 없습니다.</p>
+                    </div>
+                }
+
+                @if (Model.Any())
+                {
+                    @Html.Partial("~/Views/Shared/_Partial/_Paging.cshtml", Model.pagerOptions);
+                }
+
+
+            </div>
+        </div>
+    </div>
+
+    </form>
+
+    @section scripts{
+        @Html.Partial("~/Views/Shared/_Partial/_SweetAlert.cshtml");
+
+        <script>
+
+            function DelCommunity(board_id) {
+
+                location.href = "/Community/Remove?board_id=" + board_id;
+            }
+
+            $("#searchString").keydown(function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // 기본 엔터 키 동작을 막음
+                    submitForm();
+                }
+            });
+
+            function submitForm() {
+                // 여기에 서브밋하는 코드를 추가합니다.
+                $("#myform").submit();
+            }
+        </script>
+
+    }

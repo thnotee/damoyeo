@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+}
+
+@section style{
+    <link rel="stylesheet" href="~/Content/css/notice.css" />
+}
+<form id="myform" method="post" action="/Notice/Detail"> 
+    <div class="admin_contents">
+        <!-- 래프트 고정 -->
+        @Html.Partial("_Partial/_Left")
+
+        <div class="right_con">
+            <div class="notice_dwrap">
+                <h3>공지사항 글쓰기</h3>
+
+                <div class="nd_box">
+                    <input type="text" id="title" name="title" placeholder="제목을 입력해주세요">
+                    <textarea name="content" id="content" cols="30" rows="10" placeholder="내용을 입력하세요."></textarea>
+
+                    <div class="cw_btn">
+                        <!-- 수정일때는 수정하기로 버튼명 변경 -->
+                        <span class="big_btn" onclick="myformSubmit();">등록하기</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+
+@section scripts{
+
+    <script src="https://cdn.tiny.cloud/1/ipga39m0e4iub3da2spb4imu9p4gc3w1yf36io9n0lsitrpf/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+            paste_data_images: true,
+            images_upload_url: '/Community/UploadImage',  // 서버의 이미지 업로드 URL
+        });
+
+
+        function myformSubmit() {
+
+            if ($("#title").val() == "") {
+                alertFocus("제목을 입력해주세요", $('#title'));
+                return false;
+            }
+
+            if ($("#content").val() == "") {
+                alertFocus("내용을 입력해주세요", $('#content'));
+                return false;
+            }
+
+
+            $("#myform").submit();
+
+        }
+
+
+
+    </script>
+
+}

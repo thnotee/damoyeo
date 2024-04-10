@@ -1,0 +1,13 @@
+
+
+.member_wrap {max-width: 1430px; width: 100%;}
+.member_wrap .ad_pwrap {display: flex; align-items: center; justify-content: center;}
+.member_wrap .mem_more img {vertical-align: middle;width: 100%;padding: 4px;}
+
+
+.member_wrap .mem_stop {color: #f47c7c;}
+.member_wrap .mem_go {color: #14c1c9;}
+
+
+
+

@@ -34,11 +34,20 @@ VALUES (@user_id, @category_id);
         public async Task<IEnumerable<DamoyeoUserInterestCategory>> GetAllAsync(DamoyeoUserInterestCategory entity)
         {
             var sql = @"
-SELECT interest_id, user_id, category_id FROM Damoyeo_User_InterestCategory
+SELECT A.interest_id, A.user_id, A.category_id, B.category_name FROM Damoyeo_User_InterestCategory A INNER JOIN Damoyeo_Category B ON A.category_id = B.category_id
 WHERE 
-user_id = @user_id;
+A.user_id = @user_id;
 ";
-            return await _connection.QueryAsync<DamoyeoUserInterestCategory>(sql, entity, _transaction);
+            return await _connection.QueryAsync<DamoyeoUserInterestCategory, DamoyeoCategory, DamoyeoUserInterestCategory>
+                (sql
+                , (interest, category) =>
+                {
+                    interest.Category = category;
+                    return interest;
+                }
+                , entity
+                , _transaction
+                , splitOn: "category_name");
         }
 
         public Task<DamoyeoUserInterestCategory> GetAsync(DamoyeoUserInterestCategory entity)

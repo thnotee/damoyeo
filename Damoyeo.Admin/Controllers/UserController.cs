@@ -25,6 +25,7 @@ namespace Damoyeo.Admin.Controllers
 
         public async Task<ActionResult> Index(int page = 1, string searchString = "")
         {
+            ViewBag.TabIndex = 1;
             PagedList<DamoyeoUser> userList =  await _unitOfWork.Users.GetUserPagedListAsync(page,10, searchString);
             userList.pagerOptions.Path = "/User/Index";
             userList.pagerOptions.AddQueryString = "searchString=" + searchString;

@@ -44,10 +44,14 @@
                 return false;
             }
 
-            if ($("#content").val() == "") {
+            var content = tinymce.get('content').getContent();
+
+            // 내용이 비었는지 확인합니다. 공백도 무시하고 싶다면 trim()을 사용합니다.
+            if (!content.trim()) {
                 alertFocus("내용을 입력해주세요", $('#content'));
                 return false;
             }
+            
             
        
             $("#myform").submit();

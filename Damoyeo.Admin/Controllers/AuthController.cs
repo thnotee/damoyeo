@@ -63,5 +63,18 @@ namespace Damoyeo.Admin.Controllers
             return View();
         }
 
+        public ActionResult Logout()
+        {
+            if (Request.Cookies["AdminCookie"] != null)
+            {
+                HttpCookie userCookie = Request.Cookies["AdminCookie"];
+                userCookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(userCookie);
+            }
+
+            return RedirectToAction("Index", "Auth");
+        }
+
+
     }
 }

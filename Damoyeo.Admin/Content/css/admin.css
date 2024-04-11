@@ -14,3 +14,21 @@
 .admin_wrap .admin_box .admin_modify .page_cbtn {width: 120px;background-color: #333d4b;border: 1px solid #333d4b;color: #fff;border-radius: 4px;display: inline-block;cursor: pointer;text-align: center;font-size: 14px;height: 46px;line-height: 45px;}
 .admin_wrap .admin_box .admin_modify input {width: 100%; font-size: 14px;}
 .admin_wrap .admin_box .admin_modify .big_btn {margin: 50px 0 30px;}
+
+@media screen and (max-width: 1200px) {
+    .admin_wrap .admin_box {display: inline-block;}    
+    .admin_wrap .admin_box > div {width: 100%;}
+    .admin_wrap .admin_box .admin_left {margin-right: 0;}
+}
+@media screen and (max-width: 787px) {
+    .admin_wrap .admin_box .admin_left {margin-bottom: 30px;}
+    .admin_wrap .admin_box .admin_article {padding: 30px 20px;}
+    .admin_wrap .admin_box .admin_modify ul li {display: inline-block; width: 100%;}
+    .admin_wrap .admin_box .admin_modify .left {width: 100%; font-size: 14px; margin-bottom: 10px;}
+    .admin_wrap .admin_box .admin_modify .right {width: 100%;}
+    .admin_wrap .admin_box .admin_modify input {padding: 12px;}
+
+    .admin_wrap .admin_box .admin_modify .new_pw_wrap {flex-direction: column;}
+}
+@media screen and (max-width: 374px) {
+}

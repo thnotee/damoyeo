@@ -1,32 +1,46 @@
 $(document).ready(function () {
-  $("a.on img").each(function () {
-    var src = $(this).attr("src");
-    if (!src.includes("_on")) { // "_on"이 이미 포함되어 있지 않다면 추가
-      $(this).attr("src", src.replace(".svg", "_on.svg"));
-    }
-  });
+    $("a.on img").each(function () {
+        var src = $(this).attr("src");
+        if (!src.includes("_on")) { // "_on"이 이미 포함되어 있지 않다면 추가
+            $(this).attr("src", src.replace(".svg", "_on.svg"));
+        }
+    });
 
-  // hover 이벤트
-  $(".left_menu a").hover(
-    function () {
-      // "on" 클래스가 없을 때만 실행
-      if (!$(this).hasClass("on")) {
-        $(this).find("img").attr(
-          "src",
-          $(this).find("img").attr("src").replace(".svg", "_on.svg")
-        );
-      }
-    },
-    function () {
-      // "on" 클래스가 없을 때만 실행
-      if (!$(this).hasClass("on")) {
-        $(this).find("img").attr(
-          "src",
-          $(this).find("img").attr("src").replace("_on.svg", ".svg")
-        );
-      }
-    }
-  );
+    // hover 이벤트
+    $(".left_menu a").hover(
+        function () {
+            // "on" 클래스가 없을 때만 실행
+            if (!$(this).hasClass("on")) {
+                $(this).find("img").attr(
+                    "src",
+                    $(this).find("img").attr("src").replace(".svg", "_on.svg")
+                );
+            }
+        },
+        function () {
+            // "on" 클래스가 없을 때만 실행
+            if (!$(this).hasClass("on")) {
+                $(this).find("img").attr(
+                    "src",
+                    $(this).find("img").attr("src").replace("_on.svg", ".svg")
+                );
+            }
+        }
+    );
+});
+
+//메뉴 열고닫기
+$(function () {
+    $(".hamburger").click(function () {
+        $(".left_menu").css("left", "0");
+        $(".left_dim").fadeIn();
+        $("body").addClass("hidden");
+    });
+    $(".mo_close, .left_dim").click(function () {
+        $(".left_menu").css("left", "-100%");
+        $(".left_dim").fadeOut();
+        $("body").removeClass("hidden");
+    });
 });
 
 

@@ -53,11 +53,52 @@
 .ca_popup .ca_list_box li {display: flex;font-size: 14px;border-bottom: 1px dashed #ddd;padding: 0 10px 10px;margin-bottom: 10px;align-items: center;line-height: 22px;}
 .ca_popup .ca_list_box li:last-of-type {margin-bottom: 0; padding-bottom: 0; border: none;}
 
-.ca_popup .ca_list_box li p {width: calc(100% - 110px);}
+.ca_popup .ca_list_box li p {width: calc(100% - 110px); word-break: break-word;}
 .ca_popup .ca_list_box li .edit_input {width: calc(100% - 110px); height: 45px;}
 .ca_popup .ca_list_box li .ca_btn {display: flex;align-items: center;margin-left: 5px;}
 .ca_popup .ca_list_box li .ca_btn > span {display: inline-block;padding: inherit;cursor: pointer;font-size: 13px;border-radius: 5px;height: 45px;line-height: 45px;width: 50px;text-align: center;}
-.ca_popup .ca_list_box li .ca_modify {color: #14c1c9;
-    background-color: #e9f5f5; margin-right: 5px;}
-.ca_popup .ca_list_box li .ca_del {color: #f47c7c;
-    background-color: #fce9ef;}
+.ca_popup .ca_list_box li .ca_modify {color: #14c1c9; background-color: #e9f5f5; margin-right: 5px;}
+.ca_popup .ca_list_box li .ca_del {color: #f47c7c; background-color: #fce9ef;}
+
+
+@media screen and (max-width: 1200px) {
+    .meeting_dwrap .md_con .md_info .md_line {line-height: 20px;}
+    .mdj_list ul {grid-template-columns: 1fr; grid-gap: 10px;}
+}
+@media screen and (max-width: 787px) {
+    .meeting_wrap .list_common li:nth-of-type(1),
+    .meeting_wrap .list_common li:nth-of-type(2),
+    .meeting_wrap .list_common li:nth-of-type(3),
+    .meeting_wrap .list_common li:nth-of-type(4),
+    .meeting_wrap .list_common li:nth-of-type(5),
+    .meeting_wrap .list_common li:nth-of-type(6),
+    .meeting_wrap .list_common li:nth-of-type(7) {width: 100%;}
+
+    .meeting_wrap .list_common li::before {display: inline-block; font-size: 14px; width: 100px;}
+    .meeting_wrap .list_common li:nth-of-type(1)::before {content: "모임명 : ";} 
+    .meeting_wrap .list_common li:nth-of-type(2)::before {content: "카테고리 : ";} 
+    .meeting_wrap .list_common li:nth-of-type(3)::before {content: "모임장 : ";} 
+    .meeting_wrap .list_common li:nth-of-type(4)::before {content: "정원수 : ";} 
+    .meeting_wrap .list_common li:nth-of-type(5)::before {content: "지원자수 : ";} 
+    .meeting_wrap .list_common li:nth-of-type(6)::before {content: "개설일 : ";} 
+
+    .ca_popup {width: 96%;}
+    .ca_popup .ca_list_box {max-height: 350px; overflow-y: auto;}
+    .ca_popup .ca_input_box {flex-wrap: wrap;}
+    .ca_popup .ca_input_box input {width: 100%; margin-right: 0;}
+    .ca_popup .add_cbtn {width: 100%; height: 35px; line-height: 35px; margin-top: 10px;}
+
+
+    .meeting_dwrap .md_box {display: inline-block;}
+    .meeting_dwrap .md_box .md_con {padding: 20px; width: 100%;}
+    .meeting_dwrap .md_box .md_left {width: 100%; margin-right: 0; margin-bottom: 30px;}
+    .meeting_dwrap .md_box .md_right {width: 100%;}
+    .meeting_dwrap .md_con .md_info .md_title {line-height: 24px;}
+
+    .meeting_dwrap .md_con .md_info li .right {word-break: break-word;}
+}
+@media screen and (max-width: 374px) {
+    .meeting_dwrap .md_con .md_info li .left {width: 100px;}
+    .meeting_dwrap .md_con .md_info li .right {width: calc(100% - 100px);}
+    .meeting_dwrap .md_con .md_info .md_hash span {display: inline-block; margin-bottom: 5px; margin-right: 0;}
+}

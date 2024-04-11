@@ -1,10 +1,17 @@
-﻿@{
+﻿@using Damoyeo.Model.Model.Pager
+@using Damoyeo.Model.Model
+@model DamoyeoUser
+@{
     ViewBag.Title = "Home Page";
+
+    var userList = ViewData["userList"] as PagedList<DamoyeoUser>;
 }
 
 @section style{
     <link rel="stylesheet" href="~/Content/css/admin.css" />
 }
+
+
 <div class="admin_contents">
     <!-- 래프트 고정 -->
     @Html.Partial("_Partial/_Left")
@@ -18,51 +25,51 @@
                     <p class="mini_tit">정보 수정</p>
 
                     <div class="admin_article admin_modify">
-                        <form action="">
+                        <form action="/Home/Index" method="post" id="myform">
                             <ul>
                                 <li>
-                                    <div class="left">직급</div>
+                                    <div class="left">부서/직급</div>
                                     <div class="right">
-                                        <input type="text" name="" id="" value="사원">
+                                        <input type="text" name="slf_Intro" id="slf_Intro" value="@Model.slf_Intro">
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="left">부서</div>
+                                    <div class="left">이름</div>
                                     <div class="right">
-                                        <input type="text" name="" id="" value="it팀">
+                                        <input type="text" name="nickname" id="nickname" value="@Model.nickname">
                                     </div>
                                 </li>
                                 <li>
                                     <div class="left">아이디</div>
                                     <div class="right">
-                                        <input type="text" name="" id="" value="dfdfdf">
+                                        <input type="text" name="" id="" value="@Model.email">
                                     </div>
                                 </li>
+
                                 <li>
                                     <div class="left">현재 비밀번호</div>
                                     <div class="right mo_txt">
-                                        <input type="password" name="" id="" value="">
+                                        <input type="password" name="password" id="password" value="">
                                         <span class="page_cbtn" id="pwChg">비밀번호 변경하기</span>
-                                        <p class="mo_mark">입력하신 비밀번호가 올바르지 않습니다.</p>
                                     </div>
                                 </li>
                                 <li class="new_pw_wrap">
                                     <div class="left">신규 비밀번호</div>
                                     <div class="right">
-                                        <input type="password" name="" id="" value="">
+                                        <input type="password" name="new_password" id="new_password" value="">
                                     </div>
                                 </li>
                                 <li class="new_pw_wrap">
                                     <div class="left">신규 비밀번호 확인</div>
                                     <div class="right">
-                                        <input type="password" name="" id="" value="">
-                                        <p class="mo_mark">입력하신 비밀번호와 확인란의 비밀번호가 일치하지 않습니다.</p>
+                                        <input type="password" name="new_confirm_password" id="new_confirm_password" value="" onkeyup="PwCheck()">
+                                        <p class="mo_mark" id="pw_check_msg"></p>
                                     </div>
                                 </li>
                             </ul>
                         </form>
 
-                        <div class="cw_btn">
+                        <div class="cw_btn" id="modify_btn">
                             <span class="big_btn">수정하기</span>
                         </div>
                     </div>
@@ -71,35 +78,32 @@
                     <p class="mini_tit">관리자 리스트</p>
                     <div class="admin_article">
                         <ul class="list_tit list_common">
-                            <li>직급</li>
-                            <li>부서</li>
-                            <li>아이디</li>
+                            <li>직급/부서</li>
                             <li>이름</li>
+                            <li>아이디</li>
                             <li>삭제</li>
                         </ul>
 
-                        <ul class="list_txt list_common">
-                            <li>사원</li>
-                            <li>it팀</li>
-                            <li>enjd</li>
-                            <li>박수정</li>
-                            <li>
-                                <span class="delete_btn">
-                                    <img src="~/Content/images/del_btn.svg" alt="">
-                                </span>
-                            </li>
-                        </ul>
-                        <ul class="list_txt list_common">
-                            <li>사원</li>
-                            <li>it팀</li>
-                            <li>enjd</li>
-                            <li>박수정</li>
-                            <li>
-                                <span class="delete_btn">
-                                    <img src="~/Content/images/del_btn.svg" alt="">
-                                </span>
-                            </li>
-                        </ul>
+                        @if (userList.Any())
+                        {
+                            foreach (var item in userList)
+                            {
+                                <ul class="list_txt list_common">
+
+
+                                    <li>@item.slf_Intro</li>
+                                    <li>@item.nickname</li>
+                                    <li>@item.email</li>
+                                    <li>
+                                        <span class="delete_btn" onclick="alertBox('관리자 삭제는 금지되어 있습니다.')">
+                                            <img src="~/Content/images/del_btn.svg" alt="">
+                                        </span>
+                                    </li>
+                                </ul>
+                            }
+
+                        }
+
                     </div>
                 </div>
             </div>
@@ -108,69 +112,48 @@
 </div>
 
 
-<!-- 회원정보 팝업 -->
-<div class="mem_pop_dim common_pop_dim"></div>
-<section class="member_popup common_popup">
-    <span class="mem_close common_close">
-        <img src="~/Content/images/close.svg" alt="닫기">
-    </span>
-    <p class="popup_tit">회원 정보</p>
-
-    <div class="member_info">
-        <div class="mi_top">
-            <span class="mi_profile">
-                <img src="~/Content/images/profile.png" alt="">
-            </span>
-            <ul>
-                <li>
-                    <span class="damoyeo_mark join_mark">
-                        <img src="~/Content/images/mark_wh.png" alt="">
-                    </span>
-                    <p class="mi_email">dlfdsmfdsjf@gmail.com</p>
-                </li>
-                <li>두덩어리</li>
-            </ul>
-        </div>
-
-        <div class="mi_middle mi_con">
-            <ul>
-                <li>
-                    <div class="left">관심카테고리</div>
-                    <div class="right">교육/어학, 취업/자격증</div>
-                </li>
-                <li>
-                    <div class="left">자기소개</div>
-                    <div class="right">안녕하세요</div>
-                </li>
-            </ul>
-        </div>
-
-        <div class="mi_bottom mi_con">
-            <ul>
-                <li>
-                    <div class="left">가입일</div>
-                    <div class="right">2024.03.08</div>
-                </li>
-                <li>
-                    <div class="left">회원정지</div>
-                    <div class="right">
-                        <span class="mem_stop_btn mi_btn">정지</span>
-                        <span class="mem_go_btn mi_btn">해제</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <div class="withdrawal">
-            <span>회원탈퇴</span>
-        </div>
-    </div>
-</section>
-
-<script>
-    $(function () {
-        $("#pwChg").click(function () {
-            $(".new_pw_wrap").css({ display: "flex" });
+@section scripts{
+    @Html.Partial("~/Views/Shared/_Partial/_SweetAlert.cshtml")
+    <script>
+        $(function () {
+            $("#pwChg").click(function () {
+                $(".new_pw_wrap").css({ display: "flex" });
+            });
         });
-    });
-</script>
+
+
+        function PwCheck() {
+            var password = $("#new_password").val();
+            var confirmPassword = $("#new_confirm_password").val();
+
+            if (password == confirmPassword) {
+                $("#pw_check_msg").html("비밀번호가 일치합니다.").css('color', 'green');
+                return true;
+            } else {
+                $("#pw_check_msg").html("입력하신 비밀번호와 확인란의 비밀번호가 일치하지 않습니다.").css('color', '#d83d3d');
+                return false;
+            }
+        }
+
+        $("#modify_btn").on("click", function () {
+
+            if ($("#password").val() == "") {
+                alertFocus("비밀번호를 입력해주세요", $('#password'));
+                return false;
+            }
+
+            if ($("#new_password").val() != "") {
+
+                if (!PwCheck()) {
+                    alertFocus("비밀번호와 확인값이 일치하지 않습니다.", $('#new_password'));
+                    return false;
+                }
+            }
+
+            $("#myform").submit();
+
+        });
+    </script>
+
+}
+

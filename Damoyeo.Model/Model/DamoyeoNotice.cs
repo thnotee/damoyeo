@@ -46,7 +46,7 @@ namespace Damoyeo.Model.Model
         /// <summary>
         /// 작성일
         /// </summary>
-        public DateTime DATETIME { get; set; }
+        public DateTime post_date { get; set; }
 
         public DamoyeoUser User { get; set; }
         

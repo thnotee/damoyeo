@@ -13,7 +13,7 @@
         <div class="inner sub_inner">
             <h3 class="section_title">커뮤니티 글쓰기</h3>
             <div class="cw_box">
-                <input type="text" placeholder="제목을 입력해주세요" name="title" value="@Model.title">
+                <input type="text" placeholder="제목을 입력해주세요" name="title" value="@Html.Raw(Server.HtmlDecode(Model.title))">
                 <textarea name="content" id="" cols="30" rows="10" placeholder="내용을 입력하세요.">@Html.Raw(Server.HtmlDecode(Model.content))</textarea>
             </div>
 

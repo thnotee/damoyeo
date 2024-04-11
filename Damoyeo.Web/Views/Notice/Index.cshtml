@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@section style
+{
+    <link rel="stylesheet" href="~/Content/css/customer.css" />
+}
+
+
+
+<div class="section_wrap customer_wrap">
+    <div class="inner sub_inner">
+        <h3 class="section_title">고객지원</h3>
+
+        <div class="cu_tap">
+            <ul class="tabmenu">
+                <li class="on" data-tab="tab_1">공지사항</li>
+                <li data-tab="tab_2">이벤트</li>
+            </ul>
+
+            <div class="detail_tap">
+                <div class="tab_content on" id="tab_1">
+                    <div class="notice_wrap">
+                        <ul>
+                            <li>
+                                <a href="">
+                                    <span class="notice_mark">공지사항</span>
+                                    <p class="notice_tit">공지사항 제목들어갑니다옹</p>
+                                    <p class="notice_date">2023.07.21</p>
+                                    <img src="~/Content/images/more_btn.svg" alt="" />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span class="notice_mark">공지사항</span>
+                                    <p class="notice_tit">공지사항 제목들어갑니다옹</p>
+                                    <p class="notice_date">2023.07.21</p>
+                                    <img src="~/Content/images/more_btn.svg" alt="" />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span class="notice_mark">공지사항</span>
+                                    <p class="notice_tit">공지사항 제목들어갑니다옹</p>
+                                    <p class="notice_date">2023.07.21</p>
+                                    <img src="~/Content/images/more_btn.svg" alt="" />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span class="notice_mark">공지사항</span>
+                                    <p class="notice_tit">공지사항 제목들어갑니다옹</p>
+                                    <p class="notice_date">2023.07.21</p>
+                                    <img src="~/Content/images/more_btn.svg" alt="" />
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="page_btn">
+                        <ul>
+                            <li>
+                                <a href=""><img src="~/Content/images/page_start.svg" alt="" /></a>
+                                <a href=""><img src="~/Content/images/page_left.svg" alt="" /></a>
+                            </li>
+                            <li class="num">
+                                <a href="" class="page_on">1</a>
+                                <a href="">2</a>
+                                <a href="">3</a>
+                            </li>
+                            <li>
+                                <a href=""><img src="~/Content/images/page_right.svg" alt="" /></a>
+                                <a href=""><img src="~/Content/images/page_end.svg" alt="" /></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab_content" id="tab_2">
+                    <div class="event_wrap">
+                        <div class="ev_box">
+                            <!-- 종료시 a태그에 close -->
+                            <a href="" class="close">
+                                <p>
+                                    <img src="~/Content/images/customer/ev_banner.jpg" alt="" />
+                                    <span class="ev_dim"></span>
+                                </p>
+                                <span class="ev_tit">[종료] 이달의 소모임왕 이벤트</span>
+                                <span class="ev_date">2024.03.05 - 종료시까지</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+      $(document).ready(function () {
+        $(".tabmenu li").click(function () {
+          var tab_id = $(this).attr("data-tab");
+
+          $(".detail_tap .tab_content").removeClass("on");
+          $("#" + tab_id).addClass("on");
+
+          //꾸며주는 요소
+          $(".tabmenu li").removeClass("on");
+          $(this).addClass("on");
+        });
+      });
+</script>

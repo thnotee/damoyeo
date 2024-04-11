@@ -1,145 +1,104 @@
-﻿
+﻿@using Damoyeo.Model.Model
+@using Damoyeo.Model.Model.Pager
+@model  PagedList<DamoyeoNotice>
 @{
     ViewBag.Title = "NoticeController";
 }
 @section style{
     <link rel="stylesheet" href="~/Content/css/notice.css" />
 }
-<div class="admin_contents">
-    <!-- 래프트 고정 -->
-    @Html.Partial("_Partial/_Left")
 
-    <div class="right_con">
-        <div class="com_wrap">
-            <h3>공지사항</h3>
+<form action="/Notice/Index" method="get" id="myform">
+    <div class="admin_contents">
+        <!-- 래프트 고정 -->
+        @Html.Partial("_Partial/_Left")
 
-            <div class="search_wrap">
-                <input type="search" name="" id="search_community" placeholder="검색어를 입력해주세요.">
-                <span class="search_img">
-                    <img src="~/Content/images/search.svg" alt="">
-                </span>
-            </div>
+        <div class="right_con">
+            <div class="com_wrap">
+                <h3>공지사항</h3>
 
-
-            <ul class="list_tit list_common">
-                <li>제목</li>
-                <li>작성자</li>
-                <li>댓글수</li>
-                <li>조회수</li>
-                <li>삭제</li>
-            </ul>
-
-            <ul class="list_txt list_common">
-                <li>
-                    <a href="/Notice/Detail" >안녕하세요 봄날씨가 쌀쌀 안녕하세요 봄날씨가 쌀쌀</a>
-                </li>
-                <li>두덩어리</li>
-                <li>200</li>
-                <li>200</li>
-                <li>
-                    <span class="delete_btn">
-                        <img src="~/Content/images/del_btn.svg" alt="">
+                <div class="search_wrap">
+                    <input type="search" name="" id="search_community" placeholder="검색어를 입력해주세요.">
+                    <span class="search_img">
+                        <img src="~/Content/images/search.svg" alt="">
                     </span>
-                </li>
-            </ul>
+                </div>
 
-            <div class="no_list_wrap">
-                <img src="~/Content/images/no_list.svg" alt="">
-                <p>리스트가 없습니다.</p>
-            </div>
-
-            <div class="page_btn">
-                <ul>
-                    <li>
-                        <a href=""><img src="~/Content/images/page_start.svg" alt="" /></a>
-                        <a href=""><img src="~/Content/images/page_left.svg" alt="" /></a>
-                    </li>
-                    <li class="num">
-                        <a href="" class="page_on">1</a>
-                        <a href="">2</a>
-                        <a href="">3</a>
-                    </li>
-                    <li>
-                        <a href=""><img src="~/Content/images/page_right.svg" alt="" /></a>
-                        <a href=""><img src="~/Content/images/page_end.svg" alt="" /></a>
-                    </li>
+                <div class="common_btn">
+                    <a href="/Notice/Detail">작성하기</a>
+                </div>
+                <ul class="list_tit list_common">
+                    <li>제목</li>
+                    <li>작성자</li>
+                    <!--<li>댓글수</li>-->
+                    <li>조회수</li>
+                    <li>삭제</li>
                 </ul>
+
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <ul class="list_txt list_common">
+                            <li>
+                                <a href="/Notice/Detail?board_id=@item.board_id">@item.title</a>
+                            </li>
+                            <li>@item.User.nickname</li>
+
+                            <li>@item.view_count</li>
+                            <li>
+                                <span class="delete_btn" onclick="DelNotice(@item.board_id)">
+                                    <img src="~/Content/images/del_btn.svg" alt="">
+                                </span>
+                            </li>
+                        </ul>
+                    }
+
+                }
+                else
+                {
+                    <div class="no_list_wrap">
+                        <img src="~/Content/images/no_list.svg" alt="">
+                        <p>리스트가 없습니다.</p>
+                    </div>
+
+                }
+
+
+
+                @if (Model.Any())
+                {
+                    @Html.Partial("~/Views/Shared/_Partial/_Paging.cshtml", Model.pagerOptions);
+                }
             </div>
         </div>
     </div>
-</div>
 
 
-<!-- 회원정보 팝업 -->
-<div class="mem_pop_dim common_pop_dim"></div>
-<section class="member_popup common_popup">
-    <span class="mem_close common_close">
-        <img src="~/Content/images/close.svg" alt="닫기">
-    </span>
-    <p class="popup_tit">회원 정보</p>
+</form>
+@section scripts
+{
+        @Html.Partial("~/Views/Shared/_Partial/_SweetAlert.cshtml")
+        <script>
 
-    <div class="member_info">
-        <div class="mi_top">
-            <span class="mi_profile">
-                <img src="~/Content/images/profile.png" alt="">
-            </span>
-            <ul>
-                <li>
-                    <span class="damoyeo_mark join_mark">
-                        <img src="~/Content/images/mark_wh.png" alt="">
-                    </span>
-                    <p class="mi_email">dlfdsmfdsjf@gmail.com</p>
-                </li>
-                <li>두덩어리</li>
-            </ul>
-        </div>
+            function DelNotice(board_id) {
 
-        <div class="mi_middle mi_con">
-            <ul>
-                <li>
-                    <div class="left">관심카테고리</div>
-                    <div class="right">교육/어학, 취업/자격증</div>
-                </li>
-                <li>
-                    <div class="left">자기소개</div>
-                    <div class="right">안녕하세요</div>
-                </li>
-            </ul>
-        </div>
+                location.href = "/Notice/Remove?board_id=" + board_id;
+            }
 
-        <div class="mi_bottom mi_con">
-            <ul>
-                <li>
-                    <div class="left">가입일</div>
-                    <div class="right">2024.03.08</div>
-                </li>
-                <li>
-                    <div class="left">회원정지</div>
-                    <div class="right">
-                        <span class="mem_stop_btn mi_btn">정지</span>
-                        <span class="mem_go_btn mi_btn">해제</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
+            $("#searchString").keydown(function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // 기본 엔터 키 동작을 막음
+                    submitForm();
+                }
+            });
 
-        <div class="withdrawal">
-            <span>회원탈퇴</span>
-        </div>
-    </div>
-</section>
+            function submitForm() {
+                // 여기에 서브밋하는 코드를 추가합니다.
+                $("#myform").submit();
+            }
 
-<script>
-    //회원정보 더보기
-    $(function () {
-        $('.mem_more').click(function () {
-            $(".member_popup").show();
-            $(".mem_pop_dim").show();
-        });
+        </script>
 
-        $(".mem_close, .mem_pop_dim").click(function () {
-            $(".member_popup").hide();
-            $(".mem_pop_dim").hide();
-        });
-    });
-</script>
+    }
+

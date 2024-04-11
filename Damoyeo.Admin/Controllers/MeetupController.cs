@@ -26,6 +26,7 @@ namespace Damoyeo.Admin.Controllers
              , string searchArea = "", int searchCategory = 0, int searchOrder = 1)
         {
 
+            ViewBag.TabIndex = 2;
             MeetupListVm viewModel = new MeetupListVm();
 
             if (string.IsNullOrEmpty(applicationSdate))
@@ -62,6 +63,7 @@ namespace Damoyeo.Admin.Controllers
 
         public async Task<ActionResult> Detail(DamoyeoMeetup entity)
         {
+            ViewBag.TabIndex = 2;
             MeetupDetailVm meetupDetailVm = new MeetupDetailVm();
 
 

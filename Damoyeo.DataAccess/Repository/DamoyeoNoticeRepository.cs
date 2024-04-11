@@ -32,9 +32,14 @@ SELECT A.board_id
       ,A.use_tf
       ,A.post_date
       ,A.view_count
-  FROM Damoyeo_Notice A 
+	  ,B.email
+	  ,B.profile_image
+	  ,B.slf_Intro
+	  ,B.nickname
+  FROM Damoyeo_Notice A INNER JOIN Damoyeo_User B ON A.user_id = B.user_id
   WHERE 
   A.use_tf = 1
+  AND B.use_tf =1
   AND A.board_id  = @board_id
 
 ";
@@ -56,9 +61,9 @@ SELECT A.board_id
         public async Task<int> AddAsync(DamoyeoNotice entity)
         {
             var sql = @"
-INSERT INTO Damoyeo_Notice(user_id, title, content, use_tf, post_date)
+INSERT INTO Damoyeo_Notice(user_id, title, content, use_tf, post_date, view_count)
 OUTPUT INSERTED.board_id
-VALUES (@user_id, @title, @content, '1', @post_date);
+VALUES (@user_id, @title, @content, '1', @post_date, @view_count);
 ";
             return await _connection.QuerySingleAsync<int>(sql, entity, transaction: _transaction);
         }

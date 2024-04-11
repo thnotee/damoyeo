@@ -7,7 +7,7 @@
     <title>다모여 관리자</title>
 
     <!-- 파비콘 -->
-    <link rel="Shortcut Icon" href="~/Content/images/favicon.ico" />
+    <link rel="Shortcut Icon" href="~/Content/~/Content/images/favicon.ico" />
 
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -27,8 +27,13 @@
     @RenderSection("style", required: false)
 </head>
 <body>
+  
+
     <!-- header -->
     <header>
+        <a href="javascript:void(0);" class="mo_menu hamburger">
+            <img src="~/Content/images/menu_btn.svg" alt="">
+        </a>
         <div class="admin_header">
             <a href="" class="logo">
                 <img src="~/Content/images/logo.png" alt="" />
@@ -40,9 +45,11 @@
         </div>
     </header>
 
-    @RenderBody()
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @RenderSection("scripts", required: false)
+
+        @RenderBody()
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        @RenderSection("scripts", required: false)
 </body>
 </html>

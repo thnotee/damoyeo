@@ -25,7 +25,7 @@ namespace Damoyeo.Admin.Controllers
 
         public async Task<ActionResult> Index(int page = 1, string searchString = "")
         {
-
+            ViewBag.TabIndex = 3;
             var entity = new CommunitySearchOpt();
             entity.searchString = searchString;
             PagedList<DamoyeoCommunity> list = await _unitOfWork.Community.GetPagedListAsync(page, 10, entity);
@@ -40,9 +40,13 @@ namespace Damoyeo.Admin.Controllers
             DamoyeoCommunity entity = new DamoyeoCommunity();
             entity.board_id = board_id;
             var data = await _unitOfWork.Community.GetAsync(entity);
-            await _unitOfWork.Community.RemoveAsync(board_id);
-            _unitOfWork.Commit();
-            TempData["successMsg"] = "게시글 삭제 성공!!";
+            if (data != null)
+            {
+                await _unitOfWork.Community.RemoveAsync(board_id);
+                _unitOfWork.Commit();
+                TempData["successMsg"] = "게시글 삭제 성공!!";
+            }
+            
             return RedirectToAction("Index");
 
         }

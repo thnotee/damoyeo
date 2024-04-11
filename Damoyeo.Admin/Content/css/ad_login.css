@@ -70,3 +70,22 @@
   position: relative;
 }
 .admin_login_wrap .right img {position: absolute;bottom: 0;left: 0;right: 0;}
+
+@media screen and (max-width: 1200px) {
+  .admin_login_wrap {display: inline-block; width: 100%;}
+  .admin_login_wrap > div {width: 100%; height: 100%;}
+  .admin_login_wrap .right {display: none;}
+  .admin_login_wrap .admin_inner {width: 350px;}
+  .admin_login_wrap .login_click {margin-bottom: 0;}
+}
+@media screen and (max-width: 787px) {
+  .admin_login_wrap .left img {padding-top: 16px; padding-left: 16px; width: 137px;}
+  .admin_login_wrap .admin_inner {width: 90%;}
+  .admin_login_wrap .admin_inner .l_input_box input {width: 100%;}
+  .admin_login_wrap .login_click {width: 100%;}
+
+  .admin_login_wrap .admin_inner .login_tit {font-size: 30px;}
+}
+@media screen and (max-width: 374px) {
+  .admin_login_wrap .admin_inner .login_txt {line-height: 22px;}
+} 

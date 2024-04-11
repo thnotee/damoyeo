@@ -10,6 +10,7 @@ using System.Data;
 using Damoyeo.Util.Manager;
 using System.Web;
 using System;
+using Serilog;
 
 
 namespace Damoyeo.Web
@@ -25,6 +26,7 @@ namespace Damoyeo.Web
             var builder = new ContainerBuilder();
             //애플리케이션 시작 시 Autofac 컨테이너를 빌드하는 동안 MVC 컨트롤러와 해당 종속 항목을 등록해야 합니다.
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
+
 
             // Model Binder 등록
             // * 모델 바인더(Model Binder)는 ASP.NET MVC에서 사용되는 기능으로,
@@ -43,11 +45,18 @@ namespace Damoyeo.Web
             //작업필터에대한 속성주입을 활성화합니다.
             builder.RegisterFilterProvider();
 
+            //공용로그 등록
+            Log.Logger = new LoggerConfiguration()
+            .ReadFrom.AppSettings()
+            .CreateLogger();
+            builder.RegisterInstance(Log.Logger).As<ILogger>();
+
             builder.Register(c => new SqlConnection(ConfigurationManager.ConnectionStrings["DamoyeoConnectionString"].ConnectionString))
             .As<IDbConnection>()
             .InstancePerLifetimeScope();
 
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
+
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
@@ -71,7 +80,7 @@ namespace Damoyeo.Web
                                      UrlReferrer[ {Request.UrlReferrer} ]
                                      USER IP[ {Request.UserHostAddress} ]";
                 
-                /*
+                
                 Log.Logger.Error(errorMessage);
                 if (httpException != null)
                 {
@@ -83,7 +92,7 @@ namespace Damoyeo.Web
                     Log.Logger.Error(exception.Message);
                     Log.Logger.Error(exception.StackTrace);
                 }
-                */
+                
             }
             
 #if DEBUG

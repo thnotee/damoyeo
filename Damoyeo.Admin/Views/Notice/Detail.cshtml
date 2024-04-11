@@ -1,4 +1,6 @@
-﻿
+﻿@using Damoyeo.Model.Model
+@model DamoyeoNotice
+
 @{
     ViewBag.Title = "Detail";
 }
@@ -6,7 +8,8 @@
 @section style{
     <link rel="stylesheet" href="~/Content/css/notice.css" />
 }
-<form id="myform" method="post" action="/Notice/Detail"> 
+<form id="myform" method="post" action="/Notice/Detail">
+    <input type="hidden" name="board_id" id="board_id" value="@Model.board_id">
     <div class="admin_contents">
         <!-- 래프트 고정 -->
         @Html.Partial("_Partial/_Left")
@@ -16,12 +19,19 @@
                 <h3>공지사항 글쓰기</h3>
 
                 <div class="nd_box">
-                    <input type="text" id="title" name="title" placeholder="제목을 입력해주세요">
-                    <textarea name="content" id="content" cols="30" rows="10" placeholder="내용을 입력하세요."></textarea>
+                    <input type="text" id="title" name="title" placeholder="제목을 입력해주세요" value="@Html.Raw(Server.HtmlDecode(Model.title))">
+                    <textarea name="content" id="content" cols="30" rows="10" placeholder="내용을 입력하세요.">@Html.Raw(Server.HtmlDecode(Model.content))</textarea>
 
                     <div class="cw_btn">
                         <!-- 수정일때는 수정하기로 버튼명 변경 -->
-                        <span class="big_btn" onclick="myformSubmit();">등록하기</span>
+                        @if(Model.board_id == 0) 
+                        {
+                            <span class="big_btn" onclick="myformSubmit();">등록하기</span>
+                        }
+                        else 
+                        { 
+                            <span class="big_btn" onclick="myformSubmit();">수정하기</span>
+                        }
                     </div>
                 </div>
             </div>
@@ -36,7 +46,7 @@
 @section scripts{
 
     <script src="https://cdn.tiny.cloud/1/ipga39m0e4iub3da2spb4imu9p4gc3w1yf36io9n0lsitrpf/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-
+    
     <script>
 
         tinymce.init({
@@ -55,10 +65,14 @@
                 return false;
             }
 
-            if ($("#content").val() == "") {
+            var content = tinymce.get('content').getContent();
+
+            // 내용이 비었는지 확인합니다. 공백도 무시하고 싶다면 trim()을 사용합니다.
+            if (!content.trim()) {
                 alertFocus("내용을 입력해주세요", $('#content'));
                 return false;
             }
+
 
 
             $("#myform").submit();

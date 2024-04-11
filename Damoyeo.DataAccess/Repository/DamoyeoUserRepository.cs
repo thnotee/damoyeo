@@ -79,6 +79,7 @@ WHERE user_id = @user_id;
 SELECT * FROM Damoyeo_User
 WHERE 
 use_tf = '1'
+And signup_type != '3'
 And nickname = @nickname
 ";
 
@@ -93,7 +94,7 @@ And nickname = @nickname
             //관리자 목록 가져오기
             if (type != 0) 
             {
-                whereSql = "AND A.signup_type == 3";
+                whereSql = "AND A.signup_type = 3";
             }
             if (!string.IsNullOrEmpty(searchString)) 
             {

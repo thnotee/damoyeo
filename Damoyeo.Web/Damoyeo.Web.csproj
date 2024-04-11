@@ -213,13 +213,16 @@
     <Content Include="Content\css\community.css" />
     <Content Include="Content\css\customer.css" />
     <Content Include="Content\css\daterangepicker.css" />
+    <Content Include="Content\css\find.css" />
     <Content Include="Content\css\font.css" />
     <Content Include="Content\css\footer.css" />
     <Content Include="Content\css\header.css" />
     <Content Include="Content\css\index.css" />
     <Content Include="Content\css\login.css" />
     <Content Include="Content\css\meeting.css" />
+    <Content Include="Content\css\mypage.css" />
     <Content Include="Content\css\open.css" />
+    <Content Include="Content\css\signup.css" />
     <Content Include="Content\images\calendar.svg" />
     <Content Include="Content\images\check.svg" />
     <Content Include="Content\images\close.svg" />

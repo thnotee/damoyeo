@@ -1,6 +1,7 @@
-﻿
+﻿@using Damoyeo.Model.Model
+@model PagedList<DamoyeoNotice>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "고객지원";
 }
 @section style
 {
@@ -23,57 +24,30 @@
                 <div class="tab_content on" id="tab_1">
                     <div class="notice_wrap">
                         <ul>
-                            <li>
-                                <a href="">
-                                    <span class="notice_mark">공지사항</span>
-                                    <p class="notice_tit">공지사항 제목들어갑니다옹</p>
-                                    <p class="notice_date">2023.07.21</p>
-                                    <img src="~/Content/images/more_btn.svg" alt="" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <span class="notice_mark">공지사항</span>
-                                    <p class="notice_tit">공지사항 제목들어갑니다옹</p>
-                                    <p class="notice_date">2023.07.21</p>
-                                    <img src="~/Content/images/more_btn.svg" alt="" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <span class="notice_mark">공지사항</span>
-                                    <p class="notice_tit">공지사항 제목들어갑니다옹</p>
-                                    <p class="notice_date">2023.07.21</p>
-                                    <img src="~/Content/images/more_btn.svg" alt="" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <span class="notice_mark">공지사항</span>
-                                    <p class="notice_tit">공지사항 제목들어갑니다옹</p>
-                                    <p class="notice_date">2023.07.21</p>
-                                    <img src="~/Content/images/more_btn.svg" alt="" />
-                                </a>
-                            </li>
+                            @if (Model.Any())
+                            {
+
+                                foreach (var item in Model)
+                                {
+                                    <li>
+                                        <a href="/Notice/Detail?board_id=@item.board_id">
+                                            <span class="notice_mark">공지사항</span>
+                                            <p class="notice_tit">@item.title</p>
+                                            <p class="notice_date">@item.post_date.ToString("yyyy.MM.dd")</p>
+                                            <img src="~/Content/images/more_btn.svg" alt="" />
+                                        </a>
+                                    </li>
+                                }
+                            }
+
                         </ul>
                     </div>
-                    <div class="page_btn">
-                        <ul>
-                            <li>
-                                <a href=""><img src="~/Content/images/page_start.svg" alt="" /></a>
-                                <a href=""><img src="~/Content/images/page_left.svg" alt="" /></a>
-                            </li>
-                            <li class="num">
-                                <a href="" class="page_on">1</a>
-                                <a href="">2</a>
-                                <a href="">3</a>
-                            </li>
-                            <li>
-                                <a href=""><img src="~/Content/images/page_right.svg" alt="" /></a>
-                                <a href=""><img src="~/Content/images/page_end.svg" alt="" /></a>
-                            </li>
-                        </ul>
-                    </div>
+
+                    @if (Model.Any())
+                    {
+                        @Html.Partial("~/Views/Shared/_Partial/_Paging.cshtml", Model.pagerOptions);
+                    }
+
                 </div>
                 <div class="tab_content" id="tab_2">
                     <div class="event_wrap">

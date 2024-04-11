@@ -31,14 +31,35 @@ namespace Damoyeo.Web.Controllers
             _unitOfWork = unitOfWork;
         }
         // GET: User
-        public async Task<ActionResult> Index()
-        { 
-            return View();
+        public async Task<ActionResult> Index(int page=1, string searchString = "")
+        {
+            var entity = new CommunitySearchOpt();
+            entity.searchString = searchString;
+            PagedList<DamoyeoNotice> list = await _unitOfWork.Notice.GetPagedListAsync(page, 10, entity);
+            list.pagerOptions.Path = "/Notice/Index";
+            list.pagerOptions.AddQueryString = "searchString=" + searchString;
+            return View(list);
+            
         }
 
-        public async Task<ActionResult> Detail()
+        public async Task<ActionResult> Detail(int board_id)
         {
-            return View();
+
+            DamoyeoNotice entity = new DamoyeoNotice();
+            entity.board_id = board_id;
+            var detail = await _unitOfWork.Notice.GetAsync(entity);
+            if (detail == null)
+            {
+                detail = entity;
+            }
+            else 
+            {
+                detail.view_count += 1;
+                await _unitOfWork.Notice.UpdateAsync(detail);
+                _unitOfWork.Commit();
+            }
+
+            return View(detail);
         }
 
     }

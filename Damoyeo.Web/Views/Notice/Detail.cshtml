@@ -1,6 +1,7 @@
-﻿
+﻿@using Damoyeo.Model.Model
+@model DamoyeoNotice
 @{
-    ViewBag.Title = "Detail";
+    ViewBag.Title = "공지사항 상세";
 }
 
 @section style
@@ -13,21 +14,38 @@
     <div class="inner sub_inner">
         <div class="notice_top">
             <span class="notice_mark">공지사항</span>
-            <p class="notice_tit">어쩌고 저쩌고 제목</p>
+            <p class="notice_tit">@Html.Raw(Server.HtmlDecode(Model.title))</p>
 
             <div class="n_date_watch">
-                <span>2023.07.21</span>
-                <span class="notice_before">조회수 200</span>
+                <span>@Model.post_date.ToString("yyyy.MM.dd")</span>
+                <span class="notice_before">조회수 @(Model.view_count)</span>
             </div>
         </div>
 
         <div class="noice_txt">
-            안녕하심니까
+            <div id="editor_content">
+
+            </div>
         </div>
 
         <div class="list_btn_wrap">
-            <a href="customer.html" class="list_btn">목록</a>
+            <a href="/Notice" class="list_btn">목록</a>
         </div>
 
     </div>
 </div>
+
+@section scripts{
+    
+
+    <script>
+
+            ///쉐도우 돔을 사용해 css 격리
+        const editorContent = document.getElementById('editor_content');
+        const shadowRoot = editorContent.attachShadow({ mode: 'open' });
+        shadowRoot.innerHTML = `
+          @Html.Raw(Server.HtmlDecode(Model.content))
+        `
+
+    </script>
+}

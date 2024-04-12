@@ -86,7 +86,7 @@ select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: #fff url(file:///C:/Users/2305201/Desktop/공부/images/select_arrow.svg) no-repeat 95% 50%;
+    background: #fff url(/Content/images/select_arrow.svg) no-repeat 95% 50%;
     background-size: 20px;
     font-size: 14px;
     color: #737373;

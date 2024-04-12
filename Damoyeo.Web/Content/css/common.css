@@ -170,7 +170,7 @@ input[type="checkbox"] {
 }
 
     input[type="checkbox"]:checked {
-        background: url(file:///C:/Users/2305201/Desktop/공부/images/check.svg) no-repeat;
+        background: url(/Content/images/check.svg) no-repeat;
         background-color: #0064ff;
         background-position: center;
         border: 1px solid #0064ff;

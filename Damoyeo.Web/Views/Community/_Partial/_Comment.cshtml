@@ -21,7 +21,7 @@
 
                         @if (string.IsNullOrEmpty(item.profile_image))
                         {
-                            <img src="~/Content/images/camera.svg" alt="">
+                            <img src="~/Content/images/profile.png" alt="">
                         }
                         else
                         {
@@ -57,7 +57,7 @@
                         <p class="cd_text">@item.content</p>
                         <div class="dr_wrap">
                             <p class="cd_date">@item.comment_date.ToString("yyyy.MM.dd HH:mm")</p>
-                            <span class="reply_btn">답글쓰기 @item.comment_use_tf</span>
+                            <span class="reply_btn">답글쓰기</span>
                         </div>
                     }
 

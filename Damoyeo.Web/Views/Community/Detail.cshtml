@@ -175,7 +175,7 @@
             $(document).on('click', '.reply_btn', function () {
                 $(this).closest('li').next('.reply_wrap').css({ 'display': 'flex' });
             });
-
+        
 
 
             $(document).on('click', '.addCommentBtn', function () {
@@ -209,6 +209,12 @@
                     EditComment(commentId, commentText)
                 }
             });
+
+            $(document).on('click', '.cd_cancel', function () {
+                
+                $(this).closest('li').css({ 'display': 'none' });
+            });
+        
 
         });
 

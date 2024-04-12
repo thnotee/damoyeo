@@ -64,23 +64,25 @@
                         <li class="new_pw_wrap">
                             <p class="mo_tit">신규 비밀번호 확인</p>
                             <div class="mo_txt">
-                                <input type="password" id="new_confirm_password" placeholder="신규 비밀번호 확인">
-                                <p class="mo_mark" id="pw_check_msg">입력하신 비밀번호와 확인란의 비밀번호가 일치하지 않습니다.</p>
+                                <input type="password" id="new_confirm_password" placeholder="신규 비밀번호 확인" onchange="PwCheck();">
+                                <p class="mo_mark" id="pw_check_msg"></p>
                             </div>
                         </li>
                         <li>
                             <p class="mo_tit">관심 카테고리</p>
                             <div class="mo_txt">
                                 <div class="inter_check">
-
+                                    @{int index = 0; }
                                     @foreach (var item in categoryList)
                                     {
                                         bool exis = Model.interestCategoryList.Any(x => x.category_id == item.category_id);
 
-                                        <label for="" class="check_box">
-                                            <input type="checkbox" value="@item.category_id" name="interest" @(exis ? "checked" : "")>@item.category_name
+                                        <label for="interest@(index)" class="check_box">
+                                            <input type="checkbox" id="interest@(index)" value="@item.category_id" name="interest" @(exis ? "checked" : "")>@item.category_name
                                         </label>
+                                        index++;
                                     }
+
                                 </div>
                             </div>
                         </li>

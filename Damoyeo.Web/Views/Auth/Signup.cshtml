@@ -86,11 +86,14 @@
                             <p class="mo_tit">관심 카테고리</p>
                             <div class="mo_txt">
                                 <div class="inter_check">
+                                    @{int index = 0; }
                                     @foreach (var item in categoryList)
                                     {
-                                        <label for="" class="check_box">
-                                            <input type="checkbox" value="@item.category_id" name="interest">@item.category_name
+
+                                        <label for="interest@(index)" class="check_box">
+                                            <input type="checkbox" id="interest@(index)" value="@item.category_id" name="interest">@item.category_name
                                         </label>
+                                        index++;
                                     }
                                 </div>
                             </div>

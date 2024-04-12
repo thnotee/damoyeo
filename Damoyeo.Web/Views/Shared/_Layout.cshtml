@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="~/Content/css/common.css" />
     <link rel="stylesheet" href="~/Content/css/font.css" />
     <link rel="stylesheet" href="~/Content/css/header.css" />
-    <link rel="stylesheet" href="~/Content/css/index.css" />
+    
     <link rel="stylesheet" href="~/Content/css/footer.css" />
     <title>@ViewBag.Title</title>
     @RenderSection("style", required: false)
@@ -78,7 +78,7 @@
         <div class="mo_side_dim mo_menu"></div>
         <div class="mo_side_menu mo_menu">
             <div class="side_top">
-                <a href="" class="m_logo">
+                <a href="/" class="m_logo">
                     <img src="~/Content/images/logo.png" alt="" />
                 </a>
                 <span class="mo_close">
@@ -90,7 +90,7 @@
                 {
                     <!-- 로그인후 -->
                     <p class="welcome">
-                        <span>박수정님</span><br>
+                        <span>@Damoyeo.Util.Manager.UserManager.GetCookie().Nickname</span><br>
                         환영합니다.
                     </p>
                 }
@@ -117,12 +117,12 @@
                     </div>
                 }
 
-            
+
             </div>
             <ul class="mo_nav">
                 <li>
                     <a href="/Meetup/index" class="on">
-                        
+
                         <img src="~/Content/images/icon2_on.svg" alt="">
                         <span>모임</span>
                     </a>
@@ -140,7 +140,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="/Notice/Index">
                         <img src="~/Content/images/icon6.svg" alt="">
                         <span>고객지원</span>
                     </a>
@@ -153,6 +153,11 @@
 
 
     @RenderBody()
+
+    <!-- 우측 고정 top_btn -->
+    <a href="javascript:void(0);" class="top_fixed">
+        <img src="~/Content/images/top_btn.svg" alt="" />
+    </a>
 
 
     <footer>

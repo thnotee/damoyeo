@@ -10,6 +10,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
+using Damoyeo.Model.Model.Pager;
+using System.Web.UI;
 
 namespace Damoyeo.Web.Controllers
 {
@@ -40,10 +42,15 @@ namespace Damoyeo.Web.Controllers
             var communityentity = new CommunitySearchOpt();
             var communityTask = _unitOfWork.Community.GetPagedListAsync(1, 3, communityentity);
 
-            await Task.WhenAll(popularityListTask, categoryTask, communityTask);
+            var noticeSearchOpt = new CommunitySearchOpt();
+            noticeSearchOpt.searchString = "";
+            var noticeTask =  _unitOfWork.Notice.GetPagedListAsync(1, 1, noticeSearchOpt);
+
+            await Task.WhenAll(popularityListTask, categoryTask, communityTask, noticeTask);
             viewModel.popularityList = await popularityListTask;
             viewModel.categoryList = await categoryTask;
             viewModel.communityList = await communityTask;
+            viewModel.noticeList = await noticeTask;
 
             if (UserManager.IsLogin())
             {

@@ -1,245 +1,252 @@
 ﻿@using Damoyeo.Model.ViewModel;
 @model MainVm
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "다모여!!";
 }
 
-<div class="main_container section_wrap">
-    <section class="main_slider">
-        <div class="inner">
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href="/Meetup/Index">
-                            <img src="~/Content/images/main/banner1.png" alt="" />
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="/Meetup/Write">
-                            <img src="~/Content/images/main/banner2.png" alt="" />
-                        </a>
-                    </div>
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </div>
-    </section>
 
-    <!-- 새로운 소모임 -->
-    <section class="contents_wrap new_con_wrap">
-        <div class="inner">
-            <p class="con_title">새로운 소모임</p>
-            <span class="con_stitle">다양한 소모임을 지금 바로 확인하세요!</span>
-
-            <div class="new_wrap">
-
-                @if (Model.popularityList.Any())
-                {
-                    foreach (var item in Model.latestList)
-                    {
-                        <div class="meet_box">
-                            <a href="/Meetup/Detail?meetup_id=@item.meetup_id">
-                                @if (!string.IsNullOrEmpty(item.meetup_image))
-                                {
-                                    <img src="@item.meetup_image" alt="" />
-                                }
-                                else
-                                {
-                                    <img src="https://placeholder.com/308x269/png" alt="" />
-                                }
-
-
+@section style{
+    <link rel="stylesheet" href="~/Content/css/index.css" />
+}
+    <div class="main_container section_wrap">
+        <section class="main_slider">
+            <div class="inner">
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <a href="/Meetup/Index">
+                                <img src="~/Content/images/main/banner1.png" alt="" />
                             </a>
-                            <div class="meet_flex">
-                                <a href="/Meetup/Detail?meetup_id=@item.meetup_id" class="new_text_wrap">
-                                    <span class="m_mark">
-                                        <img src="~/Content/images/marker.svg" alt="" />
-                                        @item.bname
-                                    </span>
-                                    <p class="m_tit">
-                                        @item.meetup_name
-                                    </p>
-                                    <p class="m_txt">
-                                        @item.meeting_intro
-                                    </p>
-                                </a>
-                                <span class="heart_click" data-meetup_id="@item.meetup_id">
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/Meetup/Write">
+                                <img src="~/Content/images/main/banner2.png" alt="" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
 
-                                    @if (Model.WishList.Any(x => x.meetup_id == item.meetup_id))
+        <!-- 새로운 소모임 -->
+        <section class="contents_wrap new_con_wrap">
+            <div class="inner">
+                <p class="con_title">새로운 소모임</p>
+                <span class="con_stitle">다양한 소모임을 지금 바로 확인하세요!</span>
+
+                <div class="new_wrap">
+
+                    @if (Model.popularityList.Any())
+                    {
+                        foreach (var item in Model.latestList)
+                        {
+                            <div class="meet_box">
+                                <a href="/Meetup/Detail?meetup_id=@item.meetup_id">
+                                    @if (!string.IsNullOrEmpty(item.meetup_image))
                                     {
-                                        <img src="~/Content/images/heart_on.svg" alt="" />
+                                        <img src="@item.meetup_image" alt="" />
                                     }
                                     else
                                     {
-                                        <img src="~/Content/images/heart.svg" alt="" />
+                                        <img src="https://placeholder.com/308x269/png" alt="" />
                                     }
 
-                                </span>
+
+                                </a>
+                                <div class="meet_flex">
+                                    <a href="/Meetup/Detail?meetup_id=@item.meetup_id" class="new_text_wrap">
+                                        <span class="m_mark">
+                                            <img src="~/Content/images/marker.svg" alt="" />
+                                            @item.bname
+                                        </span>
+                                        <p class="m_tit">
+                                            @item.meetup_name
+                                        </p>
+                                        <p class="m_txt">
+                                            @item.meeting_intro
+                                        </p>
+                                    </a>
+                                    <span class="heart_click" data-meetup_id="@item.meetup_id">
+
+                                        @if (Model.WishList.Any(x => x.meetup_id == item.meetup_id))
+                                        {
+                                            <img src="~/Content/images/heart_on.svg" alt="" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Content/images/heart.svg" alt="" />
+                                        }
+
+                                    </span>
+                                </div>
                             </div>
-                        </div>
 
+                        }
                     }
-                }
 
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
 
-    <!-- 이벤트 -->
-    <section class="contents_wrap ev_con_wrap">
-        <a href="" class="pc_con">
-            <img src="~/Content/images/main/event_banner.png" alt="" />
-            <span class="ev_btn">이벤트 확인하기</span>
-        </a>
-        <a href="" class="mo_con">
-            <img src="~/Content/images/main/event_banner_mo.png" alt="" />
-        </a>
-    </section>
+        <!-- 이벤트 -->
+        <section class="contents_wrap ev_con_wrap">
+            <a href="/Notice" class="pc_con">
+                <img src="~/Content/images/main/event_banner.png" alt="" />
+                <span class="ev_btn">이벤트 확인하기</span>
+            </a>
+            <a href="/Notice" class="mo_con">
+                <img src="~/Content/images/main/event_banner_mo.png" alt="" />
+            </a>
+        </section>
 
 
 
-    <!-- 인기 소모임 -->
-    <section class="contents_wrap po_con_wrap mo_con_wrap">
-        <div class="inner">
-            <p class="con_title">인기 소모임</p>
-            <span class="con_stitle">
-                지금 다모여에서 가장 인기있는 소모임을 신청해보세요.
-            </span>
+        <!-- 인기 소모임 -->
+        <section class="contents_wrap po_con_wrap mo_con_wrap">
+            <div class="inner">
+                <p class="con_title">인기 소모임</p>
+                <span class="con_stitle">
+                    지금 다모여에서 가장 인기있는 소모임을 신청해보세요.
+                </span>
 
-            <div class="pop_wrap">
-                @if (Model.popularityList.Any())
-                {
-                    foreach (var item in Model.popularityList)
+                <div class="pop_wrap">
+                    @if (Model.popularityList.Any())
                     {
-                    <div class="meet_box">
-                        <a href="/Meetup/Detail?meetup_id=@item.meetup_id">
-                            @if (!string.IsNullOrEmpty(item.meetup_image))
-                            {
-                                <img src="@item.meetup_image" alt="" />
-                            }
-                            else
-                            {
-                                <img src="https://placeholder.com/308x269/png" alt="" />
-                            }
-                        </a>
-                        <div class="meet_flex">
-                            <a href="/Meetup/Detail?meetup_id=@item.meetup_id" class="new_text_wrap">
-                                <span class="m_mark">
-                                    <img src="images/marker.svg" alt="" />
-                                    @item.bname
-                                </span>
-                                <p class="m_tit">
-                                    @item.meetup_name
-                                </p>
-                                <p class="m_txt">
-                                    @item.meeting_intro
-                                </p>
+                        foreach (var item in Model.popularityList)
+                        {
+                            <div class="meet_box">
+                                <a href="/Meetup/Detail?meetup_id=@item.meetup_id">
+                                    @if (!string.IsNullOrEmpty(item.meetup_image))
+                                    {
+                                        <img src="@item.meetup_image" alt="" />
+                                    }
+                                    else
+                                    {
+                                        <img src="https://placeholder.com/308x269/png" alt="" />
+                                    }
+                                </a>
+                                <div class="meet_flex">
+                                    <a href="/Meetup/Detail?meetup_id=@item.meetup_id" class="new_text_wrap">
+                                        <span class="m_mark">
+                                            <img src="images/marker.svg" alt="" />
+                                            @item.bname
+                                        </span>
+                                        <p class="m_tit">
+                                            @item.meetup_name
+                                        </p>
+                                        <p class="m_txt">
+                                            @item.meeting_intro
+                                        </p>
+                                    </a>
+                                    <span class="heart_click" data-meetup_id="@item.meetup_id">
+
+                                        @if (Model.WishList.Any(x => x.meetup_id == item.meetup_id))
+                                        {
+                                            <img src="~/Content/images/heart_on.svg" alt="" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Content/images/heart.svg" alt="" />
+                                        }
+
+                                    </span>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 커뮤니티 -->
+        <section class="contents_wrap co_con_wrap">
+            <div class="inner">
+                <p class="con_title">커뮤니티</p>
+                <span class="con_stitle">
+                    다양한 사람들과 의견을 나누고 생각을 공유해보세요.
+                </span>
+
+                <div class="cobox_wrap">
+
+                    @if (Model.communityList.Any())
+                    {
+                        foreach (var item in Model.communityList)
+                        {
+                            <a href="/Community/Detail?board_id=@item.board_id">
+                                <i>@item.User.nickname</i>
+                                <p>@(item.title.Length > 16 ? item.title.Substring(0, 16) + "..." : item.title)</p>
+                                <span>@item.post_date.ToString("yyyy.MM.dd")</span>
+                                <img src="~/Content/images/mark.png" alt="" />
                             </a>
-                            <span class="heart_click" data-meetup_id="@item.meetup_id">
 
-                                @if (Model.WishList.Any(x => x.meetup_id == item.meetup_id))
-                                {
-                                    <img src="~/Content/images/heart_on.svg" alt="" />
-                                }
-                                else
-                                {
-                                    <img src="~/Content/images/heart.svg" alt="" />
-                                }
-
-                            </span>
-                        </div>
-                    </div>
+                        }
                     }
-                }
 
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 커뮤니티 -->
-    <section class="contents_wrap co_con_wrap">
-        <div class="inner">
-            <p class="con_title">커뮤니티</p>
-            <span class="con_stitle">
-                다양한 사람들과 의견을 나누고 생각을 공유해보세요.
-            </span>
-
-            <div class="cobox_wrap">
-
-                @if (Model.communityList.Any())
+        <section class="notice_wrap">
+            <div class="inner">
+                <div class="notice_tit">
+                    <img src="~/Content/images/main/notice_icon.svg" alt="" />
+                    <p>공지사항</p>
+                </div>
+                @if (Model.noticeList.Any())
                 {
-                    foreach (var item in Model.communityList)
+                    foreach (var notice in Model.noticeList)
                     {
-                        <a href="/Community/Detail?board_id=@item.board_id">
-                            <i>@item.User.nickname</i>
-                            <p>@(item.title.Length > 16 ? item.title.Substring(0, 16) + "..." : item.title)</p>
-                            <span>@item.post_date.ToString("YYYY.MM.DD")</span>
-                            <img src="~/Content/images/mark.png" alt="" />
-                        </a>
-
+                        <p class="notice_txt">
+                            <a href="/Notice/Detail">
+                                @notice.title
+                            </a>
+                        </p>
                     }
+                    
                 }
 
+                <p class="notice_more">
+                    <a href="/Notice/Index" class="pc_con">더보기</a>
+                    <a href="/Notice/Index" class="mo_con">+</a>
+                </p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="notice_wrap">
-        <div class="inner">
-            <div class="notice_tit">
-                <img src="~/Content/images/main/notice_icon.svg" alt="" />
-                <p>공지사항</p>
-            </div>
-            <p class="notice_txt">
-                <a href="">
-                    어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고
-                </a>
-            </p>
-            <p class="notice_more">
-                <a href="">더보기</a>
-            </p>
-        </div>
-    </section>
+    </div>
+    @section scripts {
+        @Html.Partial("~/Views/Shared/_Partial/_SweetAlert.cshtml")
+        <script>
+            var swiper = new Swiper(".mySwiper", {
+                slidesPerView: 2,
+                spaceBetween: 18,
+                loop: true,
+                pagination: {
+                    el: ".swiper-pagination",
+                },
+            });
 
-    <!-- 우측 고정 top_btn -->
-    <a href="javascript:void(0);" class="top_fixed">
-        <img src="~/Content/images/top_btn.svg" alt="" />
-    </a>
+            function checkViewport() {
+                // 뷰포트 너비에 따라 slidesPerView 설정
+                var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+                if (viewportWidth < 1200) {
+                    swiper.params.slidesPerView = 1;
+                } else {
+                    swiper.params.slidesPerView = 2;
+                }
 
-
-</div>
-@section scripts {
-    @Html.Partial("~/Views/Shared/_Partial/_SweetAlert.cshtml")
-    <script>
-        var swiper = new Swiper(".mySwiper", {
-            slidesPerView: 2,
-            spaceBetween: 18,
-            loop: true,
-            pagination: {
-                el: ".swiper-pagination",
-            },
-        });
-
-        function checkViewport() {
-            // 뷰포트 너비에 따라 slidesPerView 설정
-            var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-            if (viewportWidth < 1200) {
-                swiper.params.slidesPerView = 1;
-            } else {
-                swiper.params.slidesPerView = 2;
+                // Swiper 갱신
+                swiper.update();
             }
 
-            // Swiper 갱신
-            swiper.update();
-        }
+            // 창 크기가 변경될 때마다 checkViewport 함수 호출
+            window.addEventListener('resize', checkViewport);
 
-        // 창 크기가 변경될 때마다 checkViewport 함수 호출
-        window.addEventListener('resize', checkViewport);
-
-        // 초기 로딩 시에도 checkViewport 함수 호출하여 설정 적용
-        checkViewport();
+            // 초기 로딩 시에도 checkViewport 함수 호출하여 설정 적용
+            checkViewport();
 
 
-    </script>
-}
+        </script>
+    }

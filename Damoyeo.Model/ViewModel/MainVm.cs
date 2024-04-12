@@ -42,5 +42,11 @@ namespace Damoyeo.Model.ViewModel
         /// </summary>
 
         public IEnumerable<DamoyeoWishlist> WishList { get; set; } = new List<DamoyeoWishlist>();
+
+
+        /// <summary>
+        /// 공지사항 리스트
+        /// </summary>
+        public PagedList<DamoyeoNotice> noticeList { get; set; }
     }
 }

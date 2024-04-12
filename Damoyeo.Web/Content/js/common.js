@@ -156,6 +156,22 @@ $(function () {
     });
 });
 
+
+//이메일 선택
+$(function () {
+    $('#selectEmail').change(function () {
+        $("#selectEmail option:selected").each(function () {
+
+            if ($(this).val() == '1') {
+                $("#selectEmail2").val('');
+                $("#selectEmail2").attr("disabled", false);
+            } else {
+                $("#selectEmail2").val($(this).text());
+                $("#selectEmail2").attr("disabled", true);
+            }
+        });
+    });
+});
 //마이페이지 상단 메뉴명 on붙은 부분 보여지게
 
 /*

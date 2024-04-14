@@ -41,8 +41,7 @@ namespace Damoyeo.Web.Controllers
             if (string.IsNullOrEmpty(applicationSdate)) 
             {
                 DateTime now = DateTime.Now; // 현재 날짜와 시간
-                DateTime oneWeekAgo = now; // 일주일 전
-                applicationSdate = oneWeekAgo.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
+                applicationSdate = now.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
               
             }
             viewModel.MeetupSearchOpt = new MeetupSearchOpt();

@@ -31,10 +31,10 @@ namespace Damoyeo.Web.Controllers
 
             viewModel.MeetupSearchOpt = new MeetupSearchOpt();
             viewModel.MeetupSearchOpt.applicationSdate = DateTime.Now.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture); 
-            viewModel.MeetupSearchOpt.searchOrder = 2; //최신순
+            viewModel.MeetupSearchOpt.searchOrder = 1; //최신순
             //최신순리스트 가져온 뒤 인기순 리스트 가져온다.
             viewModel.latestList = await _unitOfWork.Meetup.GetPagedListAsync(1, 3, viewModel.MeetupSearchOpt);
-            viewModel.MeetupSearchOpt.searchOrder = 1;
+            viewModel.MeetupSearchOpt.searchOrder = 2;
 
             var popularityListTask = _unitOfWork.Meetup.GetPagedListAsync(1, 4, viewModel.MeetupSearchOpt);
             var categoryTask =  _unitOfWork.Category.GetPagedListAsync(1, 10);

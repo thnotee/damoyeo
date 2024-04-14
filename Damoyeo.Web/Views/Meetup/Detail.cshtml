@@ -94,8 +94,15 @@
                         <!-- 모임개설하기에서 대 카테고리가 제목 옆에 나오는듯합니다-->
                         <p class="md_top">
                             <span class="md_tit">[@Model.detail.Category.category_name] @Model.detail.meetup_name</span>
-                            <span class="heart_click">
-                                <img src="~/Content/images/heart.svg" alt="">
+                            <span class="heart_click" data-meetup_id="@Model.detail.meetup_id">
+                                @if (Model.WishList.Any(x => x.meetup_id == Model.detail.meetup_id))
+                                {
+                                    <img src="~/Content/images/heart_on.svg" alt="" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/images/heart.svg" alt="" />
+                                }
                             </span>
                         </p>
                         <span class="md_stit">@Model.detail.meeting_intro</span>

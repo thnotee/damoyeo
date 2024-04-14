@@ -18,7 +18,7 @@
             </div>
 
             <div class="cw_btn">
-                <span class="big_btn" onclick="myformSubmit()">수정하기</span>
+                <span class="big_btn" id="submitBtn" onclick="myformSubmit()">수정하기</span>
             </div>
         </div>
     </div>
@@ -49,6 +49,8 @@
                 alertFocus("내용을 입력해주세요", $('#content'));
                 return false;
             }
+
+            $("#submitBtn").prop('disabled', true);
             $("#myform").submit();
 
         }

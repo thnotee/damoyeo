@@ -85,7 +85,14 @@ namespace Damoyeo.Web.Controllers
 
             await Task.WhenAll(detailTask, applicationsTask, imagesTask, tagsTask);
 
-            
+
+            if (UserManager.IsLogin())
+            {
+                var wishEntity = new DamoyeoWishlist();
+                wishEntity.user_id = UserManager.GetCookie().UserId;
+                meetupDetailVm.WishList = await _unitOfWork.Wishlist.GetAllAsync(wishEntity);
+            }
+
             meetupDetailVm.detail = await detailTask;
             meetupDetailVm.applicationList = await applicationsTask;
             meetupDetailVm.image = await imagesTask;

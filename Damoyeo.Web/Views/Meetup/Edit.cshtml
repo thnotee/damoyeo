@@ -358,7 +358,7 @@
                     </ul>
                 </div>
 
-                <span class="maker_btn big_btn" id="maker_btn">모임 수정하기</span>
+                <button class="maker_btn big_btn" id="maker_btn">모임 수정하기</button>
             </div>
         </div>
     </div>
@@ -724,6 +724,8 @@
                 alertFocus("상세주소를 입력해주세요.", $('#post_detail'));
                 return false;
             }
+
+            $("#maker_btn").prop('disabled', true);
 
             $("#myform").submit();
 

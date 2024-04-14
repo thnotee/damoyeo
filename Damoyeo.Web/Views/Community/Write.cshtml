@@ -16,7 +16,7 @@
             </div>
 
             <div class="cw_btn">
-                <span class="big_btn" onclick="myformSubmit()">등록하기</span>
+                <button class="big_btn" id="submitBtn" onclick="myformSubmit()">등록하기</button>
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
             }
             
             
-       
+            $("#submitBtn").prop('disabled', true);
             $("#myform").submit();
 
         }

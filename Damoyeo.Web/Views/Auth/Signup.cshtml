@@ -105,7 +105,7 @@
                             </div>
                         </li>
                     </ul>
-                    <span class="sign_btn big_btn" id="submitBtn">가입하기</span>
+                    <button class="sign_btn big_btn" id="submitBtn">가입하기</button>
 
                 </div>
             </form>
@@ -157,7 +157,8 @@
                         return false;
                     }
                 }
-    
+
+                $("#submitBtn").prop('disabled', true);
                 $("#myform").submit();
             });
         });
@@ -174,8 +175,7 @@
             var email = $("#emailId").val() + "@@" + $("#selectEmail2").val()
 
 
-            console.log(email)
-
+        
 
             $.ajax({
                 type: 'POST',
@@ -183,7 +183,7 @@
                 data: { email: email }, // 전송할 데이터
                 success: function (response) {
                     // 성공적으로 요청을 처리했을 때 실행할 코드
-                    console.log(response);
+               
                     if (response.seccess)
                     {
                         if (response.data) {

@@ -32,26 +32,31 @@ namespace Damoyeo.Web.Controllers
             viewModel.MeetupSearchOpt = new MeetupSearchOpt();
             viewModel.MeetupSearchOpt.applicationSdate = DateTime.Now.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture); 
             viewModel.MeetupSearchOpt.searchOrder = 1; //최신순
-            //최신순리스트 가져온 뒤 인기순 리스트 가져온다.
+            //최신순 소모임 리스트 가져오기
             viewModel.latestList = await _unitOfWork.Meetup.GetPagedListAsync(1, 3, viewModel.MeetupSearchOpt);
             viewModel.MeetupSearchOpt.searchOrder = 2;
 
+            //인기순 소모임 리스트 가져오기 
             var popularityListTask = _unitOfWork.Meetup.GetPagedListAsync(1, 4, viewModel.MeetupSearchOpt);
             var categoryTask =  _unitOfWork.Category.GetPagedListAsync(1, 10);
 
+            //커뮤니티 리스트 가져오기
             var communityentity = new CommunitySearchOpt();
             var communityTask = _unitOfWork.Community.GetPagedListAsync(1, 3, communityentity);
 
+            //공지 리스트 가져오기
             var noticeSearchOpt = new CommunitySearchOpt();
             noticeSearchOpt.searchString = "";
             var noticeTask =  _unitOfWork.Notice.GetPagedListAsync(1, 1, noticeSearchOpt);
 
+            //동시에 시작 및 작업 할당
             await Task.WhenAll(popularityListTask, categoryTask, communityTask, noticeTask);
             viewModel.popularityList = await popularityListTask;
             viewModel.categoryList = await categoryTask;
             viewModel.communityList = await communityTask;
             viewModel.noticeList = await noticeTask;
 
+            //로그인 되어있으면 나의 WISH 리스트도 가져온다
             if (UserManager.IsLogin())
             {
                 var entity = new DamoyeoWishlist();

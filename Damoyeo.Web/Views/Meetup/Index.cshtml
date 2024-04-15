@@ -29,21 +29,21 @@
                                     <option value="0">전체</option>
                                     @foreach (var item in Model.categoryList)
                                     {
-                                        <option value="@item.category_id">@item.category_name</option>
+                                        <option @(Model.MeetupSearchOpt.searchCategory == @item.category_id ? "selected" : "" ) value="@item.category_id">@item.category_name</option>
                                     }
                                 </select>
                             </div>
                             <div>
                                 <select name="searchArea" id="searchArea">
                                     <option value="">전체</option>
-                                    <option value="서울">서울</option>
-                                    <option value="경기/인천">경기/인천</option>
-                                    <option value="대전/충청">대전/충청</option>
-                                    <option value="대구/경상북도">대구/경북</option>
-                                    <option value="부산/경상남도">부산/경남</option>
-                                    <option value="광주/전라">광주/전라</option>
-                                    <option value="강원">강원</option>
-                                    <option value="제주">제주</option>
+                                    <option @(Model.MeetupSearchOpt.searchArea == "서울" ? "selected" : "" ) value="서울">서울</option>
+                                    <option @(Model.MeetupSearchOpt.searchArea == "경기/인천" ? "selected" : "" ) value="경기/인천">경기/인천</option>
+                                    <option @(Model.MeetupSearchOpt.searchArea == "대전/충청" ? "selected" : "" ) value="대전/충청">대전/충청</option>
+                                    <option @(Model.MeetupSearchOpt.searchArea == "대구/경상북도" ? "selected" : "" ) value="대구/경상북도">대구/경북</option>
+                                    <option @(Model.MeetupSearchOpt.searchArea == "부산/경상남도" ? "selected" : "" ) value="부산/경상남도">부산/경남</option>
+                                    <option @(Model.MeetupSearchOpt.searchArea == "광주/전라" ? "selected" : "" ) value="광주/전라">광주/전라</option>
+                                    <option @(Model.MeetupSearchOpt.searchArea == "강원" ? "selected" : "" ) value="강원">강원</option>
+                                    <option @(Model.MeetupSearchOpt.searchArea == "제주" ? "selected" : "" ) value="제주">제주</option>
                                 </select>
                             </div>
                             <div class="meeting_date">
@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="search_wrap">
-                            <input type="search" name="searchString" id="searchString" placeholder="검색어를 입력해주세요.">
+                            <input type="search" name="searchString" id="searchString" placeholder="검색어를 입력해주세요." value="@Model.MeetupSearchOpt.searchString">
                             <span class="search_img" id="searchBtn">
                                 <img src="~/Content/images/search.svg" alt="">
                             </span>

@@ -6,6 +6,7 @@ using Damoyeo.Model.Model.Procedure;
 using Damoyeo.Model.ViewModel;
 using Damoyeo.Util.Manager;
 using Damoyeo.Web.Fileter;
+using Ganss.Xss;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -50,8 +51,11 @@ namespace Damoyeo.Web.Controllers
         [ValidateInput(false)] 
         public async Task<ActionResult> Write(DamoyeoCommunity entity)
         {
-            entity.title = Server.HtmlEncode(entity.title);
-            entity.content = Server.HtmlEncode(entity.content);
+
+            //XSS 방어
+            var sanitizer = new HtmlSanitizer();
+            entity.title = sanitizer.Sanitize(entity.title);
+            entity.content = sanitizer.Sanitize(entity.content);
             var cookieData = UserManager.GetCookie();
             entity.use_tf = "1";
             entity.user_id = cookieData.UserId;
@@ -104,13 +108,18 @@ namespace Damoyeo.Web.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> Edit(DamoyeoCommunity entity)
         {
-            entity.title = Server.HtmlEncode(entity.title);
-            entity.content = Server.HtmlEncode(entity.content);
-            var cookieData = UserManager.GetCookie();
-            entity.use_tf = "1";
-            entity.user_id = cookieData.UserId;
-            entity.post_date = DateTime.Now;
-            await _unitOfWork.Community.UpdateAsync(entity);
+            var sanitizer = new HtmlSanitizer();
+            entity.title = sanitizer.Sanitize(entity.title);
+            entity.content = sanitizer.Sanitize(entity.content);
+
+            var detail = await _unitOfWork.Community.GetAsync(entity);
+            if (detail != null) 
+            {
+                detail.title = entity.title;
+                detail.content = entity.content;
+                await _unitOfWork.Community.UpdateAsync(detail);
+            }
+      
             _unitOfWork.Commit();
 
 

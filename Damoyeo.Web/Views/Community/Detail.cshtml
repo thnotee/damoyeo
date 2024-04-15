@@ -104,7 +104,7 @@
         const editorContent = document.getElementById('editor_content');
         const shadowRoot = editorContent.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
-          @Html.Raw(Server.HtmlDecode(Model.detail.content))
+              @Html.Raw(Model.detail.content)
         `
 
 
@@ -145,7 +145,7 @@
                 {
                     @:nickname = "@Damoyeo.Util.Manager.UserManager.GetCookie().Nickname"
                 }
-                
+
 
                  templete = `
                  <div class="cd_co_txt">
@@ -175,7 +175,7 @@
             $(document).on('click', '.reply_btn', function () {
                 $(this).closest('li').next('.reply_wrap').css({ 'display': 'flex' });
             });
-        
+
 
 
             $(document).on('click', '.addCommentBtn', function () {
@@ -211,21 +211,21 @@
             });
 
 
-            //취소 클릭시 
+            //취소 클릭시
             $(document).on('click', '.cd_cancel', function () {
 
                 var originalText = $(this).data("originaltext");
-               
+
                 var templete = `<p class="cd_text">${originalText}</p>`;
 
                 $(this).closest('li').find('.cd_del_btn').show();
                 $(this).closest('li').find('.cd_date').show();
                 $(this).closest('li').find('.comment_id').show();
-                $(this).closest('li').find('.reply_btn').show();                
+                $(this).closest('li').find('.reply_btn').show();
                 $(this).closest('li').find('.cd_co_txt').replaceWith(templete);
-             
+
             });
-        
+
 
         });
 

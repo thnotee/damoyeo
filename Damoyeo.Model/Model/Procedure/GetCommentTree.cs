@@ -49,7 +49,14 @@ namespace Damoyeo.Model.Model.Procedure
         /// </summary>
         public DateTime comment_date { get; set; }
 
+        
+
         public int level { get; set; }
+
+        /// <summary>
+        /// 부모 닉네임
+        /// </summary>
+        public string parent_nickname { get; set; } // '이메일'
 
         public string email { get; set; } // '이메일'
         public string profile_image { get; set; } // '이미지'

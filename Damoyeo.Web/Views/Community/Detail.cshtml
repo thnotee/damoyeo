@@ -12,14 +12,14 @@
 }
 <div class="section_wrap cdetail_wrap">
     <div class="inner sub_inner">
-        @if(Damoyeo.Util.Manager.UserManager.IsLogin() && Model.detail.user_id ==Damoyeo.Util.Manager.UserManager.GetCookie().UserId) 
+        @if (Damoyeo.Util.Manager.UserManager.IsLogin() && Model.detail.user_id == Damoyeo.Util.Manager.UserManager.GetCookie().UserId)
         {
             <div class="common_btn">
                 <a href="/Community/Edit?board_id=@Model.detail.board_id">수정</a>
                 <a href="/Community/Remove?board_id=@Model.detail.board_id">삭제</a>
             </div>
         }
-        
+
         <div class="cd_box">
             <div class="cd_tit">
                 <p>
@@ -64,7 +64,6 @@
                 <p>댓글</p>
                 <div class="cd_co_box">
                     <ul id="comment_section">
-
                     </ul>
                 </div>
                 <div class="cd_co_txt">
@@ -98,7 +97,7 @@
 @section scripts
 {
     @Html.Partial("~/Views/Shared/_Partial/_SweetAlert.cshtml")
-<script>
+    <script>
 
         ///쉐도우 돔을 사용해 css 격리
         const editorContent = document.getElementById('editor_content');
@@ -153,7 +152,7 @@
                     <p class="cd_nick">${nickname}</p>
                     <div class="cd_enroll_div">
                         <span class="cd_enroll editCommentBtn">수정</span>
-                        <span class="cd_cancel" data-originalText="${originalText}">취소</span>
+                        <span class="cd_cancel cd_modify_cancel" data-originalText="${originalText}">취소</span>
                      </div>
                 </div>
 
@@ -213,16 +212,26 @@
 
             //취소 클릭시
             $(document).on('click', '.cd_cancel', function () {
+                console.log("실행0");
+                if($(this).hasClass("cd_modify_cancel"))
+                 {
+                        var originalText = $(this).data("originaltext");
 
-                var originalText = $(this).data("originaltext");
+                        var templete = `<p class="cd_text">${originalText}</p>`;
 
-                var templete = `<p class="cd_text">${originalText}</p>`;
+                        $(this).closest('li').find('.cd_del_btn').show();
+                        $(this).closest('li').find('.cd_date').show();
+                        $(this).closest('li').find('.comment_id').show();
+                        $(this).closest('li').find('.reply_btn').show();
+                        $(this).closest('li').find('.cd_co_txt').replaceWith(templete);
+                        console.log("실행3");
+                 }
+                 else
+                 {
+                     $(this).closest('li').css({ 'display': 'none' });
+                     console.log("실행1");
+                 }
 
-                $(this).closest('li').find('.cd_del_btn').show();
-                $(this).closest('li').find('.cd_date').show();
-                $(this).closest('li').find('.comment_id').show();
-                $(this).closest('li').find('.reply_btn').show();
-                $(this).closest('li').find('.cd_co_txt').replaceWith(templete);
 
             });
 
@@ -337,7 +346,7 @@
             });
 
         }
-</script>
+    </script>
 
 
 }

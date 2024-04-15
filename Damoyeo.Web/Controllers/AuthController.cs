@@ -351,9 +351,6 @@ namespace Damoyeo.Web.Controllers
         {
 
             var idToken = await GetKakaoIdTokenAsync(code);
-            //Response.Cookies["AccessToken"].Value = tokenResponse.access_token;
-            //Response.Cookies["AccessToken"].Expires = DateTime.Now.AddSeconds(tokenResponse.expires_in);
-
 
             if (idToken != null) {
                 var user = new DamoyeoUser();
@@ -373,10 +370,8 @@ namespace Damoyeo.Web.Controllers
                     userCookie.Values["slf_Intro"] = HttpUtility.UrlEncode(userObj.slf_Intro);
                     userCookie.Values["signup_type"] = HttpUtility.UrlEncode(userObj.signup_type.ToString());
                     
-
-                    // 쿠키 만료 시간 설정
-                    userCookie.Expires = DateTime.Now.AddDays(7); // 예를 들어, 7일 후에 만료되도록 설정
-                                                                  // 쿠키 추가
+                    userCookie.Expires = DateTime.Now.AddDays(7); 
+                                                                  
                     Response.Cookies.Add(userCookie);
                     return RedirectToAction("Index", "Home");
                 }
@@ -389,8 +384,6 @@ namespace Damoyeo.Web.Controllers
                     // 다른 컨트롤러의 메서드로 리다이렉트
                     return RedirectToAction("KaKaoSignup", "Auth");
                 }
-
-              
             }
             
             return View();
@@ -429,7 +422,7 @@ namespace Damoyeo.Web.Controllers
                 var responseBody = await response.Content.ReadAsStringAsync();
                 var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(responseBody);
 
-                //base64 byte 배열 전환 후 디코딩
+                //JWT 정보추출
                 var kaKaoIdToken = DecodeJwtToKaKaoIdToken(tokenResponse.id_token);
 
                 return kaKaoIdToken;

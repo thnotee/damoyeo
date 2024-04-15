@@ -44,14 +44,13 @@ namespace Damoyeo.Web.Controllers
                 applicationSdate = now.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
               
             }
+            //검색옵션 
             viewModel.MeetupSearchOpt = new MeetupSearchOpt();
-            viewModel.MeetupSearchOpt.applicationSdate = applicationSdate;
-            viewModel.MeetupSearchOpt.searchString = searchString;
-            viewModel.MeetupSearchOpt.searchArea = searchArea;
-            viewModel.MeetupSearchOpt.searchCategory = searchCategory;
-            viewModel.MeetupSearchOpt.searchOrder = searchOrder;
-
-
+            viewModel.MeetupSearchOpt.applicationSdate = applicationSdate; //검색시작일
+            viewModel.MeetupSearchOpt.searchString = searchString; //검색어
+            viewModel.MeetupSearchOpt.searchArea = searchArea; //검색 지역 (서울)
+            viewModel.MeetupSearchOpt.searchCategory = searchCategory; //검색 카테고리
+            viewModel.MeetupSearchOpt.searchOrder = searchOrder; // 최신순 인기순 마감임박순
 
             viewModel.list = await _unitOfWork.Meetup.GetPagedListAsync(1, 100, viewModel.MeetupSearchOpt);
             viewModel.categoryList = await _unitOfWork.Category.GetPagedListAsync(1, 10);
@@ -63,7 +62,6 @@ namespace Damoyeo.Web.Controllers
                 viewModel.WishList = await _unitOfWork.Wishlist.GetAllAsync(entity);
             }
                 
-            
             return View(viewModel);
         }
 
@@ -138,9 +136,7 @@ namespace Damoyeo.Web.Controllers
             {
                 meetup.meetup_image = await FileUpload(main_image, savePath);
             }
-            
             var insertId = await _unitOfWork.Meetup.AddAsync(meetup);
-
             if (file1 != null)
             {
                 await FileUpload(file1, savePath, "Damoyeo_Meetup", insertId, "일");
@@ -157,7 +153,6 @@ namespace Damoyeo.Web.Controllers
             {
                 await FileUpload(file4, savePath, "Damoyeo_Meetup", insertId, "사");
             }
-
             /*태그 처리*/
             if (tags != null) 
             {

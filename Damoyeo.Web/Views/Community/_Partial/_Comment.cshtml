@@ -53,7 +53,15 @@
                     }
                     else
                     {
-                        <span class="cd_id comment_id">@item.nickname</span>
+                        if (item.parent_commentid == 0)
+                        {
+                            <span class="cd_id comment_id">@item.nickname</span>
+                        }
+                        else
+                        {
+                            <span class="cd_id comment_id">(@item.parent_nickname) @item.nickname</span>
+                        }
+                        
                         <p class="cd_text">@item.content</p>
                         <div class="dr_wrap">
                             <p class="cd_date">@item.comment_date.ToString("yyyy.MM.dd HH:mm")</p>
